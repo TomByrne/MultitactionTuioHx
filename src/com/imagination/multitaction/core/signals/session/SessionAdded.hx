@@ -1,5 +1,5 @@
-package imagsyd.imagination.signals.session;
-import imagsyd.imagination.model.session.Session;
+package imagination.multitaction.core.signals.session;
+import com.imagination.multitaction.core.model.session.Session;
 import msignal.Signal.Signal0;
 /**
  * ...

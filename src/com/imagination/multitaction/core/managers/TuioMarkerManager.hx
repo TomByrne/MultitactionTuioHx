@@ -1,4 +1,4 @@
-package imagsyd.imagination.managers;
+package com.imagination.multitaction.core.managers;
 import com.imagination.util.signals.Signal.Signal1;
 import com.imagination.util.signals.Signal.Signal2;
 import starling.events.Touch;

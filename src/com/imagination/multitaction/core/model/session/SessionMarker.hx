@@ -1,4 +1,4 @@
-package imagsyd.imagination.model.session;
+package com.imagination.multitaction.core.model.session;
 
 import flash.utils.Dictionary;
 import haxe.Timer;

@@ -1,9 +1,9 @@
-package imagsyd.imagination.model.session;
+package com.imagination.multitaction.core.model.session;
 
 /*
-import imagsyd.imagination.core.model.content.ContentVO;
-import imagsyd.imagination.core.model.content.IndustryVO;
-import imagsyd.imagination.core.model.content.ObjectVO;
+import com.imagination.multitaction.core.core.model.content.ContentVO;
+import com.imagination.multitaction.core.core.model.content.IndustryVO;
+import com.imagination.multitaction.core.core.model.content.ObjectVO;
 */
 import flash.geom.Point;
 import openfl.Vector;

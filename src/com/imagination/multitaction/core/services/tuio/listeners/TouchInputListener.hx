@@ -1,6 +1,6 @@
-package imagsyd.imagination.services.tuio.listeners;
+package com.imagination.multitaction.core.services.tuio.listeners;
 
-//import imagsyd.imagination.services.session.SessionService;
+//import com.imagination.multitaction.core.services.session.SessionService;
 import com.imagination.util.signals.Signal.Signal1;
 import flash.utils.Dictionary;
 import openfl.Vector;

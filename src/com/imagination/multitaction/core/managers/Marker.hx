@@ -1,4 +1,4 @@
-package imagsyd.imagination.managers;
+package com.imagination.multitaction.core.managers;
 import com.imagination.delay.DelayObject;
 import com.imagination.util.signals.Signal.Signal0;
 import com.imagination.util.signals.Signal.Signal1;

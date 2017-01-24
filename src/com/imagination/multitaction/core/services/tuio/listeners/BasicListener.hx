@@ -1,4 +1,4 @@
-package imagsyd.imagination.services.tuio.listeners;
+package com.imagination.multitaction.core.services.tuio.listeners;
 import com.imagination.core.managers.touch.TouchManager;
 import org.tuio.ITuioListener;
 import org.tuio.TuioBlob;

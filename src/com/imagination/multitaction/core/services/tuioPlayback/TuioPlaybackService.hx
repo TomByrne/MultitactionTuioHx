@@ -1,15 +1,16 @@
-package imagsyd.imagination.services.tuioPlayback;
+package com.imagination.multitaction.core.services.tuioPlayback;
+
 import com.imagination.util.data.JSON;
 import com.imagination.util.fs.FileTools;
 import flash.filesystem.File;
 import format.swf.utils.NumberUtils;
 import haxe.Timer;
+import com.imagination.multitaction.core.model.tuio.TuioRecordedModel;
+import com.imagination.multitaction.core.services.tuio.listeners.BasicListener;
+import com.imagination.multitaction.core.services.tuio.listeners.TouchInputListener;
+import com.imagination.multitaction.core.services.tuio.TuioService;
+import com.imagination.multitaction.core.services.tuioRecorder.TuioRecorderService;
 import imagsyd.imagination.model.config.ConfigModel;
-import imagsyd.imagination.model.tuio.TuioRecordedModel;
-import imagsyd.imagination.services.tuio.listeners.BasicListener;
-import imagsyd.imagination.services.tuio.listeners.TouchInputListener;
-import imagsyd.imagination.services.tuio.TuioService;
-import imagsyd.imagination.services.tuioRecorder.TuioRecorderService;
 import openfl.events.Event;
 import openfl.ui.Keyboard;
 import robotlegs.bender.extensions.imag.api.services.keyboard.IKeyboardMap;

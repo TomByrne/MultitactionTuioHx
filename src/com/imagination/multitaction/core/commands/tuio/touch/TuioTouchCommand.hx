@@ -1,6 +1,7 @@
-package imagsyd.imagination.commands.tuio.touch;
+package com.imagination.multitaction.core.commands.tuio.touch;
+
 import com.imagination.core.managers.resize.Resize;
-import imagsyd.imagination.services.tuio.listeners.TouchInputListener;
+import com.imagination.multitaction.core.services.tuio.listeners.TouchInputListener;
 import robotlegs.bender.bundles.mvcs.Command;
 import robotlegs.bender.extensions.contextView.ContextView;
 import starling.core.Starling;

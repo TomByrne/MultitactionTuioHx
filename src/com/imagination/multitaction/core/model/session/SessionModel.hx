@@ -1,12 +1,12 @@
-package imagsyd.imagination.model.session;
+package com.imagination.multitaction.core.model.session;
 
-//import imagsyd.imagination.core.model.content.ContentVO;
-//import imagsyd.imagination.core.model.content.IndustryVO;
-//import imagsyd.imagination.core.model.content.ObjectVO;
-import imagsyd.imagination.signals.session.SessionAdded;
-import imagsyd.imagination.signals.session.SessionRemoved;
+//import com.imagination.multitaction.core.core.model.content.ContentVO;
+//import com.imagination.multitaction.core.core.model.content.IndustryVO;
+//import com.imagination.multitaction.core.core.model.content.ObjectVO;
+import com.imagination.multitaction.core.signals.session.SessionAdded;
+import com.imagination.multitaction.core.signals.session.SessionRemoved;
 import flash.utils.Dictionary;
-import imagsyd.imagination.model.session.Session;
+import com.imagination.multitaction.core.model.session.Session;
 import openfl.Vector;
 import org.osflash.signals.Signal;
 /**

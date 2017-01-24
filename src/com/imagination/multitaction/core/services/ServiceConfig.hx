@@ -1,15 +1,15 @@
-package imagsyd.imagination.services;
+package imagination.multitaction.core.services;
 
-//import imagsyd.imagination.services.session.SessionPlacementService;
-//import imagsyd.imagination.services.session.SessionService;
-import imagsyd.imagination.managers.TuioMarkerManager;
-import imagsyd.imagination.services.content.ContentService;
-import imagsyd.imagination.services.tuio.listeners.BasicListener;
-import imagsyd.imagination.services.tuio.listeners.MarkerInputListener;
-import imagsyd.imagination.services.tuio.listeners.TouchInputListener;
-import imagsyd.imagination.services.tuio.TuioService;
-import imagsyd.imagination.services.tuioPlayback.TuioPlaybackService;
-import imagsyd.imagination.services.tuioRecorder.TuioRecorderService;
+//import com.imagination.multitaction.core.services.session.SessionPlacementService;
+//import com.imagination.multitaction.core.services.session.SessionService;
+import com.imagination.multitaction.core.managers.TuioMarkerManager;
+import com.imagination.multitaction.core.services.content.ContentService;
+import com.imagination.multitaction.core.services.tuio.listeners.BasicListener;
+import com.imagination.multitaction.core.services.tuio.listeners.MarkerInputListener;
+import com.imagination.multitaction.core.services.tuio.listeners.TouchInputListener;
+import com.imagination.multitaction.core.services.tuio.TuioService;
+import com.imagination.multitaction.core.services.tuioPlayback.TuioPlaybackService;
+import com.imagination.multitaction.core.services.tuioRecorder.TuioRecorderService;
 import robotlegs.bender.framework.api.IConfig;
 import robotlegs.bender.framework.api.IInjector;
 
@@ -28,16 +28,6 @@ class ServiceConfig implements IConfig
 	
 	public function configure():Void
 	{
-		injector.map(TuioService).asSingleton();
-		injector.map(BasicListener).asSingleton();
-		injector.map(TouchInputListener).asSingleton();
-		injector.map(TuioRecorderService).asSingleton();
-		injector.map(TuioPlaybackService).asSingleton();
-		injector.map(ContentService).asSingleton();
 		
-		injector.map(MarkerInputListener).asSingleton();
-		injector.map(TuioMarkerManager).asSingleton();
-//		injector.map(SessionService).asSingleton();
-//		injector.map(SessionPlacementService).asSingleton();
 	}
 }

@@ -1,4 +1,4 @@
-package imagsyd.imagination.model.tuio;
+package com.imagination.multitaction.core.model.tuio;
 import org.tuio.TuioBlob;
 import org.tuio.TuioCursor;
 import org.tuio.TuioObject;

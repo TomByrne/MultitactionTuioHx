@@ -1,10 +1,11 @@
-package imagsyd.imagination.services.tuioRecorder;
+package com.imagination.multitaction.core.services.tuioRecorder;
+
 import com.imagination.util.data.JSON;
 import com.imagination.util.fs.File;
 import com.imagination.util.fs.Files;
 import com.imagination.util.fs.FileTools;
 import haxe.Json;
-import imagsyd.imagination.model.tuio.TuioRecordedModel;
+import com.imagination.multitaction.core.model.tuio.TuioRecordedModel;
 import openfl.ui.Keyboard;
 import robotlegs.bender.extensions.imag.api.services.keyboard.IKeyboardMap;
 import robotlegs.bender.extensions.imag.impl.services.keyboard.KeyboardMap;

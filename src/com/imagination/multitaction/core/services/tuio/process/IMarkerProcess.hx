@@ -1,5 +1,5 @@
-package imagsyd.imagination.services.tuio.process;
-import imagsyd.imagination.managers.Marker;
+package com.imagination.multitaction.core.services.tuio.process;
+import com.imagination.multitaction.core.managers.Marker;
 
 /**
  * ...

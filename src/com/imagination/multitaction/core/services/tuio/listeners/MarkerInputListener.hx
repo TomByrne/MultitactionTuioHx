@@ -1,12 +1,13 @@
-package imagsyd.imagination.services.tuio.listeners;
+package com.imagination.multitaction.core.services.tuio.listeners;
+
 import com.imagination.delay.Delay;
 import com.imagination.delay.DelayObject;
 import com.imagination.util.signals.Signal.Signal1;
 import haxe.Timer;
-import imagsyd.imagination.managers.Marker;
-import imagsyd.imagination.managers.TuioMarkerManager;
-import imagsyd.imagination.services.tuio.listeners.TouchInputListener.TouchMap;
-import imagsyd.imagination.services.tuio.process.IMarkerProcess;
+import com.imagination.multitaction.core.managers.TuioMarkerManager;
+import com.imagination.multitaction.core.services.tuio.listeners.TouchInputListener.TouchMap;
+import com.imagination.multitaction.core.services.tuio.process.IMarkerProcess;
+import com.imagination.multitaction.core.managers.Marker;
 import openfl.Vector;
 import org.tuio.ITuioListener;
 import org.tuio.TuioBlob;

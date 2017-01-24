@@ -1,14 +1,20 @@
-package imagsyd.imagination.services.tuio;
+package com.imagination.multitaction.core.services.tuio;
+
 import com.imagination.delay.Delay;
+import com.imagination.multitaction.core.managers.TuioMarkerManager;
+import com.imagination.multitaction.core.services.tuioPlayback.TuioPlaybackService;
 import flash.net.DatagramSocket;
 import flash.net.ServerSocket;
-import imagsyd.imagination.services.tuio.listeners.BasicListener;
+import com.imagination.multitaction.core.services.tuio.listeners.BasicListener;
+import com.imagination.multitaction.core.services.tuio.listeners.MarkerInputListener;
+import com.imagination.multitaction.core.services.tuio.listeners.MarkerInputListener;
+import com.imagination.multitaction.core.services.tuio.listeners.TouchInputListener;
+import com.imagination.multitaction.core.services.tuio.process.SnapAngleMarkerProcess;
+import com.imagination.multitaction.core.services.tuioRecorder.TuioRecorderService;
+import com.imagination.multitaction.core.services.tuio.process.RoundCoordinatesMarkerProcess;
 import imagsyd.imagination.model.config.ConfigModel;
-import imagsyd.imagination.services.tuio.listeners.MarkerInputListener;
-import imagsyd.imagination.services.tuio.listeners.TouchInputListener;
-import imagsyd.imagination.services.tuio.process.RoundCoordinatesMarkerProcess;
-import imagsyd.imagination.services.tuio.process.SnapAngleMarkerProcess;
-import imagsyd.imagination.services.tuioRecorder.TuioRecorderService;
+import imagsyd.imagination.services.content.ContentService;
+import robotlegs.bender.framework.api.IInjector;
 import starling.core.Starling;
 import org.tuio.connectors.UDPConnector;
 import org.tuio.osc.IOSCConnector;
@@ -26,6 +32,8 @@ class TuioService extends DatagramSocket
 	@inject public var touchInputListener:TouchInputListener;
 	@inject public var tuioRecorderService:TuioRecorderService;
 	@inject public var markerInputListener:MarkerInputListener;
+	
+	@inject public var injector:IInjector;
 	
 	private var tc:TuioClient;
 	var connector:IOSCConnector;
@@ -48,6 +56,14 @@ class TuioService extends DatagramSocket
 		tc.addListener(touchInputListener);
 		tc.addListener(markerInputListener);
 
-	}	
-
+		injector.map(TuioService).asSingleton();
+		injector.map(BasicListener).asSingleton();
+		injector.map(TouchInputListener).asSingleton();
+		injector.map(TuioRecorderService).asSingleton();
+		injector.map(TuioPlaybackService).asSingleton();
+		injector.map(ContentService).asSingleton();
+		
+		injector.map(MarkerInputListener).asSingleton();
+		injector.map(TuioMarkerManager).asSingleton();
+	}
 }
