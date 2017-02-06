@@ -34,6 +34,7 @@ class TuioService extends DatagramSocket
 	@inject public var markerInputListener:MarkerInputListener;
 	
 	@inject public var injector:IInjector;
+	@inject public var tuioService:TuioService;
 	
 	private var tc:TuioClient;
 	var connector:IOSCConnector;
@@ -64,6 +65,7 @@ class TuioService extends DatagramSocket
 		injector.map(ContentService).asSingleton();
 		
 		injector.map(MarkerInputListener).asSingleton();
-		injector.map(TuioMarkerManager).asSingleton();
+		
+		tuioService.setup(Starling.current);		
 	}
 }
