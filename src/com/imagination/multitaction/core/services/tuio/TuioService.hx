@@ -30,11 +30,9 @@ class TuioService extends DatagramSocket
 {
 	@inject public var configModel:ConfigModel;
 	@inject public var touchInputListener:TouchInputListener;
-	@inject public var tuioRecorderService:TuioRecorderService;
 	@inject public var markerInputListener:MarkerInputListener;
 	
-	@inject public var injector:IInjector;
-	@inject public var tuioService:TuioService;
+//	@inject public var tuioService:TuioService;
 	
 	private var tc:TuioClient;
 	var connector:IOSCConnector;
@@ -49,6 +47,7 @@ class TuioService extends DatagramSocket
 	public function setup(starling:Starling):Void
 	{
 		var connector:IOSCConnector = new UDPConnector(configModel.tuioServer, configModel.tuioPort, true);
+
 		
 		markerInputListener.processStack.push( new RoundCoordinatesMarkerProcess() );
 		markerInputListener.processStack.push( new SnapAngleMarkerProcess() );
@@ -57,15 +56,6 @@ class TuioService extends DatagramSocket
 		tc.addListener(touchInputListener);
 		tc.addListener(markerInputListener);
 
-		injector.map(TuioService).asSingleton();
-		injector.map(BasicListener).asSingleton();
-		injector.map(TouchInputListener).asSingleton();
-		injector.map(TuioRecorderService).asSingleton();
-		injector.map(TuioPlaybackService).asSingleton();
-		injector.map(ContentService).asSingleton();
-		
-		injector.map(MarkerInputListener).asSingleton();
-		
-		tuioService.setup(Starling.current);		
+//		tuioService.setup(Starling.current);		
 	}
 }

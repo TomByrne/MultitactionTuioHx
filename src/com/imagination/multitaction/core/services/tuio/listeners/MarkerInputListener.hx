@@ -26,8 +26,8 @@ class MarkerInputListener implements ITuioListener
 {
 	@inject public var tuioMarkerManager:TuioMarkerManager;
 	
-	public var width:Int = 100;
-	public var height:Int = 100;
+	public var width:Int = 1920;
+	public var height:Int = 1080;
 	
 	private var markersPool:Array<Marker> = new Array<Marker>();
 	private var markersMap:Map<UInt, Marker> = new Map<UInt, Marker>();
