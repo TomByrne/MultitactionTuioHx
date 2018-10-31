@@ -4,7 +4,6 @@ package com.imagination.multitaction.core.services.tuio.listeners;
 import com.imagination.util.signals.Signal.Signal1;
 import flash.utils.Dictionary;
 import openfl.Vector;
-import org.osflash.signals.Signal;
 import org.tuio.ITuioListener;
 import org.tuio.TuioBlob;
 import org.tuio.TuioCursor;
