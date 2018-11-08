@@ -27,7 +27,7 @@ import robotlegs.bender.framework.api.IInjector;
 
 @:rtti
 @:keepSub
-class TuioConfig implements IConfig 
+class TuioBundle implements IConfig 
 {
 	@inject public var injector:IInjector;
 	@inject public var commandMap:ISignalCommandMap;
