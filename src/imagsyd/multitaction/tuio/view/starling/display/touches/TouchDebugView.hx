@@ -1,6 +1,5 @@
 package imagsyd.multitaction.tuio.view.starling.display.touches;
 
-import haxe.ds.Map;
 import imagsyd.multitaction.tuio.view.starling.display.touches.DebugTouchPointView;
 import starling.display.Quad;
 import starling.display.Sprite;

@@ -123,7 +123,7 @@ import flash.errors.EOFError;
     {
         var length : Int = blob.length; blob.position = 0;
 		blob.readBytes(this.bytes, this.bytes.position, length);
-		var nulls : Int = as3hx.Compat.parseInt(length % 4);
+		var nulls : Int = length % 4;
 		for (c in 0...nulls)
         {
             this.bytes.writeByte(0);

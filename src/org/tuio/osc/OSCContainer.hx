@@ -1,5 +1,4 @@
 package org.tuio.osc;
-import haxe.ds.Map;
 
 
 /**

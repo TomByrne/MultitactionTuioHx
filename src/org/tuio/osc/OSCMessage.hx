@@ -60,10 +60,30 @@ class OSCMessage extends OSCPacket
 							openArray.push(this.readString());
 							this.typesArray.push("s");
                         case "f":
-							openArray.push(this.bytes.readFloat());
+//							openArray.push(this.bytes.readFloat());
+//							this.typesArray.push("f");
+
+                            //seems like BIG_ENDIAN setting is not respectedwhen compiling to electron, handling it manually here
+                            //TODO: find a cleaner way for BIG_ENDIAN handling
+							var i1:Int = this.bytes.readUnsignedByte();
+							var i2:Int = this.bytes.readUnsignedByte();
+							var i3:Int = this.bytes.readUnsignedByte();
+							var i4:Int = this.bytes.readUnsignedByte();							
+							var i5:Int =  (i1 << 24) | (i2 << 16) | (i3 << 8) | i4;
+							var f:Float =  FPHelper.i32ToFloat(i5);
+							
+							openArray.push(f);
 							this.typesArray.push("f");
-                        case "i":
-							openArray.push(this.bytes.readInt());
+                        case "i":							
+//							openArray.push(this.bytes.readInt());
+//							this.typesArray.push("i");
+							var i1:Int = this.bytes.readUnsignedByte();
+							var i2:Int = this.bytes.readUnsignedByte();
+							var i3:Int = this.bytes.readUnsignedByte();
+							var i4:Int = this.bytes.readUnsignedByte();
+							
+							var i5:Int =  (i1 << 24) | (i2 << 16) | (i3 << 8) | i4;                        
+							openArray.push(i5);
 							this.typesArray.push("i");
                         case "b":
 							openArray.push(this.readBlob());
@@ -132,13 +152,13 @@ class OSCMessage extends OSCPacket
             {
                 this.pattern += oscType;
                 this.openArray.push(value);
-                this.bytes.writeFloat(as3hx.Compat.parseFloat(value));
+                this.bytes.writeFloat(value);
             }
             else if (oscType == "i" && Std.is(value, Int))
             {
                 this.pattern += oscType;
                 this.openArray.push(value);
-                this.bytes.writeInt(as3hx.Compat.parseInt(value));
+                this.bytes.writeInt(value);
             }
             else if (oscType == "b" && Std.is(value, ByteArray))
             {
@@ -161,7 +181,7 @@ class OSCMessage extends OSCPacket
             {
                 this.pattern += oscType;
                 this.openArray.push(value);
-                this.bytes.writeDouble(as3hx.Compat.parseFloat(value));
+                this.bytes.writeDouble(value);
             }
             else if (oscType == "c" && Std.is(value, String) && (Std.string(value)).length == 1)
             {

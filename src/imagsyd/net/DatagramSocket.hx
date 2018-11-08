@@ -74,7 +74,7 @@ class DatagramSocket
 		nodeDgramSocket.on("error", function (err) {
 			Logger.error(this, "server error:\n" + err.stack);
 			nodeDgramSocket.close();
-			ioErrorCallback(err.stack);
+			//ioErrorCallback(err.stack);
 		});
 
 		nodeDgramSocket.on("message", function (msg:UInt8Array, rinfo) {

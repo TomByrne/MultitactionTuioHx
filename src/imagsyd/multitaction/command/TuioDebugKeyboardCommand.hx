@@ -20,8 +20,14 @@ class TuioDebugKeyboardCommand extends Command
 	{
 		keyboardMap.map(handleTuioNotifierChange, Keyboard.T, { shift:true, ctrl:true } );		
 		keyboardMap.map(handleWindowsNotifierChange, Keyboard.W, { shift:true, ctrl:true } );	
+		keyboardMap.map(handleTouchDebugNotifierChange, Keyboard.D, { alt:true,shift:true, ctrl:true } );	
 	}
 	
+	function handleTouchDebugNotifierChange():Void 
+	{
+		tuioTouchSettingsModel.showTouches.value = !tuioTouchSettingsModel.showTouches.value;
+	}
+
 	function handleTuioNotifierChange():Void 
 	{
 		tuioTouchSettingsModel.useTuioTouches.value = true;// !tuioTouchSettingsModel.useTuioTouches.value;
