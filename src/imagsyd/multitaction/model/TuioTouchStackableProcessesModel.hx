@@ -1,20 +1,26 @@
 package imagsyd.multitaction.model;
+import imagsyd.multitaction.tuio.processors.ForwardTuioProcessor;
 import imagsyd.multitaction.tuio.processors.SnapAnglesTuioProcessor;
+import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
 
 /**
  * ...
  * @author Michal Moczynski
  */
-class TuioTouchStackableProcessesModel 
+class TuioTouchStackableProcessesModel
 {
-
-	public var tuioProcessors:Array<ITuioStackableProcessor> = [];
+	/*
+	@inject markerObjectsModel:TuioObjectsModel;
 	
+	public var tuioProcessors:Array<ITuioStackableProcessor> = [];
+	*/
 	public function new() 
 	{
-		tuioProcessors.push( new ForwardTuioProcessor());
-		tuioProcessors.push( new MastercardTuioProcessor());
-		tuioProcessors.push( new SnapAnglesTuioProcessor());
+		/*
+		tuioProcessors.push( new ForwardTuioProcessor(), markerObjectsModel);
+//		tuioProcessors.push( new MastercardTuioProcessor(), markerObjectsModel);
+		tuioProcessors.push( new SnapAnglesTuioProcessor(), markerObjectsModel);
+		*/
 	}
 	
 }

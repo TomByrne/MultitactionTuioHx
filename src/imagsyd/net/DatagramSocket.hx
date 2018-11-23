@@ -82,7 +82,7 @@ class DatagramSocket
 			var bytes:Bytes = msg.view.buffer;
 //			var bytes:Bytes = Bytes.ofString(msg);
 			
-			Logger.log(this, "server got: " + msg + "        " + bytes);			
+//			Logger.log(this, "server got: " + msg + "        " + bytes);			
 			dataCallback(bytes);
 		});
 		

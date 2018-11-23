@@ -56,7 +56,6 @@ class OSCDatagramSocket
 	
     private function dataReceived(data:ByteArray):Void
     {
-		Logger.log(this, data);
 		dataReceivedCallback(data);
     }
     

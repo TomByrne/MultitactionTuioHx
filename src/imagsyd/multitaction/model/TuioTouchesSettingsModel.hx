@@ -8,7 +8,7 @@ import com.imagination.core.type.Notifier;
 class TuioTouchesSettingsModel 
 {
 	public var useTuioTouches:Notifier<Bool> = new Notifier<Bool>(true);
-	public var useWindoesTouches:Notifier<Bool> = new Notifier<Bool>(false);
+	public var useWindoesTouches:Notifier<Bool> = new Notifier<Bool>(true);
 	public var showTouches:Notifier<Bool> = new Notifier<Bool>(false);
 	
 	public function new() 

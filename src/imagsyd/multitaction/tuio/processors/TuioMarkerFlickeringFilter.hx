@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.processors;
-import imagsyd.multitaction.model.MarkerObjectsModel;
 import com.imagination.core.type.Notifier;
+import imagsyd.multitaction.model.MarkerObjectsModel;
 import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
 import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
@@ -12,22 +12,19 @@ import imagsyd.multitaction.model.IMarkerObjectsModel;
  * ...
  * @author Michal Moczynski
  */
-class ForwardTuioProcessor implements ITuioStackableProcessor
+class TuioMarkerFlickeringFilter implements ITuioStackableProcessor
 {
-	var doubleUpThreshold:Float = 200/1920;//distance in screen fraction (that's what tuio uses)
-	var itemFound:Bool;
-	var doubledToe:MarkerObjectElement;
 	var markerObjectsModel:IMarkerObjectsModel;
-	public var displayName:String = "Idle";
-	public var angleThreshold:Float = 30;
+	public var distanceThreshold:Float = 200 / 1920;
+	public var displayName:String = "Mastercard processor";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
-
+	
 	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel) 
 	{
 		this.active.value = active;
 		this.markerObjectsModel = markerObjectsModel;
 	}
-
+	
 	public function process(listener:BasicProcessableTuioListener):Void
 	{
 		for ( moe in markerObjectsModel.markerObjectsMap)
@@ -39,7 +36,14 @@ class ForwardTuioProcessor implements ITuioStackableProcessor
 		{
 			if ( markerObjectsModel.tuioToMarkerMap.exists( "t" + to.sessionID ) == false )
 			{
-				addNewMarker( to );
+				if ( checkForDoubles( to ) == false)
+				{
+					addNewMarker( to );
+				}
+				else
+				{
+					
+				}
 			}
 			else
 			{
@@ -57,9 +61,25 @@ class ForwardTuioProcessor implements ITuioStackableProcessor
 		}
 	}
 	
-	function updateMarker(to:TuioObject) 
+	function checkForDoubles( to:TuioObject ):Bool
 	{
-		var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID ) );
+		var foundDouble:Bool = false;
+		for (moe in markerObjectsModel.markerObjectsMap) 
+		{
+			if (Point.distance( new Point(to.x, to.y), moe.fractPos[0] ) < distanceThreshold )
+			{
+				markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
+				foundDouble = true;				
+				//TODO: check if first found result is good enough
+				return foundDouble;
+			}			
+		}		
+		return foundDouble;
+	}
+	
+	function updateMarker( to:TuioObject ) 
+	{
+		var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get( "t" + to.sessionID ) );
 		moe.rotation = to.r;
 		moe.alive = true;
 		moe.frameId = to.frameID;
@@ -68,7 +88,7 @@ class ForwardTuioProcessor implements ITuioStackableProcessor
 			moe.fractPos.pop();					
 	}
 	
-	function addNewMarker( to:TuioObject ) 
+	function addNewMarker( to:TuioObject ):MarkerObjectElement
 	{
 		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.r, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true};
 		Logger.log(this, "    added moe with new uid " + moe.uid);
@@ -77,29 +97,7 @@ class ForwardTuioProcessor implements ITuioStackableProcessor
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);
 		markerObjectsModel.markerObjectsMap.set( moe.uid, moe);
 		markerObjectsModel.frameAddedMarkers.push( moe.uid );		
-	}
-	
-	function findAllDoubleUp(tuioObjects:Map<UInt, TuioObject>, object:TuioObject):TuioObject
-	{
-//		var result:Array<TuioObject> = [];
-		for (  to in tuioObjects ) 
-		{
-			var distance:Float = Point.distance( new Point(to.x, to.y), new Point(object.x, object.y));
-			//Logger.log(this, "is double up? " + to.x + "," + to.y + " and " + object.x + " " + object.y + "distance " + distance );
-			if (distance < doubleUpThreshold )
-			{
-				if (to == object)
-				{
-					itemFound = true;
-				}
-				else
-				{
-					return to;
-					//TODO: check if returning the first rest is enough (should be)
-				}
-			}
-		}
-		return null;		
+		return moe;
 	}
 	
 }

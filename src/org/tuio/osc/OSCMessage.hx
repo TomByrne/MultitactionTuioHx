@@ -3,6 +3,7 @@ package org.tuio.osc;
 import flash.errors.Error;
 import flash.errors.EOFError;
 import flash.utils.ByteArray;
+import haxe.io.FPHelper;
 
 /**
 	 * An OSCMessage
@@ -48,7 +49,7 @@ class OSCMessage extends OSCPacket
             //read the remaining bytes according to the parsing pattern
             this.openArray = this.argumentArray;
             var l : Int = this.pattern.length;
-			Logger.log(this, "pattern " + pattern + " " + this);
+//			Logger.log(this, "pattern " + pattern + " " + this);
 			
             try
             {

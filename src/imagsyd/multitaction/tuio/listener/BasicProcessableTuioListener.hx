@@ -1,5 +1,5 @@
 package imagsyd.multitaction.tuio.listener;
-import imagsyd.multitaction.model.ITuioObjectsModel;
+import imagsyd.multitaction.model.IMarkerObjectsModel;
 import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
 import org.tuio.TuioObject;
 
@@ -8,11 +8,13 @@ import org.tuio.TuioObject;
  */
 class BasicProcessableTuioListener extends BasicTuioListener
 {
+	var numberOfStoredRemovedTuio:Int = 10;
 	public var tuioObjects:Map<UInt, TuioObject> = new Map<UInt, TuioObject>(); // by sessionID that is unique every time you puta marker	
+	public var removedTuioObjects:Array<TuioObject> = new Array<TuioObject>();
 	public var processes:Array<ITuioStackableProcessor> = new Array<ITuioStackableProcessor>();
 	public var frame:Int;
 	
-	public var tuioObjectsModel:ITuioObjectsModel;
+	public var markerObjectsModel:IMarkerObjectsModel;
 	
 	public function new() 
 	{
@@ -28,7 +30,9 @@ class BasicProcessableTuioListener extends BasicTuioListener
 		{
 			if (processes[i].active.value)
 			{
-				processes[i].process(this, tuioObjectsModel.tuioObjects, tuioObjectsModel.tuioObjectsMap);
+				markerObjectsModel.tick();
+				processes[i].process(this);
+				markerObjectsModel.processed();
 			}
 		}
 	}

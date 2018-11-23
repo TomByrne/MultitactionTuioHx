@@ -1,10 +1,11 @@
 package imagsyd.multitaction.tuio.listener;
 import imagsyd.multitaction.tuio.touch.processors.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
-import imagsyd.multitaction.model.TuioObjectsModel;
+import imagsyd.multitaction.model.MarkerObjectsModel;
 import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.model.TuioTouchesSettingsModel;
 import openfl.events.TouchEvent;
+import openfl.geom.Point;
 import org.tuio.ITuioListener;
 import org.tuio.TuioBlob;
 import org.tuio.TuioCursor;
@@ -20,12 +21,13 @@ import starling.events.TouchPhase;
 class MastercardCardListener extends BasicProcessableTuioListener
 {
 	@inject public var tuioStackableProcessesModel:TuioMarkersStackableProcessesModel;
-	@inject public var tuioObjectsModelSingleton:TuioObjectsModel;
+	@inject public var tuioObjectsModelSingleton:MarkerObjectsModel;
 	@inject public var tuioTouchSettingsModel:TuioTouchesSettingsModel;
 	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
 	
 	static public var MAX:Int = 1000;
-
+	static public var counter:Int = 0;
+	
 	public function new() 
 	{
 		super();
@@ -33,8 +35,13 @@ class MastercardCardListener extends BasicProcessableTuioListener
 
 	public function initialize()
 	{
-		tuioObjectsModel = tuioObjectsModelSingleton;
+		markerObjectsModel = tuioObjectsModelSingleton;
 		processes = tuioStackableProcessesModel.tuioProcessors;
+	}
+	
+	override public function newFrame(id:Int):Void 
+	{
+		super.newFrame(id);
 	}
 	
 //tuio objects (markers)	
@@ -42,9 +49,11 @@ class MastercardCardListener extends BasicProcessableTuioListener
 	{
 		super.addTuioObject(tuioObject);
 		
+		counter++;
+		Logger.log(this, counter);
 //		if (tuioObject.classID > 0 && tuioObject.classID < MAX)
 		{
-			Logger.log(this, "add tuioObject.classID: " + tuioObject.sessionID);
+			Logger.log(this, "add tuioObject.sessionID: " + tuioObject.sessionID);
 			if (tuioObjects.exists( tuioObject.sessionID))
 				updateTuioObject( tuioObject )
 			else
@@ -74,18 +83,17 @@ class MastercardCardListener extends BasicProcessableTuioListener
 	{
 		super.removeTuioObject(tuioObject);
 		
+		counter--;
+		Logger.log(this, counter);
 		//if (tuioObject.classID > 0 && tuioObject.classID < MAX)
 		{
+			Logger.log(this, "remove tuioObject.sessionID: " + tuioObject.sessionID);
 			if (tuioObjects.exists( tuioObject.sessionID) == false)
 				return;
 			else
 			{
 				tuioObjects.remove(tuioObject.sessionID);
-				var arrayPosId:Int = tuioObjectsModel.tuioObjectsMap.get(tuioObject.sessionID);
-				tuioObjectsModel.tuioObjects.splice(arrayPosId, 1);
-				tuioObjectsModel.tuioObjectsMap.remove(tuioObject.sessionID);
-				
-				updatesMapFrom(arrayPosId);
+				markerObjectsModel.tuioToMarkerMap.remove("t" + tuioObject.sessionID);
 			}
 		}
 	}
@@ -114,14 +122,5 @@ class MastercardCardListener extends BasicProcessableTuioListener
 			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.ENDED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
 		}
 	}
-	
-//tuio frame	
-	function updatesMapFrom(pos:Int) 
-	{
-		for (i in pos ... tuioObjectsModel.tuioObjects.length) 
-		{
-			tuioObjectsModel.tuioObjectsMap.remove(tuioObjectsModel.tuioObjects[i].sessionId);
-			tuioObjectsModel.tuioObjectsMap.set(tuioObjectsModel.tuioObjects[i].sessionId, i);
-		}
-	}
+
 }

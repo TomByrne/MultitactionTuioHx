@@ -1,5 +1,5 @@
 package imagsyd.multitaction.tuio.view.starling.display.debugMarkers;
-import imagsyd.multitaction.model.TuioObjectsModel;
+import imagsyd.multitaction.model.MarkerObjectsModel;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
 import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioDebugMarkerView;
 import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioDebugMarkerViewMediator;
@@ -16,7 +16,7 @@ class DebugMarkersViewMediator extends Mediator
 {
 	@inject public var view:DebugMarkersView;
 	@inject public var mediatorMap:IMediatorMap;
-	@inject public var tuioObjectsModel:TuioObjectsModel;
+	@inject public var markerObjectsModel:MarkerObjectsModel;
 	
 	public function new() 
 	{
@@ -25,7 +25,7 @@ class DebugMarkersViewMediator extends Mediator
 	override public function initialize():Void
 	{
 		mediatorMap.map(TuioDebugMarkerView).toMediator(TuioDebugMarkerViewMediator);
-		view.initialize(tuioObjectsModel);
+		view.initialize(markerObjectsModel);
 	}
 	
 	override public function destroy():Void

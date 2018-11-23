@@ -2,6 +2,7 @@ package imagsyd.multitaction.tuio;
 
 import com.imagination.core.model.debug.DebuggerModel;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
+import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
 import imagsyd.multitaction.tuio.touch.processors.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
@@ -25,6 +26,7 @@ class TuioService
 	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
 	@inject public var mastercardCardListener:MastercardCardListener;
 	@inject public var tuioDebugViewsLogic:TuioDebugViewsLogic;
+	@inject public var tuioMarkersStackableProcessesModel:TuioMarkersStackableProcessesModel;
 	
 	private var tc:TuioClient;
 	var connector:IOSCConnector;
@@ -74,6 +76,7 @@ class TuioService
 		debuggerModel.addPanelType(DebugTuioTouchPanelView);	
 		
 		tuioDebugViewsLogic.initialize();
+		tuioMarkersStackableProcessesModel.start();
 	}
 	
 	public function addListener(  listener:ITuioListener ):Void

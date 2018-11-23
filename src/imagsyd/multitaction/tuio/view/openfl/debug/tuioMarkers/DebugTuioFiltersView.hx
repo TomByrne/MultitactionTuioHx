@@ -1,8 +1,8 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers;
-import imagsyd.multitaction.model.TuioObjectsModel;
+import imagsyd.multitaction.model.MarkerObjectsModel;
 import com.imagination.core.view.openfl.debug.base.BaseDebugPanel;
 import com.imagination.util.time.EnterFrame;
-import imagsyd.multitaction.model.TuioObjectsModel.TuioObjectElement;
+import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element.TuioProcessesPanelElementView;
 import openfl.display.Quad;
@@ -19,7 +19,7 @@ class DebugTuioFiltersView  extends BaseDebugPanel
 {
 	var background:openfl.display.Quad;
 	var container:starling.display.Sprite;
-	var markersArray:Array<TuioObjectElement>;
+	var markersMap:Map<String, MarkerObjectElement>;
 	var markersList:openfl.text.TextField;
 	var markersListLabel:openfl.text.TextField;
 	static public inline var TOP_Y_POS:Float = 20;
@@ -31,9 +31,9 @@ class DebugTuioFiltersView  extends BaseDebugPanel
 		label.value = "TUIO FILTERS";
 	}
 	
-	public function initialize(processors:Array<ITuioStackableProcessor>, markersArray:Array<TuioObjectElement>) 
+	public function initialize(processors:Array<ITuioStackableProcessor>, markersMap:Map<String, MarkerObjectElement>) 
 	{
-		this.markersArray = markersArray;
+		this.markersMap = markersMap;
 		background = new Quad(600, 400, 0xffffff);
 		addChild(background);		
 		
@@ -71,11 +71,11 @@ class DebugTuioFiltersView  extends BaseDebugPanel
 	function handleFrame():Void 
 	{
 		markersList.text = "";
-		for (marker in markersArray) 
+		for (marker in markersMap) 
 		{
-			markersList.text += "marker - code: " + marker.classId + " session: " + marker.sessionId + " pos: " + fixedFloat(marker.pos[0].x) + ", " + fixedFloat(marker.pos[0].y) + " rot: " + marker.r +"\n";
+			markersList.text += "marker - code: " + marker.cardId + " uid: " + marker.uid + " pos: " + fixedFloat(marker.pos.x) + ", " + fixedFloat(marker.pos.y) + " rot: " + marker.rotation +"\n";
 		}
-		if (markersArray.length == 0)
+		if (Lambda.count( markersMap ) == 0)
 		{
 			markersList.text = "No markers on the table.";			
 		}

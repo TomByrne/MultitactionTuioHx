@@ -28,14 +28,14 @@ class TuioDebugMarkerView extends Sprite
 		addChild(background);
 		
 		text = new TextField(100, 40, "");
-		text.color = 0xffffff;
+		//text.color = 0xffffff;
 		text.x = 50;
 		addChild(text);		
 	}
 	
-	public function setID(classID:Int, sessionID:Int)
+	public function setID(classID:Int, uid:String)
 	{
-		text.text = Std.string(classID) + "\n" + Std.string(sessionID);
+		text.text = Std.string(classID) + "\n" + Std.string(uid);
 	}
 	
 }

@@ -63,6 +63,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 		//PERFORMANCE MEASUREMENT - before this point 10 fingers increase GC from 200ms to 430ms, no significent code time difference (250ms > 300ms) - over 3s time period  (that's 39% and 12% of the whole process added by tuio);
 		//return;
 		//PERFORMANCE MEASUREMENT - before this point 10 fingers increase GC from 200ms to 780ms, code grows to 650ms (over 3s time period measured) 
+		
         var tuioContainerList : Array<TuioContainer>;
         if (msg.arguments[0] == "source")
         {
@@ -122,7 +123,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 					}
 				}
             }
-            else if (msg.address.indexOf("obj") > -1)
+            if (msg.address.indexOf("obj") > -1)
             {
 				if (listenForObjects == true)
 				{

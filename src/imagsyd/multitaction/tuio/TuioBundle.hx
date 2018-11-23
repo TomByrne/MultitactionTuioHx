@@ -2,7 +2,7 @@ package imagsyd.multitaction.tuio;
 
 import imagsyd.multitaction.command.TuioDebugKeyboardCommand;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
-import imagsyd.multitaction.model.TuioObjectsModel;
+import imagsyd.multitaction.model.MarkerObjectsModel;
 import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.model.TuioTouchesSettingsModel;
 import imagsyd.multitaction.tuio.TuioService;
@@ -40,8 +40,8 @@ class TuioBundle implements IConfig
 		injector.map(TuioTouchesSettingsModel).asSingleton();		
 		injector.map(TuioService).asSingleton();
 		injector.map(MastercardCardListener).asSingleton();			
+		injector.map(MarkerObjectsModel).asSingleton();
 		injector.map(TuioMarkersStackableProcessesModel).asSingleton();
-		injector.map(TuioObjectsModel).asSingleton();
 		injector.map(StarlingTuioTouchProcessor).asSingleton();		
 		injector.map(TuioDebugViewsLogic).asSingleton();	
 		
