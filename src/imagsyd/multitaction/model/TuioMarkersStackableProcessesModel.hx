@@ -1,10 +1,10 @@
 package imagsyd.multitaction.model;
 import com.imagination.util.time.Delay;
-import imagsyd.multitaction.tuio.processors.ForwardTuioProcessor;
+import imagsyd.multitaction.tuio.processors.SimpleMarkerFromTuioProcessor;
 import imagsyd.multitaction.tuio.processors.FractionToPixelsTuioProcessor;
-import imagsyd.multitaction.tuio.processors.TuioMarkerFlickeringFilter;
+import imagsyd.multitaction.tuio.processors.FlickeringFilterMarkerFromTuioProcessor;
+import imagsyd.multitaction.tuio.processors.SmoothProcessor;
 import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
-import imagsyd.multitaction.tuio.processors.RemoveOldTuioProcessor;
 import imagsyd.multitaction.tuio.processors.SnapAnglesTuioProcessor;
 
 /**
@@ -29,11 +29,11 @@ class TuioMarkersStackableProcessesModel
 	
 	function startFitering():Void 
 	{
-		tuioProcessors.push( new ForwardTuioProcessor(true, markerObjectsModel) );
-//		tuioProcessors.push( new TuioMarkerFlickeringFilter(false));
-//		tuioProcessors.push( new RemoveOldTuioProcessor(true));//rather keep it before movin rom fracion to pixels
-//		tuioProcessors.push( new SnapAnglesTuioProcessor(true));
-		tuioProcessors.push( new FractionToPixelsTuioProcessor(true, markerObjectsModel) );
+		tuioProcessors.push( new SimpleMarkerFromTuioProcessor(false, markerObjectsModel) );
+		tuioProcessors.push( new FlickeringFilterMarkerFromTuioProcessor(true, markerObjectsModel));
+//		tuioProcessors.push( new SnapAnglesTuioProcessor(true, markerObjectsModel));
+		tuioProcessors.push( new FractionToPixelsTuioProcessor(false, markerObjectsModel) );
+		tuioProcessors.push( new SmoothProcessor(true, markerObjectsModel) );
 	}
 	
 }

@@ -31,7 +31,7 @@ class SnapAnglesTuioProcessor implements ITuioStackableProcessor
 		for ( to in listener.tuioObjects ) 
 		{
 			
-			if (markerObjectsModel.markerObjectsMap.exists( "t" + to.sessionID))
+			if (markerObjectsModel.markerObjectsMap.exists( markerObjectsModel.tuioToMarkerMap.get( "t" + to.sessionID) ))
 			{
 				var r:Float = to.a % PIhalf;
 			

@@ -50,16 +50,13 @@ class MastercardCardListener extends BasicProcessableTuioListener
 		super.addTuioObject(tuioObject);
 		
 		counter++;
-		Logger.log(this, counter);
-//		if (tuioObject.classID > 0 && tuioObject.classID < MAX)
+//		Logger.log(this, counter);
+//		Logger.log(this, "add tuioObject.sessionID: " + tuioObject.sessionID);
+		if (tuioObjects.exists( tuioObject.sessionID))
+			updateTuioObject( tuioObject )
+		else
 		{
-			Logger.log(this, "add tuioObject.sessionID: " + tuioObject.sessionID);
-			if (tuioObjects.exists( tuioObject.sessionID))
-				updateTuioObject( tuioObject )
-			else
-			{
-				tuioObjects.set( tuioObject.sessionID, tuioObject);
-			}
+			tuioObjects.set( tuioObject.sessionID, tuioObject);
 		}
 	}	
 	
@@ -67,15 +64,12 @@ class MastercardCardListener extends BasicProcessableTuioListener
 	{
 		super.updateTuioObject(tuioObject);
 		
-//		if (tuioObject.classID > 0 && tuioObject.classID < MAX)
+		if (tuioObjects.exists( tuioObject.sessionID) == false)
+			addTuioObject( tuioObject )
+		else
 		{
-			if (tuioObjects.exists( tuioObject.sessionID) == false)
-				addTuioObject( tuioObject )
-			else
-			{
-				var to:TuioObject = tuioObjects.get( tuioObject.sessionID);
-				to = tuioObject;
-			}
+			var to:TuioObject = tuioObjects.get( tuioObject.sessionID);
+			to = tuioObject;
 		}
 	}
 
@@ -84,17 +78,14 @@ class MastercardCardListener extends BasicProcessableTuioListener
 		super.removeTuioObject(tuioObject);
 		
 		counter--;
-		Logger.log(this, counter);
-		//if (tuioObject.classID > 0 && tuioObject.classID < MAX)
+//		Logger.log(this, counter);
+//		Logger.log(this, "remove tuioObject.sessionID: " + tuioObject.sessionID);
+		if (tuioObjects.exists( tuioObject.sessionID) == false)
+			return;
+		else
 		{
-			Logger.log(this, "remove tuioObject.sessionID: " + tuioObject.sessionID);
-			if (tuioObjects.exists( tuioObject.sessionID) == false)
-				return;
-			else
-			{
-				tuioObjects.remove(tuioObject.sessionID);
-				markerObjectsModel.tuioToMarkerMap.remove("t" + tuioObject.sessionID);
-			}
+			tuioObjects.remove(tuioObject.sessionID);
+			markerObjectsModel.tuioToMarkerMap.remove("t" + tuioObject.sessionID);
 		}
 	}
 	

@@ -27,7 +27,7 @@ class FractionToPixelsTuioProcessor implements ITuioStackableProcessor
 	{
 		for (  to in listener.tuioObjects ) 
 		{
-			if (markerObjectsModel.markerObjectsMap.exists( "t" + to.sessionID) && Starling.current != null)
+			if (markerObjectsModel.markerObjectsMap.exists( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID ) ) && Starling.current != null)
 			{
 				var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID) );
 				if (moe != null && moe.fromTuio == true)

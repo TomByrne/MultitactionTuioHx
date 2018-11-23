@@ -15,11 +15,13 @@ class MarkerObjectsModel implements IMarkerObjectsModel
 //	public var tuioObjects:Array<MarkerObjectElement> = [];
 	public var tuioToMarkerMap:Map<String, String> = new Map<String, String>();
 	public var markerObjectsMap:Map<String, MarkerObjectElement> = new Map<String, MarkerObjectElement>();//tuioObjects array id by tuio objectelement id
-	public var removeTuioSignal :Signal1<String> = new Signal1<String>();
-	public var addMarkerSignal :Signal1<String> = new Signal1<String>();
+	
+	public var removeMarkersSignal :Signal1<Array<String>> = new Signal1<Array<String>>();
+	public var addMarkerSignal :Signal1<Array<String>> = new Signal1<Array<String>>();
 	
 	public var frameAddedMarkers:Array<String> = new Array<String>();
 	public var frameRemovedMarkers:Array<String> = new Array<String>();
+	public var frameUpdatedMarkers:Array<String> = new Array<String>();
 	
 	
 	public function new() 
@@ -35,7 +37,11 @@ class MarkerObjectsModel implements IMarkerObjectsModel
 	
 	public function processed()
 	{
-		
+		if(frameAddedMarkers.length > 0)
+			addMarkerSignal.dispatch( frameAddedMarkers );
+			
+		if(frameRemovedMarkers.length > 0)
+			removeMarkersSignal.dispatch( frameRemovedMarkers );
 	}
 	
 	static public function getNextUID():String
@@ -54,5 +60,6 @@ typedef MarkerObjectElement =
 	cardId:UInt,//classId
 	frameId:UInt,
 	fromTuio:Bool,
-	alive:Bool
+	alive:Bool,
+	safetyRadius:Float
 }

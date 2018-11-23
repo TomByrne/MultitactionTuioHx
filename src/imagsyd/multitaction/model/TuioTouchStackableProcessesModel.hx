@@ -1,5 +1,5 @@
 package imagsyd.multitaction.model;
-import imagsyd.multitaction.tuio.processors.ForwardTuioProcessor;
+import imagsyd.multitaction.tuio.processors.SimpleMarkerFromTuioProcessor;
 import imagsyd.multitaction.tuio.processors.SnapAnglesTuioProcessor;
 import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
 

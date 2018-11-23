@@ -36,16 +36,16 @@ class DebugMarkersView extends Sprite
 	function handleFrame():Void 
 	{
 		
-		for ( tuioObjectsElement in markerObjectsModel.markerObjectsMap) 
+		for ( markerObjectsElement in markerObjectsModel.markerObjectsMap) 
 		{
-			if (markerById.exists(tuioObjectsElement.uid))
+			if (markerById.exists(markerObjectsElement.uid))
 			{
-				moveMarker( tuioObjectsElement.uid, tuioObjectsElement );
+				moveMarker( markerObjectsElement.uid, markerObjectsElement );
 			}
 			else
 			{
-				addMarker( tuioObjectsElement.cardId, tuioObjectsElement.uid );
-				moveMarker( tuioObjectsElement.uid, tuioObjectsElement);
+				addMarker( markerObjectsElement.cardId, markerObjectsElement.uid );
+				moveMarker( markerObjectsElement.uid, markerObjectsElement);
 			}
 		}
 		
@@ -79,15 +79,16 @@ class DebugMarkersView extends Sprite
 		markerById.set(uid, markerView);		
 	}
 	
-	public function moveMarker(sessionID:String, tuioObjectsElement:MarkerObjectElement) 
+	public function moveMarker(sessionID:String, markerObjectsElement:MarkerObjectElement) 
 	{
 		if (!markerById.exists(sessionID))
 			return;
 			
 		var markerView:TuioDebugMarkerView = markerById.get(sessionID);
-		markerView.x = tuioObjectsElement.pos.x * 1920;
-		markerView.y = tuioObjectsElement.pos.y * 1080;
-		markerView.rotation = tuioObjectsElement.rotation;		
+		markerView.x = markerObjectsElement.pos.x;
+		markerView.y = markerObjectsElement.pos.y;
+		markerView.scale =  markerObjectsElement.safetyRadius / 0.1;
+//		markerView.rotation = markerObjectsElement.rotation;		
 	}
 	
 }
