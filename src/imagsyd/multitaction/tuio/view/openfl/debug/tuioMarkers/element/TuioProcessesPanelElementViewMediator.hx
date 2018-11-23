@@ -1,5 +1,5 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element;
-import com.imagination.core.managers.touch.TouchManager;
+import imagsyd.deprecated.touch.TouchManager;
 import openfl.events.MouseEvent;
 import robotlegs.bender.bundles.mvcs.Mediator;
 import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;

@@ -1,13 +1,13 @@
 package imagsyd.multitaction.tuio;
 
-import com.imagination.core.model.debug.DebuggerModel;
+import imagsyd.base.ISettings;
+import imagsyd.debug.model.DebuggerModel;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
 import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
 import imagsyd.multitaction.tuio.touch.processors.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
-import robotlegs.bender.extensions.imag.api.model.config.IConfigModel;
 import openfl.errors.Error;
 import org.tuio.ITuioListener;
 import org.tuio.connectors.UDPConnector;
@@ -22,14 +22,15 @@ import starling.core.Starling;
 @:keepSub
 class TuioService
 {
-	@inject public var configModel:IConfigModel;	
+	@inject public var settings:ISettings;	
 	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
 	@inject public var mastercardCardListener:MastercardCardListener;
 	@inject public var tuioDebugViewsLogic:TuioDebugViewsLogic;
 	@inject public var tuioMarkersStackableProcessesModel:TuioMarkersStackableProcessesModel;
+	@inject public var debuggerModel:DebuggerModel;
 	
 	private var tc:TuioClient;
-	var connector:IOSCConnector;
+	//var connector:IOSCConnector;
 
 	
 	public function new() 
@@ -37,15 +38,27 @@ class TuioService
 	}
 	
 		
-	public function setup(debuggerModel:DebuggerModel):Void
+	public function setup():Void
 	{
-		Logger.log(this, "tuio start at " + configModel.get("tuioServer") + ":" + configModel.get("tuioPort"));
+		settings.watch(['tuioServer', 'tuioPort'], onSettingsChanged);
+	}
+	
+	function onSettingsChanged() 
+	{
+		var tuioServer:String = settings.string('tuioServer');
+		var tuioPort:Null<Int> = settings.int('tuioPort');
+		
+		if (tuioServer == null || tuioPort == null) return;
+		
+		if (tc != null) return; // TODO: Make it able to reconnect when settings change
+		
+		this.log("tuio start at " + tuioServer + ":" + tuioPort);
 		var connector:IOSCConnector;
 		
 		try 
 		{
 			#if air
-			connector = new UDPConnector(configModel.get("tuioServer"), configModel.get("tuioPort"), true);
+			connector = new UDPConnector(tuioServer, tuioPort, true);
 			#else
 			connector = new UDPConnector("192.168.1.100", 3333, true);
 			#end
@@ -54,7 +67,7 @@ class TuioService
 		}
 		catch (err:Error)
 		{
-			Logger.error(this, err.message);
+			this.error(err.message);
 		}
 
 		//set starling touch processor
@@ -62,9 +75,9 @@ class TuioService
 		if(Starling.current != null)
 			Starling.current.touchProcessor = starlingTuioTouchProcessor;
 		else
-		Logger.warn(this, "Trying to set starling touch processor before Starling initialization. Tuio touches may not work properly.");
+		this.warn("Trying to set starling touch processor before Starling initialization. Tuio touches may not work properly.");
 		#else
-		Logger.warn(this, "Tuio touch functionality currently implemented only for Starling.");
+		this.warn("Tuio touch functionality currently implemented only for Starling.");
 		#end
 		
 		//add tuio object listener

@@ -1,6 +1,6 @@
 package imagsyd.multitaction.model;
-import com.imagination.util.signals.Signal.Signal1;
-import haxe.ds.Map;
+
+import imagsyd.signals.Signal.Signal1;
 import openfl.geom.Point;
 import org.tuio.TuioObject;
 

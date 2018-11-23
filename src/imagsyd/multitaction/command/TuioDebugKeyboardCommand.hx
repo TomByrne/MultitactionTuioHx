@@ -3,7 +3,7 @@ package imagsyd.multitaction.command;
 import imagsyd.multitaction.model.TuioTouchesSettingsModel;
 import openfl.ui.Keyboard;
 import robotlegs.bender.bundles.mvcs.Command;
-import robotlegs.bender.extensions.imag.api.services.keyboard.IKeyboardMap;
+import imagsyd.input.IKeyboardMap;
 
 /**
  * ...

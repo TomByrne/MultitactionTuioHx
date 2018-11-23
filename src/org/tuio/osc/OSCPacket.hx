@@ -29,18 +29,18 @@ import flash.errors.EOFError;
 	
 	public function getBytes() : ByteArray
     {
-//		Logger.log(this, "  - getBytes " + bytes);
+//		this.log("  - getBytes " + bytes);
         return this.bytes;
     }
 	
 	private function skipNullString() : Void
     {
-//		Logger.log(this, "  - skipNullString ");
+//		this.log("  - skipNullString ");
         var char : String = "";
 		while (this.bytes.bytesAvailable > 0)
         {
             char = this.bytes.readUTFBytes(1);
-//			Logger.log(this, "  - skipNullString char " + char + " " + char != "");
+//			this.log("  - skipNullString char " + char + " " + char != "");
 			if (char != "")
             {
                 this.bytes.position -= 1;
@@ -56,7 +56,7 @@ import flash.errors.EOFError;
 		while (this.bytes.bytesAvailable > 0)
         {
             char = this.bytes.readUTFBytes(4);
-//			Logger.log(this, "  - readString CHAR " + char);
+//			this.log("  - readString CHAR " + char);
 			out += char;
 			
 			if (char.length < 4)
@@ -71,7 +71,7 @@ import flash.errors.EOFError;
     {
         var seconds : UInt = this.bytes.readUnsignedInt();
 		var picoseconds : UInt = this.bytes.readUnsignedInt();
-//		Logger.log(this, "  - readTimetag " + seconds + " " + picoseconds);
+//		this.log("  - readTimetag " + seconds + " " + picoseconds);
 		return new OSCTimetag(seconds, picoseconds);
     }
 	

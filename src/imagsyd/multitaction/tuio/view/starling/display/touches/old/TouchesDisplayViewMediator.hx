@@ -1,5 +1,5 @@
 package imagsyd.multitaction.tuio.view.starling.display.touches.old;
-import com.imagination.core.managers.touch.TouchManager;
+import imagsyd.deprecated.touch.TouchManager;
 import imagsyd.multitaction.tuio.view.starling.display.touches.old.TouchesDisplayView;
 import imagsyd.multitaction.tuio.view.starling.display.touches.old.touch.TouchPoint;
 import imagsyd.multitaction.tuio.view.starling.display.touches.old.touch.TouchPointMediator;

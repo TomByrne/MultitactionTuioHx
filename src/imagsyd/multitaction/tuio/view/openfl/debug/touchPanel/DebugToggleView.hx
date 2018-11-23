@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.touchPanel;
 
-import com.imagination.core.type.Notifier;
+import imagsyd.notifier.Notifier;
 import openfl.display.Quad;
 import openfl.display.Sprite;
 import openfl.text.TextField;

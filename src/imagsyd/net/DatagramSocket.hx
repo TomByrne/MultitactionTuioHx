@@ -72,7 +72,7 @@ class DatagramSocket
 		nodeDgramSocket = Dgram.createSocket("udp4");
 		
 		nodeDgramSocket.on("error", function (err) {
-			Logger.error(this, "server error:\n" + err.stack);
+			this.error("server error:\n" + err.stack);
 			nodeDgramSocket.close();
 			//ioErrorCallback(err.stack);
 		});
@@ -82,7 +82,7 @@ class DatagramSocket
 			var bytes:Bytes = msg.view.buffer;
 //			var bytes:Bytes = Bytes.ofString(msg);
 			
-//			Logger.log(this, "server got: " + msg + "        " + bytes);			
+//			this.log("server got: " + msg + "        " + bytes);			
 			dataCallback(bytes);
 		});
 		
@@ -90,7 +90,7 @@ class DatagramSocket
 
 		nodeDgramSocket.on("listening", function () {
 			var address = nodeDgramSocket.address();
-			Logger.log(this, "server listening " + address.address + ":" + address.port);
+			this.log("server listening " + address.address + ":" + address.port);
 			connectCallback();
 		});
 	}	
@@ -102,7 +102,7 @@ class DatagramSocket
 	
 	public function connect(host:String, port:Int):Void
 	{
-		Logger.warn(this, "'connect' function not implemented for datagram socket in html5 target");
+		this.warn("'connect' function not implemented for datagram socket in html5 target");
 	}
 
 	public function initialized():Void

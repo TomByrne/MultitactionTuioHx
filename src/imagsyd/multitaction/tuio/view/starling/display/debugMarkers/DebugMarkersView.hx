@@ -2,7 +2,7 @@ package imagsyd.multitaction.tuio.view.starling.display.debugMarkers;
 import imagsyd.multitaction.model.MarkerObjectsModel;
 import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioDebugMarkerView;
 
-import com.imagination.util.time.EnterFrame;
+import imagsyd.time.EnterFrame;
 import imagsyd.multitaction.model.IMarkerObjectsModel;
 import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
