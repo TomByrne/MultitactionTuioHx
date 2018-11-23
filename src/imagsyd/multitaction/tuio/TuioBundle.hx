@@ -14,7 +14,7 @@ import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersV
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersViewMediator;
 import imagsyd.multitaction.tuio.view.starling.display.touches.TouchDebugView;
 import imagsyd.multitaction.tuio.view.starling.display.touches.TouchDebugViewMediator;
-import robotlegs.bender.extensions.imag.impl.signals.AppSetupCompleteSignal;
+import imagsyd.startup.signals.StartupCompleteSignal;
 import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
 import robotlegs.bender.extensions.signalCommandMap.api.ISignalCommandMap;
 import robotlegs.bender.framework.api.IConfig;
@@ -49,6 +49,6 @@ class TuioBundle implements IConfig
 		mediatorMap.map(DebugTuioFiltersView).toMediator(DebugTuioFiltersViewMediator);
 		mediatorMap.map(DebugTuioTouchPanelView).toMediator(DebugTuioTouchPanelViewMediator);		
 		
-		commandMap.map(AppSetupCompleteSignal).toCommand(TuioDebugKeyboardCommand);		
+		commandMap.map(StartupCompleteSignal).toCommand(TuioDebugKeyboardCommand);		
 	}
 }

@@ -32,7 +32,7 @@ class TuioDebugViewsLogic
 			touchesDebugView = new TouchDebugView();
 			Starling.current.stage.addChild( touchesDebugView );
 			#else
-			Logger.warn(this, "Tuio touches debug view only implemented in Starling.");
+			this.warn("Tuio touches debug view only implemented in Starling.");
 			#end
 		}
 		else

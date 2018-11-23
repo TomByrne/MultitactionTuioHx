@@ -1,7 +1,7 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers;
 import imagsyd.multitaction.model.MarkerObjectsModel;
-import com.imagination.core.view.openfl.debug.base.BaseDebugPanel;
-import com.imagination.util.time.EnterFrame;
+import imagsyd.debug.view.base.BaseDebugPanel;
+import imagsyd.time.EnterFrame;
 import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element.TuioProcessesPanelElementView;

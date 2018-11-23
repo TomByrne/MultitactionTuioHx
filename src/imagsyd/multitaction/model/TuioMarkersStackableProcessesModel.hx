@@ -1,5 +1,5 @@
 package imagsyd.multitaction.model;
-import com.imagination.util.time.Delay;
+import imagsyd.time.Delay;
 import imagsyd.multitaction.tuio.processors.ForwardTuioProcessor;
 import imagsyd.multitaction.tuio.processors.FractionToPixelsTuioProcessor;
 import imagsyd.multitaction.tuio.processors.TuioMarkerFlickeringFilter;

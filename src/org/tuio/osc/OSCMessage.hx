@@ -49,7 +49,7 @@ class OSCMessage extends OSCPacket
             //read the remaining bytes according to the parsing pattern
             this.openArray = this.argumentArray;
             var l : Int = this.pattern.length;
-//			Logger.log(this, "pattern " + pattern + " " + this);
+//			this.log("pattern " + pattern + " " + this);
 			
             try
             {
@@ -117,7 +117,7 @@ class OSCMessage extends OSCPacket
             }
             catch (e : EOFError)
             {
-                Logger.warn(this, "message corrupted");
+                this.warn("message corrupted");
                 this.argumentArray = new Array<Dynamic>();
                 this.argumentArray.push("Corrupted OSCMessage");
                 openArray = null;

@@ -50,10 +50,10 @@ class MastercardCardListener extends BasicProcessableTuioListener
 		super.addTuioObject(tuioObject);
 		
 		counter++;
-		Logger.log(this, counter);
+		this.log(counter);
 //		if (tuioObject.classID > 0 && tuioObject.classID < MAX)
 		{
-			Logger.log(this, "add tuioObject.sessionID: " + tuioObject.sessionID);
+			this.log("add tuioObject.sessionID: " + tuioObject.sessionID);
 			if (tuioObjects.exists( tuioObject.sessionID))
 				updateTuioObject( tuioObject )
 			else
@@ -84,10 +84,10 @@ class MastercardCardListener extends BasicProcessableTuioListener
 		super.removeTuioObject(tuioObject);
 		
 		counter--;
-		Logger.log(this, counter);
+		this.log(counter);
 		//if (tuioObject.classID > 0 && tuioObject.classID < MAX)
 		{
-			Logger.log(this, "remove tuioObject.sessionID: " + tuioObject.sessionID);
+			this.log("remove tuioObject.sessionID: " + tuioObject.sessionID);
 			if (tuioObjects.exists( tuioObject.sessionID) == false)
 				return;
 			else

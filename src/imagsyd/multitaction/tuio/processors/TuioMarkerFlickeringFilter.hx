@@ -1,5 +1,5 @@
 package imagsyd.multitaction.tuio.processors;
-import com.imagination.core.type.Notifier;
+import imagsyd.notifier.Notifier;
 import imagsyd.multitaction.model.MarkerObjectsModel;
 import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
@@ -91,7 +91,7 @@ class TuioMarkerFlickeringFilter implements ITuioStackableProcessor
 	function addNewMarker( to:TuioObject ):MarkerObjectElement
 	{
 		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.r, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true};
-		Logger.log(this, "    added moe with new uid " + moe.uid);
+		this.log( "    added moe with new uid " + moe.uid);
 		moe.fractPos.unshift( new Point( to.x, to.y));
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);

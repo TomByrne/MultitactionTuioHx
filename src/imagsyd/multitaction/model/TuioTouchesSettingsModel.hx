@@ -1,5 +1,5 @@
 package imagsyd.multitaction.model;
-import com.imagination.core.type.Notifier;
+import imagsyd.notifier.Notifier;
 
 /**
  * ...

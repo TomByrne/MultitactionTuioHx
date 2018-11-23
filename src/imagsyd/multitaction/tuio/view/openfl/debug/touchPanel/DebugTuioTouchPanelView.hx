@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.touchPanel;
-import com.imagination.core.type.Notifier;
-import com.imagination.core.view.openfl.debug.base.BaseDebugPanel;
+import imagsyd.notifier.Notifier;
+import imagsyd.debug.view.base.BaseDebugPanel;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugToggleView;
 import openfl.display.Quad;
 
