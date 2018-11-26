@@ -1,5 +1,5 @@
 package imagsyd.multitaction.logic;
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import imagsyd.multitaction.tuio.view.starling.display.touches.TouchDebugView;
 import starling.core.Starling;
 

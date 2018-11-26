@@ -3,9 +3,10 @@ package imagsyd.multitaction.tuio;
 import imagsyd.base.ISettings;
 import imagsyd.debug.model.DebuggerModel;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
-import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
-import imagsyd.multitaction.tuio.touch.processors.StarlingTuioTouchProcessor;
+import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
 import openfl.errors.Error;
@@ -27,6 +28,7 @@ class TuioService
 	@inject public var mastercardCardListener:MastercardCardListener;
 	@inject public var tuioDebugViewsLogic:TuioDebugViewsLogic;
 	@inject public var tuioMarkersStackableProcessesModel:TuioMarkersStackableProcessesModel;
+	@inject public var tuioTouchesStackableProcessesModel:TuioTouchesStackableProcessesModel;
 	@inject public var debuggerModel:DebuggerModel;
 	
 	private var tc:TuioClient;
@@ -41,12 +43,13 @@ class TuioService
 	public function setup():Void
 	{
 		settings.watch(['tuioServer', 'tuioPort'], onSettingsChanged);
+		onSettingsChanged();
 	}
 	
 	function onSettingsChanged() 
 	{
-		var tuioServer:String = settings.string('tuioServer');
-		var tuioPort:Null<Int> = settings.int('tuioPort');
+		var tuioServer:String = settings.string('tuioServer', '127.0.0.1');
+		var tuioPort:Null<Int> = settings.int('tuioPort', 3333);
 		
 		if (tuioServer == null || tuioPort == null) return;
 		
@@ -90,6 +93,7 @@ class TuioService
 		
 		tuioDebugViewsLogic.initialize();
 		tuioMarkersStackableProcessesModel.start();
+		tuioTouchesStackableProcessesModel.start();
 	}
 	
 	public function addListener(  listener:ITuioListener ):Void

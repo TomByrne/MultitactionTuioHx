@@ -1,6 +1,6 @@
 package imagsyd.multitaction.command;
 
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import openfl.ui.Keyboard;
 import robotlegs.bender.bundles.mvcs.Command;
 import imagsyd.input.IKeyboardMap;

@@ -1,10 +1,10 @@
 package imagsyd.multitaction.tuio.view.starling.display.debugMarkers;
-import imagsyd.multitaction.model.MarkerObjectsModel;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioDebugMarkerView;
 
 import imagsyd.time.EnterFrame;
-import imagsyd.multitaction.model.IMarkerObjectsModel;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
 import starling.display.Quad;
 import starling.display.Sprite;

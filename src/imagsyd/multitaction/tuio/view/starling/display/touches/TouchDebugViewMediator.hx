@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.view.starling.display.touches;
 import imagsyd.deprecated.touch.TouchManager;
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import imagsyd.multitaction.tuio.view.starling.display.touches.DebugTouchPointView;
 import imagsyd.multitaction.tuio.view.starling.display.touches.DebugTouchPointViewMediator;
 import imagsyd.multitaction.tuio.view.starling.display.touches.TouchDebugView;

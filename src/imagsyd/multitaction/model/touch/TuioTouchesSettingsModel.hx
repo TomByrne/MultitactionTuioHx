@@ -1,4 +1,4 @@
-package imagsyd.multitaction.model;
+package imagsyd.multitaction.model.touch;
 import imagsyd.notifier.Notifier;
 
 /**
@@ -9,7 +9,7 @@ class TuioTouchesSettingsModel
 {
 	public var useTuioTouches:Notifier<Bool> = new Notifier<Bool>(true);
 	public var useWindoesTouches:Notifier<Bool> = new Notifier<Bool>(true);
-	public var showTouches:Notifier<Bool> = new Notifier<Bool>(false);
+	public var showTouches:Notifier<Bool> = new Notifier<Bool>(true);
 	
 	public function new() 
 	{

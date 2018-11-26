@@ -1,17 +1,13 @@
 package imagsyd.multitaction.tuio.listener;
-import imagsyd.multitaction.tuio.touch.processors.StarlingTuioTouchProcessor;
+import imagsyd.multitaction.model.touch.TouchObjectsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
+import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
-import imagsyd.multitaction.model.MarkerObjectsModel;
-import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
-import openfl.events.TouchEvent;
-import openfl.geom.Point;
-import org.tuio.ITuioListener;
-import org.tuio.TuioBlob;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
+import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import org.tuio.TuioCursor;
 import org.tuio.TuioObject;
-import starling.core.Starling;
-import starling.events.TouchPhase;
 
 /**
  * @author Michal Moczynski
@@ -20,8 +16,10 @@ import starling.events.TouchPhase;
 @:keepSub
 class MastercardCardListener extends BasicProcessableTuioListener
 {
-	@inject public var tuioStackableProcessesModel:TuioMarkersStackableProcessesModel;
-	@inject public var tuioObjectsModelSingleton:MarkerObjectsModel;
+	@inject public var markersStackableProcessesModel:TuioMarkersStackableProcessesModel;
+	@inject public var touchStackableProcessesModel:TuioTouchesStackableProcessesModel;
+	@inject public var markerObjectsModelSingleton:MarkerObjectsModel;
+	@inject public var touchObjectsModelSingleton:TouchObjectsModel;
 	@inject public var tuioTouchSettingsModel:TuioTouchesSettingsModel;
 	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
 	
@@ -35,8 +33,10 @@ class MastercardCardListener extends BasicProcessableTuioListener
 
 	public function initialize()
 	{
-		markerObjectsModel = tuioObjectsModelSingleton;
-		processes = tuioStackableProcessesModel.tuioProcessors;
+		markerObjectsModel = markerObjectsModelSingleton;
+		touchObjectsModel = touchObjectsModelSingleton;
+		markerProcesses = markersStackableProcessesModel.tuioMarkerProcessors;
+		touchProcesses = touchStackableProcessesModel.tuioTouchProcessors;
 	}
 	
 	override public function newFrame(id:Int):Void 
@@ -69,6 +69,7 @@ class MastercardCardListener extends BasicProcessableTuioListener
 		else
 		{
 			var to:TuioObject = tuioObjects.get( tuioObject.sessionID);
+//			this.log(" to.r " + to.r + " to.a " + to.a + " to.b " + to.b + " to.c " + to.c);
 			to = tuioObject;
 		}
 	}
@@ -92,25 +93,53 @@ class MastercardCardListener extends BasicProcessableTuioListener
 //tuio touches	
 	override public function addTuioCursor(tuioCursor:TuioCursor):Void 
 	{
+		super.addTuioCursor(tuioCursor);
+		
 		if (tuioTouchSettingsModel.useTuioTouches.value)
 		{
-			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.BEGAN, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
+			if (tuioCursors.exists( tuioCursor.sessionID))
+				updateTuioCursor( tuioCursor )
+			else
+			{
+				touchObjectsModel.cursorsAdded.set( tuioCursor.sessionID, tuioCursor );
+				tuioCursors.set( tuioCursor.sessionID, tuioCursor);
+			}
+//			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.BEGAN, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
 		}
 	}
 	
 	override public function updateTuioCursor(tuioCursor:TuioCursor):Void 
 	{
+		super.updateTuioCursor(tuioCursor);
+		
 		if (tuioTouchSettingsModel.useTuioTouches.value)
 		{
-			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.MOVED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
+			if (tuioCursors.exists( tuioCursor.sessionID ))
+			{
+				var tc:TuioCursor = tuioCursors.get( tuioCursor.sessionID );
+				tc = tuioCursor;
+				touchObjectsModel.cursorsUpdated.set( tc.sessionID, tc );
+			}
+//			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.MOVED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
 		}
 	}
 	
 	override public function removeTuioCursor(tuioCursor:TuioCursor):Void 
 	{
+		super.removeTuioCursor(tuioCursor);
+		
 		if (tuioTouchSettingsModel.useTuioTouches.value)
 		{
-			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.ENDED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
+		
+			if (tuioCursors.exists( tuioCursor.sessionID) == false)
+				return;
+			else
+			{
+				tuioCursors.remove(tuioCursor.sessionID);
+				touchObjectsModel.cursorsRemoved.set( tuioCursor.sessionID, tuioCursor );
+			}
+			
+//			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.ENDED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
 		}
 	}
 

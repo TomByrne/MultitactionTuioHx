@@ -1,12 +1,12 @@
-package imagsyd.multitaction.tuio.processors;
-import imagsyd.multitaction.model.MarkerObjectsModel;
+package imagsyd.multitaction.tuio.processors.maker;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import openfl.geom.Point;
 import org.tuio.TuioObject;
-import imagsyd.multitaction.model.IMarkerObjectsModel;
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 
 /**
  * ...

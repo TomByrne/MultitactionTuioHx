@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element;
-import imagsyd.multitaction.tuio.processors.base.ITuioProcessor;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioProcessor;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import openfl.display.Quad;
 import openfl.display.Sprite;
 import openfl.text.TextField;

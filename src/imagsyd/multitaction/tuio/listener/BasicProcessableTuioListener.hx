@@ -1,6 +1,8 @@
 package imagsyd.multitaction.tuio.listener;
-import imagsyd.multitaction.model.IMarkerObjectsModel;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
+import imagsyd.multitaction.model.touch.ITouchObjectsModel;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import org.tuio.TuioCursor;
 import org.tuio.TuioObject;
 
 /**
@@ -10,11 +12,14 @@ class BasicProcessableTuioListener extends BasicTuioListener
 {
 	var numberOfStoredRemovedTuio:Int = 10;
 	public var tuioObjects:Map<UInt, TuioObject> = new Map<UInt, TuioObject>(); // by sessionID that is unique every time you puta marker	
+	public var tuioCursors:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>(); // by sessionID that is unique every time you puta marker	
 	public var removedTuioObjects:Array<TuioObject> = new Array<TuioObject>();
-	public var processes:Array<ITuioStackableProcessor> = new Array<ITuioStackableProcessor>();
+	public var markerProcesses:Array<ITuioStackableProcessor> = new Array<ITuioStackableProcessor>();
+	public var touchProcesses:Array<ITuioStackableProcessor> = new Array<ITuioStackableProcessor>();
 	public var frame:Int;
 	
 	public var markerObjectsModel:IMarkerObjectsModel;
+	public var touchObjectsModel:ITouchObjectsModel;
 	
 	public function new() 
 	{
@@ -26,61 +31,71 @@ class BasicProcessableTuioListener extends BasicTuioListener
 		super.newFrame(id);
 		frame = id;
 		
-		for (i in 0 ... processes.length) 
+		for (i in 0 ... markerProcesses.length) 
 		{
-			if (processes[i].active.value)
+			markerObjectsModel.tick();
+			if (markerProcesses[i].active.value)
 			{
-				markerObjectsModel.tick();
-				processes[i].process(this);
-				markerObjectsModel.processed();
+				markerProcesses[i].process(this);
 			}
+			markerObjectsModel.processed();
+		}
+		
+		for (i in 0 ... touchProcesses.length) 
+		{
+			touchObjectsModel.tick();
+			if (touchProcesses[i].active.value)
+			{
+				touchProcesses[i].process(this);
+			}
+			touchObjectsModel.processed();
 		}
 	}
 	
-	public function addProcess( process:ITuioStackableProcessor )
+	public function addMarkerProcess( process:ITuioStackableProcessor )
 	{
-		processes.push( process );
+		markerProcesses.push( process );
 	}	
 	
-	public function removeProcess( process:ITuioStackableProcessor )
+	public function removeMarkerProcess( process:ITuioStackableProcessor )
 	{
 		var i:Int = 0;
-		for ( p in processes) 
+		for ( p in markerProcesses) 
 		{
 			if ( p == process)
 			{
-				processes.splice(i, 1);
+				markerProcesses.splice(i, 1);
 				break;
 			}
 			i++;
 		}
-		this.warn("Tuio stackable process requested to be removed but not found in processes stack");
+		this.warn("Tuio stackable process requested to be removed but not found in markerProcesses stack");
 	}
 	
-	public function addProcessAt( process:ITuioStackableProcessor, position:Int )
+	public function addMarkerProcessAt( process:ITuioStackableProcessor, position:Int )
 	{
 		if (position < 0)
 		{
-			this.warn("Tuio stackable process requested to be added at position " + position + ". Position has to be greater than 0. Adding at " + processes.length);
+			this.warn("Tuio stackable process requested to be added at position " + position + ". Position has to be greater than 0. Adding at " + markerProcesses.length);
 			position = 0;
 		}
-		else if (processes.length < position)
+		else if (markerProcesses.length < position)
 		{
-			this.warn("Tuio stackable process requested to be added at position " + position + " but the current length of the stack is " + processes.length + ". Adding at " + processes.length);
-			position = processes.length;
+			this.warn("Tuio stackable process requested to be added at position " + position + " but the current length of the stack is " + markerProcesses.length + ". Adding at " + markerProcesses.length);
+			position = markerProcesses.length;
 		}
 		
-		if (processes.length == position)
+		if (markerProcesses.length == position)
 		{
-			processes.push(process);
+			markerProcesses.push(process);
 		}
 		else if ( position == 0)
 		{
-			processes.unshift(process);
+			markerProcesses.unshift(process);
 		}
 		else
 		{
-			processes.insert(position, process);
+			markerProcesses.insert(position, process);
 		}
 		
 	}

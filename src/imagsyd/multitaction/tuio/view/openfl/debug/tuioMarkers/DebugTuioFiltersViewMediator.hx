@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers;
-import imagsyd.multitaction.model.MarkerObjectsModel;
-import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
+import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element.TuioProcessesPanelElementView;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element.TuioProcessesPanelElementViewMediator;
@@ -27,7 +27,7 @@ class DebugTuioFiltersViewMediator extends Mediator
 	override public function initialize():Void
 	{
 		mediatorMap.map(TuioProcessesPanelElementView).toMediator(TuioProcessesPanelElementViewMediator);
-		view.initialize(tuioStackableProcessesModel.tuioProcessors, markerObjectsModel.markerObjectsMap);
+		view.initialize(tuioStackableProcessesModel.tuioMarkerProcessors, markerObjectsModel.markerObjectsMap);
 	}
 	
 	override public function destroy():Void

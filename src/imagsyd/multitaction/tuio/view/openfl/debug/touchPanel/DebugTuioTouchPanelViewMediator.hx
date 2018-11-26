@@ -1,5 +1,5 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.touchPanel;
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import robotlegs.bender.bundles.mvcs.Mediator;
 import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
 

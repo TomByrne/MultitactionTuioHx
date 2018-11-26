@@ -1,5 +1,6 @@
-package imagsyd.multitaction.model;
+package imagsyd.multitaction.model.marker;
 
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 import imagsyd.signals.Signal.Signal1;
 import openfl.geom.Point;
 import org.tuio.TuioObject;
@@ -23,6 +24,7 @@ class MarkerObjectsModel implements IMarkerObjectsModel
 	public var frameRemovedMarkers:Array<String> = new Array<String>();
 	public var frameUpdatedMarkers:Array<String> = new Array<String>();
 	
+	public var angleOffset:Float = -Math.PI / 2;
 	
 	public function new() 
 	{

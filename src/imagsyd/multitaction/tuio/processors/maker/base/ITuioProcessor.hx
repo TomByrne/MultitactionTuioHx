@@ -1,4 +1,4 @@
-package imagsyd.multitaction.tuio.processors.base;
+package imagsyd.multitaction.tuio.processors.maker.base;
 import org.tuio.ITuioListener;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
 

@@ -1,6 +1,6 @@
-package imagsyd.multitaction.tuio.touch.processors;
+package imagsyd.multitaction.tuio.touch.processors.base;
 
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import starling.core.Starling;
 import starling.display.Stage;
 import starling.events.TouchProcessor;

@@ -1,4 +1,4 @@
-package imagsyd.multitaction.tuio.touch.processors;
+package imagsyd.multitaction.tuio.processors.touch.base;
 
 /**
  * ...

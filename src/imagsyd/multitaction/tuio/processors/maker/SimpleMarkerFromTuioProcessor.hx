@@ -1,12 +1,12 @@
-package imagsyd.multitaction.tuio.processors;
-import imagsyd.multitaction.model.MarkerObjectsModel;
-import com.imagination.core.type.Notifier;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
+package imagsyd.multitaction.tuio.processors.maker;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
+import imagsyd.notifier.Notifier;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import openfl.geom.Point;
 import org.tuio.TuioObject;
-import imagsyd.multitaction.model.IMarkerObjectsModel;
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 
 /**
  * ...
@@ -53,7 +53,7 @@ class SimpleMarkerFromTuioProcessor implements ITuioStackableProcessor
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );				
-				Logger.log( this, "    removed moe with uid " + moe.uid);
+				this.log( "    removed moe with uid " + moe.uid);
 			}
 		}
 	}
@@ -61,7 +61,7 @@ class SimpleMarkerFromTuioProcessor implements ITuioStackableProcessor
 	function updateMarker(to:TuioObject) 
 	{
 		var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID ) );
-		moe.rotation = to.r;
+		moe.rotation = to.a;
 		moe.alive = true;
 		moe.frameId = to.frameID;
 		moe.fractPos.unshift( new Point( to.x, to.y));
@@ -71,8 +71,8 @@ class SimpleMarkerFromTuioProcessor implements ITuioStackableProcessor
 	
 	function addNewMarker( to:TuioObject ) 
 	{
-		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.r, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true, safetyRadius:0.1};
-		Logger.log(this, "    added moe with new uid " + moe.uid);
+		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.a, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true, safetyRadius:0.1};
+		this.log( "    added moe with new uid " + moe.uid);
 		moe.fractPos.unshift( new Point( to.x, to.y));
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);

@@ -1,9 +1,9 @@
 package imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers;
-import imagsyd.multitaction.model.MarkerObjectsModel;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.debug.view.base.BaseDebugPanel;
 import imagsyd.time.EnterFrame;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.element.TuioProcessesPanelElementView;
 import openfl.display.Quad;
 import openfl.text.TextField;

@@ -1,7 +1,6 @@
-package imagsyd.multitaction.model;
-import com.imagination.util.signals.Signal.Signal1;
-import imagsyd.multitaction.model.MarkerObjectsModel;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
+package imagsyd.multitaction.model.marker;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
+import imagsyd.signals.Signal.Signal1;
 
 /**
  * ...
@@ -20,6 +19,8 @@ interface IMarkerObjectsModel
 	public var frameRemovedMarkers:Array<String> = new Array<String>();
 	public var frameUpdatedMarkers:Array<String> = new Array<String>();
 	
+	public var angleOffset:Float;
+	
 	function tick():Void;
-	function processed():Void;
+	function processed():Void;	
 }

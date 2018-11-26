@@ -2,12 +2,14 @@ package imagsyd.multitaction.tuio;
 
 import imagsyd.multitaction.command.TuioDebugKeyboardCommand;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
-import imagsyd.multitaction.model.MarkerObjectsModel;
-import imagsyd.multitaction.model.TuioMarkersStackableProcessesModel;
-import imagsyd.multitaction.model.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
+import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.touch.TouchObjectsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
 import imagsyd.multitaction.tuio.TuioService;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
-import imagsyd.multitaction.tuio.touch.processors.StarlingTuioTouchProcessor;
+import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelViewMediator;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
@@ -41,7 +43,9 @@ class TuioBundle implements IConfig
 		injector.map(TuioService).asSingleton();
 		injector.map(MastercardCardListener).asSingleton();			
 		injector.map(MarkerObjectsModel).asSingleton();
+		injector.map(TouchObjectsModel).asSingleton();
 		injector.map(TuioMarkersStackableProcessesModel).asSingleton();
+		injector.map(TuioTouchesStackableProcessesModel).asSingleton();
 		injector.map(StarlingTuioTouchProcessor).asSingleton();		
 		injector.map(TuioDebugViewsLogic).asSingleton();	
 		

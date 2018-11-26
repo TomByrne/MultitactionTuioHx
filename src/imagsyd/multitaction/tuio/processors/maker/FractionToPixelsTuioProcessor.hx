@@ -1,10 +1,11 @@
-package imagsyd.multitaction.tuio.processors;
+package imagsyd.multitaction.tuio.processors.maker;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import starling.core.Starling;
-import imagsyd.multitaction.model.IMarkerObjectsModel;
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 
 /**
  * ...

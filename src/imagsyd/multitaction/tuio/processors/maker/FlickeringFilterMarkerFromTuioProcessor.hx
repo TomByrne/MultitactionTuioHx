@@ -1,12 +1,12 @@
-package imagsyd.multitaction.tuio.processors;
-import com.imagination.core.type.Notifier;
-import imagsyd.multitaction.model.MarkerObjectsModel;
-import imagsyd.multitaction.model.MarkerObjectsModel.MarkerObjectElement;
+package imagsyd.multitaction.tuio.processors.maker;
+import imagsyd.notifier.Notifier;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel;
+import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
-import imagsyd.multitaction.tuio.processors.base.ITuioStackableProcessor;
+import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import openfl.geom.Point;
 import org.tuio.TuioObject;
-import imagsyd.multitaction.model.IMarkerObjectsModel;
+import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 
 /**
  * ...
@@ -16,9 +16,12 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 {
 	var markerObjectsModel:IMarkerObjectsModel;
 	var frameId:Int;
+	
+	public var velocityThreshold:Float = 0.08;
+	public var movementThreshold:Float = 0.0008;	
 	public var nominalSpeed:Float = 0.02;
 	public var distanceThreshold:Float = 0.12;
-	public var maxSpeedMiutiplier:Float = 2.5;
+	public var maxSpeedMiutiplier:Float = 2.5;	
 	public var keepAliveWhenLost:Int = 100; //for how many frames the lost markr is held in the system (on the top of able setting - better t set it to 1 on th table and handle it here)
 	public var displayName:String = "Mastercard processor";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
@@ -64,7 +67,7 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );
-				Logger.log( this, "    removed moe with uid " + moe.uid);
+				this.log( "    removed moe with uid " + moe.uid);
 			}
 		}
 	}
@@ -111,20 +114,27 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 		
 		moeUpdatedByAge.set( moe.uid, toAge.get("t" + to.sessionID));		
 		
-		moe.rotation = to.r;
+		var vel:Float = new Point( to.X , to.Y).length;
+		moe.rotation = to.a + markerObjectsModel.angleOffset;
 		moe.alive = true;
 		moe.frameId = to.frameID;
-		moe.fractPos.unshift( new Point( to.x, to.y));
+		var newpPos:Point = new Point( to.x, to.y);
+		
+		if (vel > velocityThreshold || Point.distance(newpPos, moe.fractPos[0]) > movementThreshold)
+		{
+			moe.fractPos.unshift( newpPos );
+		}
+			
 		if (moe.fractPos.length > 10)
 			moe.fractPos.pop();					
 	}
 	
 	function addNewMarker( to:TuioObject ):MarkerObjectElement
 	{
-		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.r, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true, safetyRadius:0.1};
-		Logger.log(this, "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadius);
+		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.a + markerObjectsModel.angleOffset, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true, safetyRadius:0.1};
 //		traceAllDistances(to);
 		moe.fractPos.unshift( new Point( to.x, to.y));
+		this.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadius + " moe.fractPos " + moe.fractPos[0]);
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);
 		markerObjectsModel.markerObjectsMap.set( moe.uid, moe);
@@ -136,7 +146,7 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 	{
 		for ( moe in markerObjectsModel.markerObjectsMap)		
 		{
-			Logger.log(this, "            d: " + Point.distance( new Point(to.x, to.y), moe.fractPos[0]) + " speed " + Point.distance(moe.fractPos[0], moe.fractPos[1]) );
+			this.log( "            d: " + Point.distance( new Point(to.x, to.y), moe.fractPos[0]) + " speed " + Point.distance(moe.fractPos[0], moe.fractPos[1]) );
 		}
 	}
 	
