@@ -48,10 +48,11 @@ class TuioService
 	
 	function onSettingsChanged() 
 	{
+		var tuioEnabled:Bool = settings.bool('tuioEnabled', true);
 		var tuioServer:String = settings.string('tuioServer', '127.0.0.1');
 		var tuioPort:Null<Int> = settings.int('tuioPort', 3333);
 		
-		if (tuioServer == null || tuioPort == null) return;
+		if (!tuioEnabled || tuioServer == null || tuioPort == null) return;
 		
 		if (tc != null) return; // TODO: Make it able to reconnect when settings change
 		
