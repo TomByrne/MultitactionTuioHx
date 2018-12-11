@@ -1,5 +1,6 @@
 package imagsyd.multitaction.tuio.view.starling.display.touches;
 
+import imagsyd.gestures.TouchInfo;
 import imagsyd.multitaction.tuio.view.starling.display.touches.DebugTouchPointView;
 import starling.display.Quad;
 import starling.display.Sprite;
@@ -66,7 +67,7 @@ class TouchDebugView extends Sprite
 	}
 	*/
 	
-	public function handleTouchBegin(touch:Touch):Void 
+	public function handleTouchBegin(touch:TouchInfo):Void 
 	{
 		if (touchIndicators.exists( touch.id ))
 		{
@@ -81,7 +82,7 @@ class TouchDebugView extends Sprite
 		}	
 	}
 	
-	public function handleTouchMove(touch:Touch):Void 
+	public function handleTouchMove(touch:TouchInfo):Void 
 	{
 		if (touchIndicators.exists( touch.id ))
 		{
@@ -89,7 +90,7 @@ class TouchDebugView extends Sprite
 		}
 	}
 	
-	public function handleTouchEnd(touch:Touch):Void 
+	public function handleTouchEnd(touch:TouchInfo):Void 
 	{
 		if (touchIndicators.exists( touch.id ))
 		{
