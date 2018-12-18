@@ -6,6 +6,7 @@ import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
 import imagsyd.multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
 import starling.core.Starling;
 import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
+import openfl.geom.Point;
 
 /**
  * ...
@@ -14,14 +15,16 @@ import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 class FractionToPixelsTuioProcessor implements ITuioStackableProcessor
 {
 	var markerObjectsModel:IMarkerObjectsModel;
+	var nativeScreenSize:Point;
 
 	public var displayName:String = "Fraction to pixels";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
 	
-	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel) 
+	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, nativeScreenSize:Point) 
 	{
 		this.active.value = active;
 		this.markerObjectsModel = markerObjectsModel;
+		this.nativeScreenSize = nativeScreenSize;
 	}
 	
 	public function process(listener:BasicProcessableTuioListener):Void
@@ -33,8 +36,8 @@ class FractionToPixelsTuioProcessor implements ITuioStackableProcessor
 				var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID) );
 				if (moe != null && moe.fromTuio == true)
 				{
-					moe.pos.x = Math.round( moe.fractPos[0].x * Starling.current.stage.stageWidth );
-					moe.pos.y = Math.round( moe.fractPos[0].y * Starling.current.stage.stageHeight );
+					moe.pos.x = Math.round( moe.fractPos[0].x * nativeScreenSize.x );
+					moe.pos.y = Math.round( moe.fractPos[0].y * nativeScreenSize.y );
 				}
 			}
 		}

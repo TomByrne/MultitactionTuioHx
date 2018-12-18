@@ -24,13 +24,19 @@ class StarlingTuioTouchProcessor extends TouchProcessor
     override public function enqueue(touchID:Int, phase:String, globalX:Float, globalY:Float,
                             pressure:Float = 1.0, width:Float = 1.0, height:Float = 1.0):Void
 	{
-		if(tuioTouchSettingsModel.useWindoesTouches.value == true)
+		if (tuioTouchSettingsModel.useWindoesTouches.value == true)
+		{
+			if(phase == "began" || phase == "ended")
+				this.log("click touchID " + touchID + " phase " + phase + " " + globalX  + " " + globalY );
 			super.enqueue( touchID, phase, globalX, globalY, pressure, width, height);
+		}
 	}
 	
 	public function injectTouch(touchID:Int, phase:String, globalX:Float, globalY:Float,
                             pressure:Float = 1.0, width:Float = 1.0, height:Float = 1.0):Void
 	{
-		super.enqueue( touchID, phase, globalX, globalY, pressure, width, height);
+		if(phase == "began" || phase == "ended")
+			this.log("touch touchID " + touchID + " phase " + phase + " " + Std.int(globalX * Starling.current.stage.stageWidth) + " " + Std.int(globalY * Starling.current.stage.stageHeight) );
+		super.enqueue( 0, phase, Std.int(globalX * Starling.current.stage.stageWidth), Std.int(globalY * Starling.current.stage.stageHeight), pressure, width, height);
 	}
 }

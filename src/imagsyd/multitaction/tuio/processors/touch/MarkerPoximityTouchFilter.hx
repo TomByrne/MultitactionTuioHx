@@ -33,7 +33,9 @@ class MarkerPoximityTouchFilter implements ITuioStackableProcessor
 		for (  tc in touchObjectsModel.cursorsAdded ) 
 		{
 			if ( isCursorCloseToMarker(tc) == true )
+			{
 				touchObjectsModel.cursorsAdded.remove( tc.sessionID );
+			}
 		}
 		
 		for (  tc in touchObjectsModel.cursorsUpdated) 

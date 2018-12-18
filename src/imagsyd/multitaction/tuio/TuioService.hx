@@ -76,12 +76,14 @@ class TuioService
 
 		//set starling touch processor
 		#if starling
-		if(Starling.current != null)
+		if (Starling.current != null)
+		{
 			Starling.current.touchProcessor = starlingTuioTouchProcessor;
+		}
 		else
-		this.warn("Trying to set starling touch processor before Starling initialization. Tuio touches may not work properly.");
+		this.error("Trying to set starling touch processor before Starling initialization. Tuio touches may not work properly.");
 		#else
-		this.warn("Tuio touch functionality currently implemented only for Starling.");
+		this.error("Tuio touch functionality currently implemented only for Starling.");
 		#end
 		
 		//add tuio object listener

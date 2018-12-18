@@ -1,4 +1,5 @@
 package imagsyd.multitaction.model.touch;
+import imagsyd.multitaction.model.settings.TuioSettingsModel;
 import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import org.tuio.TuioCursor;
 import starling.core.Starling;
@@ -33,15 +34,15 @@ class TouchObjectsModel implements ITouchObjectsModel
 	{
 		for (tc in cursorsAdded) 
 		{
-			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x * Starling.current.nativeStage.stageWidth, tc.y * Starling.current.nativeStage.stageHeight);
+			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x, tc.y);
 		}
 		for (tc in cursorsUpdated) 
 		{
-			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x * Starling.current.nativeStage.stageWidth, tc.y * Starling.current.nativeStage.stageHeight);
+			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x, tc.y);
 		}
 		for (tc in cursorsRemoved) 
 		{
-			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x * Starling.current.nativeStage.stageWidth, tc.y * Starling.current.nativeStage.stageHeight);
+			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
 		}
 		cursorsAdded = new Map<UInt, TuioCursor>();
 		cursorsUpdated = new Map<UInt, TuioCursor>();

@@ -4,6 +4,7 @@ import imagsyd.multitaction.command.TuioDebugKeyboardCommand;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.settings.TuioSettingsModel;
 import imagsyd.multitaction.model.touch.TouchObjectsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
@@ -48,6 +49,7 @@ class TuioBundle implements IConfig
 		injector.map(TuioTouchesStackableProcessesModel).asSingleton();
 		injector.map(StarlingTuioTouchProcessor).asSingleton();		
 		injector.map(TuioDebugViewsLogic).asSingleton();	
+		injector.map(TuioSettingsModel).asSingleton();	
 		
 		mediatorMap.map(TouchDebugView).toMediator(TouchDebugViewMediator);
 		mediatorMap.map(DebugTuioFiltersView).toMediator(DebugTuioFiltersViewMediator);
