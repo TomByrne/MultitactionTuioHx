@@ -1,7 +1,6 @@
 package imagsyd.multitaction.tuio.listener;
 import imagsyd.multitaction.model.touch.TouchObjectsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
-import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
@@ -21,7 +20,6 @@ class MastercardCardListener extends BasicProcessableTuioListener
 	@inject public var markerObjectsModelSingleton:MarkerObjectsModel;
 	@inject public var touchObjectsModelSingleton:TouchObjectsModel;
 	@inject public var tuioTouchSettingsModel:TuioTouchesSettingsModel;
-	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
 	
 	static public var MAX:Int = 1000;
 	static public var counter:Int = 0;
@@ -104,7 +102,6 @@ class MastercardCardListener extends BasicProcessableTuioListener
 				touchObjectsModel.cursorsAdded.set( tuioCursor.sessionID, tuioCursor );
 				tuioCursors.set( tuioCursor.sessionID, tuioCursor);
 			}
-//			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.BEGAN, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
 		}
 	}
 	
@@ -120,7 +117,6 @@ class MastercardCardListener extends BasicProcessableTuioListener
 				tc = tuioCursor;
 				touchObjectsModel.cursorsUpdated.set( tc.sessionID, tc );
 			}
-//			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.MOVED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
 		}
 	}
 	
@@ -137,9 +133,7 @@ class MastercardCardListener extends BasicProcessableTuioListener
 			{
 				tuioCursors.remove(tuioCursor.sessionID);
 				touchObjectsModel.cursorsRemoved.set( tuioCursor.sessionID, tuioCursor );
-			}
-			
-//			starlingTuioTouchProcessor.injectTouch( tuioCursor.sessionID, TouchPhase.ENDED, tuioCursor.x * Starling.current.nativeStage.stageWidth, tuioCursor.y * Starling.current.nativeStage.stageHeight);
+			}			
 		}
 	}
 

@@ -9,16 +9,13 @@ import starling.events.TouchProcessor;
  * ...
  * @author Michal Moczynski
  */
-@:rtti
-@:keepSub
 class StarlingTuioTouchProcessor extends TouchProcessor 
 {
-	@inject public var tuioTouchSettingsModel:TuioTouchesSettingsModel;
-
-	public function new() 
+	var tuioTouchSettingsModel:TuioTouchesSettingsModel;
+	public function new(stage:Stage, tuioTouchSettingsModel:TuioTouchesSettingsModel) 
 	{
-		super(Starling.current.stage);
-		
+		this.tuioTouchSettingsModel = tuioTouchSettingsModel;
+		super(stage);		
 	}
 	
     override public function enqueue(touchID:Int, phase:String, globalX:Float, globalY:Float,
@@ -26,8 +23,8 @@ class StarlingTuioTouchProcessor extends TouchProcessor
 	{
 		if (tuioTouchSettingsModel.useWindoesTouches.value == true)
 		{
-			if(phase == "began" || phase == "ended")
-				this.log("click touchID " + touchID + " phase " + phase + " " + globalX  + " " + globalY );
+//			if(phase == "began" || phase == "ended")
+//				this.log("click touchID " + touchID + " phase " + phase + " " + globalX  + " " + globalY );
 			super.enqueue( touchID, phase, globalX, globalY, pressure, width, height);
 		}
 	}
@@ -35,8 +32,8 @@ class StarlingTuioTouchProcessor extends TouchProcessor
 	public function injectTouch(touchID:Int, phase:String, globalX:Float, globalY:Float,
                             pressure:Float = 1.0, width:Float = 1.0, height:Float = 1.0):Void
 	{
-		if(phase == "began" || phase == "ended")
-			this.log("touch touchID " + touchID + " phase " + phase + " " + Std.int(globalX * Starling.current.stage.stageWidth) + " " + Std.int(globalY * Starling.current.stage.stageHeight) );
+//		if(phase == "began" || phase == "ended")
+//			this.log("touch touchID " + touchID + " phase " + phase + " " + Std.int(globalX * Starling.current.stage.stageWidth) + " " + Std.int(globalY * Starling.current.stage.stageHeight) );
 		super.enqueue( 0, phase, Std.int(globalX * Starling.current.stage.stageWidth), Std.int(globalY * Starling.current.stage.stageHeight), pressure, width, height);
 	}
 }

@@ -12,7 +12,7 @@ import starling.events.TouchPhase;
 @:rtti
 class TouchObjectsModel implements ITouchObjectsModel
 {
-	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
+	public var starlingTuioTouchProcessors:Array<StarlingTuioTouchProcessor> = [];
 	
 	public var cursorsAdded:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
 	public var cursorsUpdated:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
@@ -34,15 +34,18 @@ class TouchObjectsModel implements ITouchObjectsModel
 	{
 		for (tc in cursorsAdded) 
 		{
-			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x, tc.y);
+			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x, tc.y);
 		}
 		for (tc in cursorsUpdated) 
 		{
-			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x, tc.y);
+			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x, tc.y);
 		}
 		for (tc in cursorsRemoved) 
 		{
-			starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
+			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
 		}
 		cursorsAdded = new Map<UInt, TuioCursor>();
 		cursorsUpdated = new Map<UInt, TuioCursor>();
