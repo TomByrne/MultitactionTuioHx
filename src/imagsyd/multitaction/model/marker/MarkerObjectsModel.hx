@@ -3,7 +3,6 @@ package imagsyd.multitaction.model.marker;
 import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 import imagsyd.signals.Signal.Signal1;
 import openfl.geom.Point;
-import org.tuio.TuioObject;
 
 /**
  * ...
