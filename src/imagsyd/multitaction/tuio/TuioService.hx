@@ -4,6 +4,8 @@ import imagsyd.base.ISettings;
 import imagsyd.debug.model.DebuggerModel;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
 import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.touch.TouchObjectsModel;
+import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
 import imagsyd.multitaction.tuio.listener.MastercardCardListener;
 import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
@@ -24,12 +26,13 @@ import starling.core.Starling;
 class TuioService
 {
 	@inject public var settings:ISettings;	
-	@inject public var starlingTuioTouchProcessor:StarlingTuioTouchProcessor;
 	@inject public var mastercardCardListener:MastercardCardListener;
 	@inject public var tuioDebugViewsLogic:TuioDebugViewsLogic;
 	@inject public var tuioMarkersStackableProcessesModel:TuioMarkersStackableProcessesModel;
 	@inject public var tuioTouchesStackableProcessesModel:TuioTouchesStackableProcessesModel;
 	@inject public var debuggerModel:DebuggerModel;
+	@inject public var tuioTouchesSettingsModel:TuioTouchesSettingsModel;
+	@inject public var touchObjectsModel:TouchObjectsModel;
 	
 	private var tc:TuioClient;
 	//var connector:IOSCConnector;
@@ -76,9 +79,16 @@ class TuioService
 
 		//set starling touch processor
 		#if starling
-		if (Starling.current != null)
+		if (Starling.all.length >  0 )
 		{
-			Starling.current.touchProcessor = starlingTuioTouchProcessor;
+			touchObjectsModel.starlingTuioTouchProcessors = [];
+			
+			for ( starling in Starling.all)
+			{
+				var tarlingTuioTouchProcessor:StarlingTuioTouchProcessor = new StarlingTuioTouchProcessor(starling.stage, tuioTouchesSettingsModel);
+				starling.touchProcessor = tarlingTuioTouchProcessor;
+				touchObjectsModel.starlingTuioTouchProcessors.push(tarlingTuioTouchProcessor);
+			}
 		}
 		else
 		this.error("Trying to set starling touch processor before Starling initialization. Tuio touches may not work properly.");
