@@ -59,7 +59,7 @@ class TuioService
 		
 		if (tc != null) return; // TODO: Make it able to reconnect when settings change
 		
-		this.log("tuio start at " + tuioServer + ":" + tuioPort);
+		//this.log("tuio start at " + tuioServer + ":" + tuioPort);
 		var connector:IOSCConnector;
 		
 		try 
