@@ -9,7 +9,7 @@ package org.tuio;
 	 */
 class TuioObject extends TuioContainer
 {
-    public var classID(get, never) : Int;
+    public var classID(get, set) : Int;
     public var a(get, never) : Float;
     public var b(get, never) : Float;
     public var c(get, never) : Float;
@@ -69,6 +69,11 @@ class TuioObject extends TuioContainer
     private function get_classID() : Int
     {
         return this._id;
+    }
+    
+    private function set_classID(value:Int) : Int
+    {
+        return this._id = value;
     }
     
     private function get_a() : Float

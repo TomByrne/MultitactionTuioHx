@@ -258,7 +258,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
             }
             
             var s : Float = 0;
-            var i : Float = 0;
+            var i : Int = 0;
             var x : Float = 0;
             var y : Float = 0;
             var z : Float = 0;
@@ -413,8 +413,13 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
             }
             else if (isObj)
             {
-                (try cast(tuioContainer, TuioObject) catch(e:Dynamic) null).update(x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq);
-                dispatchUpdateObject(try cast(tuioContainer, TuioObject) catch(e:Dynamic) null);
+                var to:TuioObject = (try cast(tuioContainer, TuioObject) catch(e:Dynamic) null);
+                if(to != null)
+                {
+                    to.update(x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq);
+                    to.classID = i;
+                    dispatchUpdateObject(to);
+                }
             }
             else if (isBlb)
             {

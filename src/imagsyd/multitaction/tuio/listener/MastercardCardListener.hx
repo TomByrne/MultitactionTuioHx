@@ -66,9 +66,9 @@ class MastercardCardListener extends BasicProcessableTuioListener
 			addTuioObject( tuioObject )
 		else
 		{
-			var to:TuioObject = tuioObjects.get( tuioObject.sessionID);
-//			this.log(" to.r " + to.r + " to.a " + to.a + " to.b " + to.b + " to.c " + to.c);
-			to = tuioObject;
+			var to:TuioObject = tuioObjects.get( tuioObject.sessionID );
+			tuioObjects.set(to.sessionID, tuioObject);
+			//to = tuioObject;
 		}
 	}
 
