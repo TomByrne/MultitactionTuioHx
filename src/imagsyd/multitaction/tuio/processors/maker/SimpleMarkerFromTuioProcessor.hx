@@ -53,7 +53,7 @@ class SimpleMarkerFromTuioProcessor implements ITuioStackableProcessor
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );				
-				this.log( "    removed moe with uid " + moe.uid);
+				//this.log( "    removed moe with uid " + moe.uid);
 			}
 		}
 	}

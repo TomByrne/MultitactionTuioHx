@@ -39,7 +39,6 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 	{
 		frameId = listener.frame;
 		moeUpdatedByAge = new Map<String, Int>();
-		moeUpdatedByAge = new Map<String, Int>();
 		
 		for (  to in listener.tuioObjects ) 
 		{
@@ -67,7 +66,7 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );
-				this.log( "    removed moe with uid " + moe.uid);
+				//this.log( "    removed moe with uid " + moe.uid);
 			}
 		}
 	}
@@ -118,6 +117,12 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 		moe.rotation = to.a + markerObjectsModel.angleOffset;
 		moe.alive = true;
 		moe.frameId = to.frameID;
+		//TODO: average over time
+		if (moe.cardId != to.classID)
+		{
+			this.log("moe.cardId != to.classID " + moe.cardId + " " +  to.classID);
+			moe.cardId = to.classID;
+		}
 		var newpPos:Point = new Point( to.x, to.y);
 		
 		if (vel > velocityThreshold || Point.distance(newpPos, moe.fractPos[0]) > movementThreshold)
