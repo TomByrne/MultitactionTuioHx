@@ -135,7 +135,7 @@ class TuioLegacyListener extends EventDispatcher implements ITuioListener
         var stagePoint : Point;
         var displayObjArray : Array<Dynamic>;
         
-        stagePoint = new Point(as3hx.Compat.parseInt(stage.stageWidth * tuioCursor.x), as3hx.Compat.parseInt(stage.stageHeight * tuioCursor.y));
+        stagePoint = new Point(Std.int(stage.stageWidth * tuioCursor.x), Std.int(stage.stageHeight * tuioCursor.y));
         displayObjArray = this.stage.getObjectsUnderPoint(stagePoint);
         firstPos[tuioCursor.sessionID] = stagePoint;
         lastPos[tuioCursor.sessionID] = stagePoint;
@@ -167,7 +167,7 @@ class TuioLegacyListener extends EventDispatcher implements ITuioListener
 		 */
     public function updateTuioCursor(tuioCursor : TuioCursor) : Void
     {
-        var stagePoint : Point = new Point(as3hx.Compat.parseInt(stage.stageWidth * tuioCursor.x), as3hx.Compat.parseInt(stage.stageHeight * tuioCursor.y));
+        var stagePoint : Point = new Point(Std.int(stage.stageWidth * tuioCursor.x), Std.int(stage.stageHeight * tuioCursor.y));
         var displayObjArray : Array<DisplayObject> = this.stage.getObjectsUnderPoint(stagePoint);
         var dobj : DisplayObject;
         var localPoint : Point;
@@ -223,7 +223,7 @@ class TuioLegacyListener extends EventDispatcher implements ITuioListener
         var stagePoint : Point;
         var displayObjArray : Array<DisplayObject>;
         
-        stagePoint = new Point(as3hx.Compat.parseInt(stage.stageWidth * tuioCursor.x), as3hx.Compat.parseInt(stage.stageHeight * tuioCursor.y));
+        stagePoint = new Point(Std.int(stage.stageWidth * tuioCursor.x), Std.int(stage.stageHeight * tuioCursor.y));
         displayObjArray = this.stage.getObjectsUnderPoint(stagePoint);
         dobj = null;
         
@@ -247,7 +247,7 @@ class TuioLegacyListener extends EventDispatcher implements ITuioListener
             }
         }
         
-        stagePoint = new Point(as3hx.Compat.parseInt(stage.stageWidth * tuioCursor.x), as3hx.Compat.parseInt(stage.stageHeight * tuioCursor.y));
+        stagePoint = new Point(Std.int(stage.stageWidth * tuioCursor.x), Std.int(stage.stageHeight * tuioCursor.y));
         stage.dispatchEvent(new TouchEvent(TouchEvent.MOUSE_OUT, true, false, stagePoint.x, stagePoint.y, stagePoint.x, stagePoint.y, 0, 0, null, false, false, false, true, 0, "2Dcur", tuioCursor.sessionID, tuioCursor.sessionID, 0));
         stage.dispatchEvent(new TouchEvent(TouchEvent.MOUSE_UP, true, false, stagePoint.x, stagePoint.y, stagePoint.x, stagePoint.y, 0, 0, null, false, false, false, true, 0, "2Dcur", tuioCursor.sessionID, tuioCursor.sessionID, 0));
         if (distance > 20)
@@ -382,9 +382,9 @@ class TuioLegacyListener extends EventDispatcher implements ITuioListener
 		 * @param receiver object
 		 * 
 		 */
-    public function removeListenForObject(id : Float, receiver : Dynamic) : Void
+    public function removeListenForObject(id : Int, receiver : Dynamic) : Void
     {
-        var i : Float = 0;
+        var i : Int = 0;
         for (listeningObject in listenOnIdsArray)
         {
             if (listeningObject.id == id && listeningObject.receiver == receiver)

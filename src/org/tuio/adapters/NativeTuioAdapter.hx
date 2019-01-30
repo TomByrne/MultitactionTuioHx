@@ -24,7 +24,7 @@ import org.tuio.util.DisplayListHelper;
 	 */
 class NativeTuioAdapter extends AbstractTuioAdapter
 {
-    public var frameId(get, set) : Float;
+    public var frameId(get, set) : Int;
 
     
     private var stage : Stage;
@@ -134,12 +134,12 @@ class NativeTuioAdapter extends AbstractTuioAdapter
         }
         tuioCursor.update(event.stageX / stage.stageWidth, event.stageY / stage.stageHeight, 0, diffX / stage.stageWidth, diffY / stage.stageHeight, 0, 0, this.frameId);
     }
-    private function set_frameId(frameId : Float) : Float
+    private function set_frameId(frameId : Int) : Int
     {
         this._frameId = frameId;
         return frameId;
     }
-    private function get_frameId() : Float
+    private function get_frameId() : Int
     {
         return this._frameId;
     }
