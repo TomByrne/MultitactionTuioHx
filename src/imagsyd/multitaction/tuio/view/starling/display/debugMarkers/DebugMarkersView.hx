@@ -5,7 +5,7 @@ import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioD
 import imagsyd.time.EnterFrame;
 import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
-import imagsyd.multitaction.tuio.listener.MastercardCardListener;
+import imagsyd.multitaction.tuio.listener.MultitactionCardListener;
 import starling.display.Quad;
 import starling.display.Sprite;
 

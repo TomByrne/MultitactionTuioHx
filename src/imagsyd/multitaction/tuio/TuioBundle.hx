@@ -9,7 +9,7 @@ import imagsyd.multitaction.model.touch.TouchObjectsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
 import imagsyd.multitaction.tuio.TuioService;
-import imagsyd.multitaction.tuio.listener.MastercardCardListener;
+import imagsyd.multitaction.tuio.listener.MultitactionCardListener;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelViewMediator;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
@@ -41,7 +41,7 @@ class TuioBundle implements IConfig
 	{
 		injector.map(TuioTouchesSettingsModel).asSingleton();		
 		injector.map(TuioService).asSingleton();
-		injector.map(MastercardCardListener).asSingleton();			
+		injector.map(MultitactionCardListener).asSingleton();			
 		injector.map(MarkerObjectsModel).asSingleton();
 		injector.map(TouchObjectsModel).asSingleton();
 		injector.map(TuioMarkersStackableProcessesModel).asSingleton();

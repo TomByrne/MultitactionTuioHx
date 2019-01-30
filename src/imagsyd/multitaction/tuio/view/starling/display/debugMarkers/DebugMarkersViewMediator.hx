@@ -1,6 +1,6 @@
 package imagsyd.multitaction.tuio.view.starling.display.debugMarkers;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel;
-import imagsyd.multitaction.tuio.listener.MastercardCardListener;
+import imagsyd.multitaction.tuio.listener.MultitactionCardListener;
 import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioDebugMarkerView;
 import imagsyd.multitaction.tuio.view.starling.display.debugMarkers.marker.TuioDebugMarkerViewMediator;
 import robotlegs.bender.bundles.mvcs.Mediator;

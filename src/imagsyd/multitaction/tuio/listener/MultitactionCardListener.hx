@@ -13,7 +13,7 @@ import org.tuio.TuioObject;
  */
 @:rtti
 @:keepSub
-class MastercardCardListener extends BasicProcessableTuioListener
+class MultitactionCardListener extends BasicProcessableTuioListener
 {
 	@inject public var markersStackableProcessesModel:TuioMarkersStackableProcessesModel;
 	@inject public var touchStackableProcessesModel:TuioTouchesStackableProcessesModel;
