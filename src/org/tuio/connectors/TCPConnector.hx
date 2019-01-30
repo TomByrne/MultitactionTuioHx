@@ -17,7 +17,7 @@ class TCPConnector implements IOSCConnector
     
     private var connection : OSCSocket;
     
-    private var listeners : Array<Dynamic>;
+    private var listeners : Array<IOSCConnectorListener>;
     
     /**
 		 * Creates a new instance of the TCPConnector
@@ -26,7 +26,7 @@ class TCPConnector implements IOSCConnector
 		 */
     public function new(host : String = "127.0.0.1", port : Int = 3333)
     {
-        this.listeners = new Array<Dynamic>();
+        this.listeners = new Array<IOSCConnectorListener>();
         
         this.host = host;
         this.port = port;
@@ -53,7 +53,7 @@ class TCPConnector implements IOSCConnector
             
             //call receive listeners and push the received messages{
                 
-                for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+                for (l in this.listeners)
                 {
                     if (OSCBundle.isBundle(packet))
                     {
@@ -90,19 +90,7 @@ class TCPConnector implements IOSCConnector
 		 */
     public function removeListener(listener : IOSCConnectorListener) : Void
     {
-        var tmp : Array<Dynamic> = this.listeners.concat();
-        var newList : Array<Dynamic> = new Array<Dynamic>();
-        
-        var item : Dynamic = tmp.pop();
-        while (item != null)
-        {
-            if (item != listener)
-            {
-                newList.push(item);
-            }
-        }
-        
-        this.listeners = newList;
+        this.listeners.remove(listener);
     }
     
     /**

@@ -170,7 +170,7 @@ class MouseTuioAdapter extends AbstractTuioAdapter
     {
         if (this.frameId != this.lastSentFrameId)
         {
-            for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+            for (l in this.listeners)
             {
                 l.newFrame(this.frameId);
             }

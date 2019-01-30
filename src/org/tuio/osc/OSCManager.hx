@@ -16,7 +16,7 @@ class OSCManager implements IOSCConnectorListener
     
     private var _currentPacket : OSCPacket;
     
-    private var msgListener : Array<Dynamic>;
+    private var msgListener : Array<IOSCListener>;
     private var oscMethods : Map<String, IOSCListener>;
     private var oscAddressSpace : OSCAddressSpace;
     
@@ -35,7 +35,7 @@ class OSCManager implements IOSCConnectorListener
 		 */
     public function new(connectorIn : IOSCConnector = null, connectorOut : IOSCConnector = null, autoStart : Bool = true)
     {
-        this.msgListener = new Array<Dynamic>();
+        this.msgListener = new Array<IOSCListener>();
         this.oscMethods = new Map<String, IOSCListener>();
         
         this._connectorIn = connectorIn;
@@ -163,7 +163,6 @@ class OSCManager implements IOSCConnectorListener
 		 */
     private function distributeOSCMessage(msg : OSCMessage) : Void
     {
-		/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),msgListener) type: null */
         for (l in this.msgListener)
         {
             l.acceptOSCMessage(msg);
@@ -227,15 +226,7 @@ class OSCManager implements IOSCConnectorListener
 		 */
     public function removeMsgListener(listener : IOSCListener) : Void
     {
-        var temp : Array<Dynamic> = new Array<Dynamic>();
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),msgListener) type: null */ in this.msgListener)
-        {
-            if (l != listener)
-            {
-                temp.push(l);
-            }
-        }
-        this.msgListener = temp.copy();
+        msgListener.remove(listener);
     }
 }
 

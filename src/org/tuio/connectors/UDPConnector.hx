@@ -24,7 +24,7 @@ import org.tuio.osc.OSCPacket;
 class UDPConnector implements IOSCConnector
 {
     private var connection : OSCDatagramSocket;
-    private var listeners : Array<Dynamic>;
+    private var listeners : Array<IOSCConnectorListener>;
     
     /**
 		 * 
@@ -47,7 +47,7 @@ class UDPConnector implements IOSCConnector
 		 */
     public function new(host : String = "127.0.0.1", port : Int = 3333, bind : Bool = true)
     {
-        this.listeners = new Array<Dynamic>();
+        this.listeners = [];
         
         this.connection = new OSCDatagramSocket(host, port, bind);
 		this.connection.dataReceivedCallback = receiveOscData;
@@ -76,7 +76,6 @@ class UDPConnector implements IOSCConnector
 				{
 					
 					//packet has to be copied in order to allow for more than one listener
-					// AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null
 					for (l in this.listeners)                
 					{
 						
@@ -141,19 +140,7 @@ class UDPConnector implements IOSCConnector
 		 */
     public function removeListener(listener : IOSCConnectorListener) : Void
     {
-        var tmp : Array<Dynamic> = this.listeners;// .concat();
-        var newList : Array<Dynamic> = new Array<Dynamic>();
-        
-        var item : Dynamic = tmp.pop();
-        while (item != null)
-        {
-            if (item != listener)
-            {
-                newList.push(item);
-            }
-        }
-        
-        this.listeners = newList;
+        listeners.remove(listener);
     }
     
     /**

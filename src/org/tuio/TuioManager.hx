@@ -126,15 +126,15 @@ class TuioManager extends EventDispatcher implements ITuioListener
     
     private var stage : Stage;
     
-    private var touchReceiversDict : Dictionary;
+    private var touchReceiversDict : Map<String, ITuioTouchReceiver>;
     
     private static var allowInst : Bool;
     private static var inst : TuioManager;
     
     
     /////////////////////properties integrated from TuioFiducialDispatcher///////////////////////
-    private var fiducialReceivers : Array<Dynamic>;
-    private var fiducialRemovalTimes : Array<Dynamic>;
+    private var fiducialReceivers : Array<FiducialReceiver>;
+    private var fiducialRemovalTimes : Array<FiducialRemovalTime>;
     
     private var ROTATION_MINIMUM(default, never) : Float = 0.05;
     private var MOVEMENT_MINIMUM(default, never) : Float = 3;
@@ -145,8 +145,8 @@ class TuioManager extends EventDispatcher implements ITuioListener
     private var _rotationShift : Float;
     private var _invertRotation : Bool;
     
-    private var lastFiducialTarget : Array<Dynamic>;
-    private var firstFiducialTarget : Array<Dynamic>;
+    private var lastFiducialTarget : Array<DisplayObject>;
+    private var firstFiducialTarget : Array<DisplayObject>;
     ////////////////////////////////////////////////////////
     
     /**
@@ -167,19 +167,19 @@ class TuioManager extends EventDispatcher implements ITuioListener
             this.stage = stage;
             this.lastTarget = new Dictionary();
             this.firstTarget = new Dictionary();
-            this.tapped = new Array<Dynamic>();
+            this.tapped = [];
             this.hold = new Dictionary();
-            this.ignoreList = new Array<Dynamic>();
-            this.touchReceiversDict = new Dictionary();
+            this.ignoreList = [];
+            this.touchReceiversDict = new Map();
             
             /////////////////////constructor integrated from TuioFiducialDispatcher///////////////////////
             this._rotationShift = ROTATION_SHIFT_DEFAULT;
             this._timeoutTime = TIMEOUT_TIME_DEFAULT;
             
-            fiducialReceivers = new Array<Dynamic>();
-            fiducialRemovalTimes = new Array<Dynamic>();
-            this.lastFiducialTarget = new Array<Dynamic>();
-            this.firstFiducialTarget = new Array<Dynamic>();
+            fiducialReceivers = [];
+            fiducialRemovalTimes = [];
+            this.lastFiducialTarget = [];
+            this.firstFiducialTarget = [];
         }
     }
     
@@ -388,10 +388,11 @@ class TuioManager extends EventDispatcher implements ITuioListener
     
     private function updateTouchReceiver(keyString : String, local : Point, stagePos : Point, target : DisplayObject, tuioContainer : TuioContainer) : Void
     {
-        if (this.touchReceiversDict[keyString] != null)
+        var recievers = this.touchReceiversDict.get(keyString);
+        if (recievers != null)
         {
             var event : TuioTouchEvent = new TuioTouchEvent(TuioTouchEvent.TOUCH_MOVE, true, false, local.x, local.y, stagePos.x, stagePos.y, target, tuioContainer);
-            for (receiver/* AS3HX WARNING could not determine type for var: receiver exp: EArray(EField(EIdent(this),touchReceiversDict),EIdent(keyString)) type: null */ in this.touchReceiversDict[keyString])
+            for (receiver in recievers)
             {
                 receiver.updateTouch(event);
             }
@@ -417,11 +418,12 @@ class TuioManager extends EventDispatcher implements ITuioListener
         {
             keyString = "" + sessionId;
         }
-        if (this.touchReceiversDict[keyString] == null)
-        {
-            this.touchReceiversDict[keyString] = new Array<Dynamic>();
+        var list = this.touchReceiversDict.get(keyString);
+        if(list == null){
+            list = [];
+            this.touchReceiversDict.set(keyString, list);
         }
-        this.touchReceiversDict[keyString].push(receiver);
+        list.push(receiver);
     }
     
     /**
@@ -491,12 +493,13 @@ class TuioManager extends EventDispatcher implements ITuioListener
         
         
         //handle receivers
-        if (this.touchReceiversDict[tuioContainer.sessionID + tuioContainer.source] != null)
+        var recievers = this.touchReceiversDict[tuioContainer.sessionID + tuioContainer.source];
+        if (recievers != null)
         
         //call removeTouch from each receiver that listens on sessionID{
             
             var event : TuioTouchEvent = new TuioTouchEvent(TuioTouchEvent.TOUCH_UP, true, false, local.x, local.y, stagePos.x, stagePos.y, target, tuioContainer);
-            for (receiver/* AS3HX WARNING could not determine type for var: receiver exp: EArray(EField(EIdent(this),touchReceiversDict),EBinop(+,EField(EIdent(tuioContainer),sessionID),EField(EIdent(tuioContainer),source),false)) type: null */ in this.touchReceiversDict[tuioContainer.sessionID + tuioContainer.source])
+            for (receiver in recievers)
             {
                 receiver.removeTouch(event);
             }
@@ -560,7 +563,7 @@ class TuioManager extends EventDispatcher implements ITuioListener
     
     private function getTopDisplayObjectUnderPoint(point : Point) : DisplayObject
     {
-        var targets : Array<Dynamic> = stage.getObjectsUnderPoint(point);
+        var targets : Array<DisplayObject> = stage.getObjectsUnderPoint(point);
         var item : DisplayObject = ((targets.length > 0)) ? targets[targets.length - 1] : stage;
         
         if (this.touchTargetDiscoveryMode == TOUCH_TARGET_DISCOVERY_MOUSE_ENABLED)
@@ -640,9 +643,9 @@ class TuioManager extends EventDispatcher implements ITuioListener
 		 * @param	item The <code>DisplayObject</code> of which the list will be created.
 		 * @return The ancestor list of the given <code>DisplayObject</code>
 		 */
-    private function createAncestorList(item : DisplayObject) : Array<Dynamic>
+    private function createAncestorList(item : DisplayObject) : Array<DisplayObject>
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<DisplayObject> = [];
         var stage : Stage = item.stage;
         while (item != stage)
         {
@@ -675,17 +678,7 @@ class TuioManager extends EventDispatcher implements ITuioListener
 		 */
     public function removeFromIgnoreList(item : DisplayObject) : Void
     {
-        var tmpList : Array<Dynamic> = new Array<Dynamic>();
-        var listItem : Dynamic;
-        while (ignoreList.length > 0)
-        {
-            listItem = ignoreList.pop();
-            if (listItem != item)
-            {
-                tmpList.push(listItem);
-            }
-        }
-        ignoreList = tmpList.copy();
+        ignoreList.remove(item);
     }
     
     /**
@@ -986,7 +979,7 @@ class TuioManager extends EventDispatcher implements ITuioListener
             ));
     }
     
-    private function notifyReceiverAdded(receiverObject : Dynamic, tuioObject : TuioObject) : Void
+    private function notifyReceiverAdded(receiverObject : FiducialReceiver, tuioObject : TuioObject) : Void
     {
         if (receiverObject.tuioObject != null)
         
@@ -1000,7 +993,7 @@ class TuioManager extends EventDispatcher implements ITuioListener
             //stop return timeout for this fiducial
             for (i in 0...fiducialRemovalTimes.length)
             {
-                var removalTimeObject : Dynamic = fiducialRemovalTimes[i];
+                var removalTimeObject :FiducialRemovalTime = fiducialRemovalTimes[i];
                 if (removalTimeObject.receiverObject.classId == receiverObject.classId)
                 {
                     as3hx.Compat.clearTimeout(removalTimeObject.timeoutId);
@@ -1023,21 +1016,22 @@ class TuioManager extends EventDispatcher implements ITuioListener
         }
     }
     
-    private function notifyReceiverRemoved(receiverObject : Dynamic, tuioObject : TuioObject) : Void
+    private function notifyReceiverRemoved(receiverObject :FiducialReceiver, tuioObject : TuioObject) : Void
     {
         (try cast(receiverObject.receiver, ITuioFiducialReceiver) catch(e:Dynamic) null).onNotifyRemoved(
                 createFiducialEvent(TuioFiducialEvent.NOTIFY_REMOVED, tuioObject), 
                 _timeoutTime
         );
         var timeoutId : Float = as3hx.Compat.setTimeout(checkTimeouts, _timeoutTime);
-        var removalObject : Dynamic = {};
-        removalObject.timeout = Math.round(haxe.Timer.stamp() * 1000) + _timeoutTime;
-        removalObject.receiverObject = receiverObject;
-        removalObject.timeoutId = timeoutId;
+        var removalObject : FiducialRemovalTime = {
+            timeout: (Math.round(haxe.Timer.stamp() * 1000) + _timeoutTime),
+            receiverObject: receiverObject,
+            timeoutId: timeoutId,
+        };
         fiducialRemovalTimes.push(removalObject);
     }
     
-    private function callUpdateMethods(receiverObject : Dynamic, oldTuioObject : TuioObject, newTuioObject : TuioObject) : Void
+    private function callUpdateMethods(receiverObject:FiducialReceiver, oldTuioObject : TuioObject, newTuioObject : TuioObject) : Void
     {
         if (oldTuioObject != null)
         
@@ -1081,7 +1075,7 @@ class TuioManager extends EventDispatcher implements ITuioListener
         
         if (firstTimeout <= Math.round(haxe.Timer.stamp() * 1000))
         {
-            var removalTimeObject : Dynamic = fiducialRemovalTimes.shift();
+            var removalTimeObject :FiducialReceiver = fiducialRemovalTimes.shift();
             (try cast(removalTimeObject.receiverObject.receiver, ITuioFiducialReceiver) catch(e:Dynamic) null).onRemove(null);
             for (i in 0...fiducialReceivers.length)
             {
@@ -1106,10 +1100,11 @@ class TuioManager extends EventDispatcher implements ITuioListener
 		 */
     public function registerFiducialReceiver(receiver : ITuioFiducialReceiver, fiducialId : Float, src : String = null) : Void
     {
-        var receiverObject : Dynamic = {};
-        receiverObject.receiver = receiver;
-        receiverObject.classID = fiducialId;
-        receiverObject.source = src;
+        var receiverObject : FiducialReceiver = {
+            receiver: receiver,
+            classID: fiducialId,
+            source: src,
+        };
         fiducialReceivers.push(receiverObject);
     }
     
@@ -1255,3 +1250,15 @@ class DoubleTapStore
         }
     }
 }
+
+typedef FiducialReceiver = {
+    receiver: ITuioFiducialReceiver,
+    classID: Float,
+    source: String,
+};
+
+typedef FiducialRemovalTime = {
+    timeout: Float,
+    receiverObject: Dynamic,
+    timeoutId: Float,
+};

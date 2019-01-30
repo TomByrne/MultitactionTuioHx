@@ -28,7 +28,7 @@ class AbstractTuioAdapter
     private var _tuioBlobs : Map<String, Array<TuioContainer>>;
     
     /** @private */
-    private var listeners : Array<Dynamic>;
+    private var listeners : Array<ITuioListener>;
     
     public static inline var DEFAULT_SOURCE : String = "_no_source_";
     
@@ -38,7 +38,7 @@ class AbstractTuioAdapter
         {
             throw new Error("Do not initialize this abstract class directly. Instantiate from inheriting class instead.");
         }
-        this.listeners = new Array<Dynamic>();
+        this.listeners = new Array<ITuioListener>();
         
         this._tuioCursors = new Map<String, Array<TuioContainer>>();
         this._tuioObjects = new Map<String, Array<TuioContainer>>();
@@ -66,15 +66,7 @@ class AbstractTuioAdapter
 		 */
     public function removeListener(listener : ITuioListener) : Void
     {
-        var temp : Array<Dynamic> = new Array<Dynamic>();
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
-        {
-            if (l != listener)
-            {
-                temp.push(l);
-            }
-        }
-        this.listeners = temp.copy();
+        listeners.remove(listener);
     }
     
     /**
@@ -150,7 +142,6 @@ class AbstractTuioAdapter
     {
         var allTuioContainers : Array<TuioContainer> = new Array<TuioContainer>();
         
-        //for (tuioCursorArray/* AS3HX WARNING could not determine type for var: tuioCursorArray exp: EIdent(tuioDictionary) type: Dynamic */ in tuioDictionary)
 		for( value in tuioDictionary)
         {
             allTuioContainers = allTuioContainers.concat(value);
@@ -267,7 +258,7 @@ class AbstractTuioAdapter
     
     private function dispatchAddCursor(tuioCursor : TuioCursor) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.addTuioCursor(tuioCursor);
         }
@@ -275,7 +266,7 @@ class AbstractTuioAdapter
     
     private function dispatchUpdateCursor(tuioCursor : TuioCursor) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.updateTuioCursor(tuioCursor);
         }
@@ -283,7 +274,7 @@ class AbstractTuioAdapter
     
     private function dispatchRemoveCursor(tuioCursor : TuioCursor) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.removeTuioCursor(tuioCursor);
         }
@@ -291,7 +282,7 @@ class AbstractTuioAdapter
     
     private function dispatchAddObject(tuioObject : TuioObject) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.addTuioObject(tuioObject);
         }
@@ -299,7 +290,7 @@ class AbstractTuioAdapter
     
     private function dispatchUpdateObject(tuioObject : TuioObject) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.updateTuioObject(tuioObject);
         }
@@ -307,7 +298,7 @@ class AbstractTuioAdapter
     
     private function dispatchRemoveObject(tuioObject : TuioObject) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.removeTuioObject(tuioObject);
         }
@@ -315,7 +306,7 @@ class AbstractTuioAdapter
     
     private function dispatchAddBlob(tuioBlob : TuioBlob) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.addTuioBlob(tuioBlob);
         }
@@ -323,7 +314,7 @@ class AbstractTuioAdapter
     
     private function dispatchUpdateBlob(tuioBlob : TuioBlob) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.updateTuioBlob(tuioBlob);
         }
@@ -331,7 +322,7 @@ class AbstractTuioAdapter
     
     private function dispatchRemoveBlob(tuioBlob : TuioBlob) : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.removeTuioBlob(tuioBlob);
         }
