@@ -3,6 +3,7 @@ package imagsyd.multitaction.model.marker;
 import imagsyd.multitaction.model.marker.IMarkerObjectsModel;
 import imagsyd.signals.Signal.Signal1;
 import openfl.geom.Point;
+import imagsyd.notifier.Notifier;
 
 /**
  * ...
@@ -58,7 +59,11 @@ typedef MarkerObjectElement =
 	fractPos:Array<Point>,
 	rotation:Float,
 	uid:String,//sessionId
-	cardId:UInt,//classId
+	cardId:UInt,//the card id that our logic decided it is - it may be different from current tuio card id
+	tuioCardId:UInt,//card id coming from tuio (no filtering on this one)
+	newCardId:Notifier<Null<UInt>>,//a notifier to inform that card id has been changed
+	readCardIds:Map<UInt,UInt>,//store the number of all card ids that were recognised for this marker and the number of those recognitions (key - cardId, value - number of recognitions)
+	lastCardChangeFrame:UInt,//needed to calculate strenghts of different card ids if it changes over time (or flickers)
 	frameId:UInt,
 	fromTuio:Bool,
 	alive:Bool,

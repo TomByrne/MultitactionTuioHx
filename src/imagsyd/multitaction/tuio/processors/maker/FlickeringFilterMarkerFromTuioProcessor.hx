@@ -117,12 +117,38 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 		moe.rotation = to.a + markerObjectsModel.angleOffset;
 		moe.alive = true;
 		moe.frameId = to.frameID;
-		//TODO: average over time
+
+		//updating card id
 		if (moe.cardId != to.classID)
 		{
-			this.log("moe.cardId != to.classID " + moe.cardId + " " +  to.classID);
-			moe.cardId = to.classID;
+//			this.log("moe.cardId != to.classID " + moe.cardId + " " +  to.classID);
+
+			//TODO: introduce accuracy (low if it flickers constantly)
+
+			//adding the duration of currently recognised tuio card id to the weights map
+			var oldVal:UInt = moe.readCardIds.exists(moe.tuioCardId) ? moe.readCardIds.get(moe.tuioCardId) : 0;
+			var dur:UInt = moe.frameId - moe.lastCardChangeFrame;
+			moe.readCardIds.set(moe.tuioCardId, oldVal + dur );
+
+			//setting tuio card id to the new one
+			moe.tuioCardId = to.classID;
+			
+			//finding the strongest card id (which one was recognised for the longest)
+			var maxCardId:UInt = getMaxCardId(moe);
+			//checking if the change needs to actually happen
+			if(maxCardId != moe.cardId)
+			{
+				moe.cardId = to.classID;
+				moe.newCardId.value = to.classID;
+				this.log("   changing card to " + to.classID);
+			}
+			else 
+			{
+//				this.log("   not changing " + maxCardId + " is the strongest");
+			}
 		}
+		//
+
 		var newpPos:Point = new Point( to.x, to.y);
 		
 		if (vel > velocityThreshold || Point.distance(newpPos, moe.fractPos[0]) > movementThreshold)
@@ -134,9 +160,41 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 			moe.fractPos.pop();					
 	}
 	
+	function getMaxCardId(moe:MarkerObjectElement):UInt
+	{
+		var maxKey:UInt = 0;
+		var maxValue:UInt = 0;
+
+		for(id in moe.readCardIds.keys())
+		{
+			var v:UInt = moe.readCardIds.get(id);
+			if( v > maxValue )
+			{
+				maxValue = v;
+				maxKey = id;
+			}
+		}
+
+		return maxKey;
+	}
+
 	function addNewMarker( to:TuioObject ):MarkerObjectElement
 	{
-		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.a + markerObjectsModel.angleOffset, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true, safetyRadius:0.1};
+		var moe:MarkerObjectElement = {
+			fractPos:new Array<Point>(), 
+			pos:new Point(), 
+			rotation:to.a + markerObjectsModel.angleOffset, 
+			uid:MarkerObjectsModel.getNextUID(), 
+			cardId:to.classID, 
+			tuioCardId:to.classID, 
+			newCardId:new Notifier<Null<UInt>>(null), 
+			readCardIds:new Map<UInt,UInt>(), 
+			lastCardChangeFrame:to.frameID,
+			frameId:to.frameID,
+			fromTuio:true, 
+			alive:true, 
+			safetyRadius:0.1};
+
 //		traceAllDistances(to);
 		moe.fractPos.unshift( new Point( to.x, to.y));
 		this.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadius + " moe.fractPos " + moe.fractPos[0]);

@@ -23,15 +23,19 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
     
     private var fseq : Int;
     private var src : String = AbstractTuioAdapter.DEFAULT_SOURCE;
+    var minCardId:Int;
+    var maxCardId:Int;
     
     /**
 		 * Creates an instance of the TuioClient with the given IOSConnector.
 		 * 
 		 * @param	connector An instance that implements IOSConnector, establishes and handles an incoming connection. 
 		 */
-    public function new(connector : IOSCConnector)
+    public function new(connector : IOSCConnector, minCardId:Int, maxCardId:Int)
     {
         super(this);
+        this.minCardId = minCardId;
+        this.maxCardId = maxCardId;
         
         if (this._tuioBlobs[this.src] == null)
         {
@@ -391,9 +395,16 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                 }
                 else if (isObj)
                 {
-                    tuioContainer = new TuioObject(type, s, i, x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq, this.src);
-                    this._tuioObjects[this.src].push(tuioContainer);
-                    dispatchAddObject(try cast(tuioContainer, TuioObject) catch(e:Dynamic) null);
+                    if(isValidCardId(i))
+                    {
+                        tuioContainer = new TuioObject(type, s, i, x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq, this.src);
+                        this._tuioObjects[this.src].push(tuioContainer);
+                        dispatchAddObject(try cast(tuioContainer, TuioObject) catch(e:Dynamic) null);
+                    }
+                    else
+                    {
+                        this.log("card with id " + i + " recognized, ignoring");
+                    }
                 }
                 else if (isBlb)
                 {
@@ -416,9 +427,17 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                 var to:TuioObject = (try cast(tuioContainer, TuioObject) catch(e:Dynamic) null);
                 if(to != null)
                 {
-                    to.update(x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq);
-                    to.classID = i;
-                    dispatchUpdateObject(to);
+                    if(isValidCardId(i))
+                    {
+                        to.update(x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq);
+                        to.classID = i;
+                        dispatchUpdateObject(to);
+                    }
+                    else
+                    {
+//                        dispatchRemoveObject( cast(to, TuioObject) );
+                        this.log("card id updated to invalid " + i + ", ignoring");
+                    }
                 }
             }
             else if (isBlb)
@@ -442,6 +461,11 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                 this.src = AbstractTuioAdapter.DEFAULT_SOURCE;
             }
         }
+    }
+
+    function isValidCardId(cardId:UInt):Bool
+    {
+        return cardId >= minCardId && cardId <= maxCardId;
     }
     /**
 		 * @return The last received fseq value by the tracker.

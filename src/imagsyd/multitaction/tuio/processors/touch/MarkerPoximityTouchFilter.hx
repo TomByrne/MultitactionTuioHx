@@ -19,7 +19,7 @@ class MarkerPoximityTouchFilter implements ITuioStackableProcessor
 	var markerObjectsModel:IMarkerObjectsModel;
 	var touchObjectsModel:TouchObjectsModel;
 	
-	public var distanceThreshold:Float = 0.053; //in fraction (tuio)
+	public var distanceThreshold:Float = 0.065; //0.053 in fraction (tuio)
 
 	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, touchObjectsModel:TouchObjectsModel) 
 	{
@@ -56,7 +56,10 @@ class MarkerPoximityTouchFilter implements ITuioStackableProcessor
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
 			if ( Point.distance( moe.fractPos[0], new Point(tuioCursor.x, tuioCursor.y)) < distanceThreshold)
+			{
+//				this.log("TOUCH TOO CLOSE TO THE MARKER " + Point.distance( moe.fractPos[0], new Point(tuioCursor.x, tuioCursor.y)));
 				return true;
+			}
 		}
 		
 		return false;

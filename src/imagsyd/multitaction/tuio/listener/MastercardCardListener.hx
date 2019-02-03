@@ -1,4 +1,5 @@
 package imagsyd.multitaction.tuio.listener;
+import imagsyd.mec.screenapp.view.common.nape.border.NapeBorder.Quad;
 import imagsyd.multitaction.model.touch.TouchObjectsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
 import imagsyd.multitaction.tuio.listener.BasicProcessableTuioListener;
@@ -7,6 +8,8 @@ import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import org.tuio.TuioCursor;
 import org.tuio.TuioObject;
+//import starling.core.Starling;
+//import starling.display.Quad;
 
 /**
  * @author Michal Moczynski
@@ -99,6 +102,14 @@ class MastercardCardListener extends BasicProcessableTuioListener
 				updateTuioCursor( tuioCursor )
 			else
 			{
+				/*
+				this.log("tuioCursor " + tuioCursor.sessionID + " " + tuioCursor.frameID );
+				
+				var q:Quad = new Quad(5, 5, 0xff0000);
+				q.x = tuioCursor.x * 1920;
+				q.y = tuioCursor.y * 1080;
+				Starling.current.stage.addChild(q);
+				*/
 				touchObjectsModel.cursorsAdded.set( tuioCursor.sessionID, tuioCursor );
 				tuioCursors.set( tuioCursor.sessionID, tuioCursor);
 			}

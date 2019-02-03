@@ -71,7 +71,21 @@ class SimpleMarkerFromTuioProcessor implements ITuioStackableProcessor
 	
 	function addNewMarker( to:TuioObject ) 
 	{
-		var moe:MarkerObjectElement = {fractPos:new Array<Point>(), pos:new Point(), rotation:to.a, uid:MarkerObjectsModel.getNextUID(), cardId:to.classID, frameId:to.frameID,fromTuio:true, alive:true, safetyRadius:0.1};
+		var moe:MarkerObjectElement = {
+			fractPos:new Array<Point>(), 
+			pos:new Point(), 
+			rotation:to.a, 
+			uid:MarkerObjectsModel.getNextUID(), 
+			cardId:to.classID, 
+			tuioCardId:to.classID, 
+			newCardId:new Notifier<Null<UInt>>(null),
+			readCardIds:new Map<UInt,UInt>(), 
+			lastCardChangeFrame:to.frameID,
+			frameId:to.frameID,
+			fromTuio:true, 
+			alive:true, 
+			safetyRadius:0.1};
+
 		this.log( "    added moe with new uid " + moe.uid);
 		moe.fractPos.unshift( new Point( to.x, to.y));
 		

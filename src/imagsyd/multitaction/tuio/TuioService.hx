@@ -54,6 +54,8 @@ class TuioService
 		var tuioEnabled:Bool = settings.bool('tuioEnabled', true);
 		var tuioServer:String = settings.string('tuioServer', '127.0.0.1');
 		var tuioPort:Null<Int> = settings.int('tuioPort', 3333);
+		var minTuioCardNumber:Int = settings.int('minTuioCardNumber', 1);
+		var maxTuioCardNumber:Int = settings.int('maxTuioCardNumber', 32);
 		
 		if (!tuioEnabled || tuioServer == null || tuioPort == null) return;
 		
@@ -64,13 +66,8 @@ class TuioService
 		
 		try 
 		{
-			#if air
-			connector = new UDPConnector(tuioServer, tuioPort, true);
-			#else
-			connector = new UDPConnector("192.168.1.100", 3333, true);
-			#end
-			
-			tc = new TuioClient(connector);
+			connector = new UDPConnector(tuioServer, tuioPort, true);			
+			tc = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
 		}
 		catch (err:Error)
 		{
