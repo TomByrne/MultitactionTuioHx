@@ -21,7 +21,7 @@ class LCConnector implements IOSCConnector
     private var connectionOut : LCSender;
     private var connectionIn : LCReceiver;
     
-    private var listeners : Array<Dynamic>;
+    private var listeners : Array<IOSCConnectorListener>;
     
     /**
 		 * Creates an instance of the LCConnector 
@@ -30,7 +30,7 @@ class LCConnector implements IOSCConnector
 		 */
     public function new(connectionNameIn : String = "_OscDataStream", connectionNameOut : String = "_OscDataStreamOut")
     {
-        this.listeners = new Array<Dynamic>();
+        this.listeners = new Array<IOSCConnectorListener>();
         
         this.connectionNameIn = connectionNameIn;
         this.connectionNameOut = connectionNameOut;
@@ -52,7 +52,7 @@ class LCConnector implements IOSCConnector
             
             //call receive listeners and push the received messages{
                 
-                for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+                for (l in this.listeners)
                 {
                     if (OSCBundle.isBundle(packet))
                     {
@@ -89,19 +89,7 @@ class LCConnector implements IOSCConnector
 		 */
     public function removeListener(listener : IOSCConnectorListener) : Void
     {
-        var tmp : Array<Dynamic> = this.listeners.concat();
-        var newList : Array<Dynamic> = new Array<Dynamic>();
-        
-        var item : Dynamic = tmp.pop();
-        while (item != null)
-        {
-            if (item != listener)
-            {
-                newList.push(item);
-            }
-        }
-        
-        this.listeners = newList;
+        listeners.remove(listener);
     }
     
     /**

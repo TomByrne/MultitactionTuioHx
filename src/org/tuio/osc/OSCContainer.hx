@@ -11,7 +11,7 @@ class OSCContainer
     public var hasChildren(get, never) : Bool;
 
     
-    private var children : Map<String, Dynamic> = new Map<String, Dynamic>();
+    private var children : Map<String, OSCContainer> = new Map();
     public var name : String;
     public var method : IOSCListener;
     public var parent : OSCContainer;
@@ -54,16 +54,16 @@ class OSCContainer
 		 * @param	pattern The pattern which shall be used to match against the children's names.
 		 * @return An Array containing all children which names matched the given pattern.
 		 */
-    public function getMatchingChildren(pattern : String) : Array<Dynamic>
+    public function getMatchingChildren(pattern : String) : Array<IOSCListener>
     {
-        var out : Array<Dynamic> = new Array<Dynamic>();
+        var out : Array<IOSCListener> = new Array<IOSCListener>();
         
         var firstSeperator : Int = pattern.indexOf("/");
         var part : String = pattern.substring(0, firstSeperator);
         var rest : String = pattern.substring(firstSeperator + 1, pattern.length);
         var done : Bool = (pattern.indexOf("/") == -1);
         
-        for (child/* AS3HX WARNING could not determine type for var: child exp: EField(EIdent(this),children) type: null */ in this.children)
+        for (child in this.children)
         {
             if (child.matchName(part))
             {

@@ -8,8 +8,10 @@ import flash.errors.EOFError;
 	 * and offers some additional functions for reading the binary data for extending classes.
 	 * 
 	 * @author Immanuel Bauer
-	 */class OSCPacket
-{@:allow(org.tuio.osc)
+	 */
+class OSCPacket
+{
+    @:allow(org.tuio.osc)
     private var bytes : ByteArray;public function new(bytes : ByteArray = null)
     {
         if (bytes != null)

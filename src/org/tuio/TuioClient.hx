@@ -92,7 +92,6 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 			{
 				if (msg.address.indexOf("cur") > -1)
 				{
-					/* AS3HX WARNING could not determine type for var: tcur exp: EArray(EField(EIdent(this),_tuioCursors),EField(EIdent(this),src)) type: null */
 					for (tcur in this._tuioCursors[this.src])
 					{
 						tcur.isAlive = false;
@@ -100,7 +99,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 					
 					for (k in 1...msg.arguments.length)
 					{
-						for (tcur/* AS3HX WARNING could not determine type for var: tcur exp: EArray(EField(EIdent(this),_tuioCursors),EField(EIdent(this),src)) type: null */ in this._tuioCursors[this.src])
+						for (tcur in this._tuioCursors[this.src])
 						{
 							if (tcur.sessionID == msg.arguments[k])
 							{
@@ -131,7 +130,6 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
             {
 				if (listenForObjects == true)
 				{
-					/* AS3HX WARNING could not determine type for var: to exp: EArray(EField(EIdent(this),_tuioObjects),EField(EIdent(this),src)) type: null */
 					for (to in this._tuioObjects[this.src])
 					{
 						to.isAlive = false;
@@ -139,7 +137,6 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 					
 					for (t in 1...msg.arguments.length)
 					{
-						/* AS3HX WARNING could not determine type for var: to exp: EArray(EField(EIdent(this),_tuioObjects),EField(EIdent(this),src)) type: null */
 						for (to in this._tuioObjects[this.src])
 						{					
 							var tuioObject:TuioObject = cast( to, TuioObject);
@@ -172,7 +169,6 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
             {
 				if (listenForBlobs == true)
 				{
-					/* AS3HX WARNING could not determine type for var: tb exp: EArray(EField(EIdent(this),_tuioBlobs),EField(EIdent(this),src)) type: null */
 					for (tb in this._tuioBlobs[this.src])
 					{
 						tb.isAlive = false;
@@ -181,7 +177,6 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 					
 					for (u in 1...msg.arguments.length)
 					{
-						/* AS3HX WARNING could not determine type for var: tb exp: EArray(EField(EIdent(this),_tuioBlobs),EField(EIdent(this),src)) type: null */
 						for (tb in this._tuioBlobs[this.src])
 						{
 							if (tb.sessionID == msg.arguments[u])
@@ -485,7 +480,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
     
     private function dispatchNewFseq() : Void
     {
-        for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(this),listeners) type: null */ in this.listeners)
+        for (l in this.listeners)
         {
             l.newFrame(this.fseq);
         }

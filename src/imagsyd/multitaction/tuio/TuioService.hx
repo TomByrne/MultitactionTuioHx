@@ -7,7 +7,7 @@ import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
 import imagsyd.multitaction.model.touch.TouchObjectsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
 import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
-import imagsyd.multitaction.tuio.listener.MastercardCardListener;
+import imagsyd.multitaction.tuio.listener.MultitactionCardListener;
 import imagsyd.multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
@@ -26,7 +26,7 @@ import starling.core.Starling;
 class TuioService
 {
 	@inject public var settings:ISettings;	
-	@inject public var mastercardCardListener:MastercardCardListener;
+	@inject public var mastercardCardListener:MultitactionCardListener;
 	@inject public var tuioDebugViewsLogic:TuioDebugViewsLogic;
 	@inject public var tuioMarkersStackableProcessesModel:TuioMarkersStackableProcessesModel;
 	@inject public var tuioTouchesStackableProcessesModel:TuioTouchesStackableProcessesModel;
