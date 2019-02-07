@@ -38,7 +38,7 @@ class TouchDebugViewMediator extends Mediator
 		Drag.add(view, handleTouchBegin, handleTouchMove, handleTouchEnd);
 		
 		handleShowChanged();
-		tuioTouchSettingsModel.showTouches.change.add( handleShowChanged );
+		tuioTouchSettingsModel.showTouches.add( handleShowChanged );
 	}
 	
 	function handleShowChanged():Void

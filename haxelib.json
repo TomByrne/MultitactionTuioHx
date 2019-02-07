@@ -1,0 +1,13 @@
+{
+  "name": "MultitactionClient",
+  "url": "http://github.com/TomByrne/MultitactionClientHx",
+  "license": "MIT",
+  "tags": ["restful", "api"],
+  "description": "Pure Haxe library for comms with Multitaction touch table. Includes Haxe port of AS3 TUIO library.",
+  "version": "0.0.1",
+  "releasenote": "",
+  "contributors": ["tbyrne"],
+  "classPath":"src",
+  "dependencies": {
+  }
+}

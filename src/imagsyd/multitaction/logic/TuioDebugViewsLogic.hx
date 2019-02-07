@@ -21,7 +21,7 @@ class TuioDebugViewsLogic
 	
 	public function initialize() 
 	{
-		tuioTouchesSettingsModel.showTouches.change.add( handleShowTouchesChanged );
+		tuioTouchesSettingsModel.showTouches.add( handleShowTouchesChanged );
 	}
 	
 	function handleShowTouchesChanged():Void

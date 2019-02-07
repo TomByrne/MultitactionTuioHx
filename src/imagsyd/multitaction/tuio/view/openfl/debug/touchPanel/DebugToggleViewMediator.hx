@@ -22,7 +22,7 @@ class DebugToggleViewMediator extends Mediator
 	{
 		//mediatorMap.map(ChildView).toMediator(ChildViewMediator);
 		view.initialize();
-		view.notifier.change.add( handleNotifierChange );
+		view.notifier.add( handleNotifierChange );
 		view.addEventListener(MouseEvent.CLICK, handleMouseClick );
 		view.updateIndicator(view.notifier.value);
 	}

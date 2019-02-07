@@ -22,7 +22,7 @@ class TuioProcessesPanelElementViewMediator extends Mediator
 	
 	override public function initialize():Void
 	{
-		view.processor.active.change.add( handleProcessorActveChanged );
+		view.processor.active.add( handleProcessorActveChanged );
 		//mediatorMap.map(ChildView).toMediator(ChildViewMediator);
 		view.initialize();
 		handleProcessorActveChanged();

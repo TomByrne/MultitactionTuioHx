@@ -13,8 +13,8 @@ class TuioTouchesSettingsModel
 	
 	public function new() 
 	{
-		useTuioTouches.change.add( handleTuioNotifierChange );
-		useWindoesTouches.change.add( handleWindowsNotifierChange );
+		useTuioTouches.add( handleTuioNotifierChange );
+		useWindoesTouches.add( handleWindowsNotifierChange );
 	}
 	
 	function handleTuioNotifierChange():Void 
