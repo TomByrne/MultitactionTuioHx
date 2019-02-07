@@ -20,7 +20,7 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 	public var velocityThreshold:Float = 0.08;
 	public var movementThreshold:Float = 0.0008;	
 	public var nominalSpeed:Float = 0.02;
-	public var distanceThreshold:Float = 0.12;
+	public var distanceThreshold:Float = 0.11;
 	public var maxSpeedMiutiplier:Float = 2.5;	
 	public var keepAliveWhenLost:Int = 100; //for how many frames the lost markr is held in the system (on the top of able setting - better t set it to 1 on th table and handle it here)
 	public var displayName:String = "Mastercard processor";
@@ -74,8 +74,10 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 	function checkForDoubles( to:TuioObject ):Bool
 	{
 		var foundDouble:Bool = false;
+
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
+			/*
 			var speedMiutiplier:Float = 1;
 			if (moe.fractPos.length > 5)
 			{
@@ -85,9 +87,10 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 				else if ( speedMiutiplier > maxSpeedMiutiplier )
 					speedMiutiplier = maxSpeedMiutiplier;
 			}
-			
-			moe.safetyRadius = distanceThreshold * speedMiutiplier;
-			if (Point.distance( new Point(to.x, to.y), moe.fractPos[0] ) < distanceThreshold * speedMiutiplier)
+			*/
+
+			moe.safetyRadius = distanceThreshold /** speedMiutiplier*/;
+			if (Point.distance( new Point(to.x, to.y), moe.fractPos[0] ) < distanceThreshold/* * speedMiutiplier*/ && to.classID == moe.cardId)
 			{
 				markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
 				foundDouble = true;				
@@ -193,7 +196,7 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 			frameId:to.frameID,
 			fromTuio:true, 
 			alive:true, 
-			safetyRadius:0.1};
+			safetyRadius:distanceThreshold};
 
 //		traceAllDistances(to);
 		moe.fractPos.unshift( new Point( to.x, to.y));
