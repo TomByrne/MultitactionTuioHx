@@ -2,14 +2,11 @@ package imagsyd.multitaction.tuio;
 
 import imagsyd.multitaction.command.TuioDebugKeyboardCommand;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
-import imagsyd.multitaction.model.marker.MarkerObjectsModel;
-import imagsyd.multitaction.model.marker.TuioMarkersStackableProcessesModel;
+import imagsyd.multitaction.model.marker.*;
 import imagsyd.multitaction.model.settings.TuioSettingsModel;
-import imagsyd.multitaction.model.touch.TouchObjectsModel;
-import imagsyd.multitaction.model.touch.TuioTouchesSettingsModel;
-import imagsyd.multitaction.model.touch.TuioTouchesStackableProcessesModel;
-import imagsyd.multitaction.tuio.TuioService;
-import imagsyd.multitaction.tuio.listener.MultitactionCardListener;
+import imagsyd.multitaction.model.touch.*;
+import imagsyd.multitaction.tuio.*;
+import imagsyd.multitaction.tuio.listener.*;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import imagsyd.multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelViewMediator;
 import imagsyd.multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
@@ -39,15 +36,18 @@ class TuioBundle implements IConfig
 	
 	public function configure():Void
 	{
-		injector.map(TuioTouchesSettingsModel).asSingleton();		
-		injector.map(TuioService).asSingleton();
-		injector.map(MultitactionCardListener).asSingleton();			
+		injector.map(TuioTouchesSettingsModel).asSingleton();
 		injector.map(MarkerObjectsModel).asSingleton();
 		injector.map(TouchObjectsModel).asSingleton();
+		injector.map(TuioSettingsModel).asSingleton();
 		injector.map(TuioMarkersStackableProcessesModel).asSingleton();
 		injector.map(TuioTouchesStackableProcessesModel).asSingleton();
-		injector.map(TuioDebugViewsLogic).asSingleton();	
-		injector.map(TuioSettingsModel).asSingleton();	
+
+		#if !omitTuioComms
+		injector.map(TuioService).asSingleton();
+		injector.map(MultitactionCardListener).asSingleton();
+		#end
+		injector.map(TuioDebugViewsLogic).asSingleton();
 		
 		mediatorMap.map(TouchDebugView).toMediator(TouchDebugViewMediator);
 		mediatorMap.map(DebugTuioFiltersView).toMediator(DebugTuioFiltersViewMediator);
