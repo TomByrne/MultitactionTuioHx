@@ -35,6 +35,8 @@ class TuioService
 	@inject public var touchObjectsModel:TouchObjectsModel;
 	
 	private var tc:TuioClient;
+	var _validCodes:Array<Int> = null;
+	public var validCodes(null, set):Array<Int>;
 	//var connector:IOSCConnector;
 
 	
@@ -68,6 +70,8 @@ class TuioService
 		{
 			connector = new UDPConnector(tuioServer, tuioPort, true);			
 			tc = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
+			if(_validCodes != null)
+				tc.setValidCodes(_validCodes);
 		}
 		catch (err:Error)
 		{
@@ -120,5 +124,14 @@ class TuioService
 		{
 			tc.removeListener(listener);
 		}
+	}
+	
+	function set_validCodes(value:Array<Int>):Array<Int> 
+	{
+		if(tc!= null)
+			tc.setValidCodes( value );
+		
+		_validCodes = value;
+		return value;
 	}
 }

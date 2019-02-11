@@ -18,7 +18,8 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
     public var currentFseq(get, never) : Int;
     public var currentSource(get, never) : String;
 
-    
+    public var validCodes:Map<Int, Bool> = null;
+	
     private var oscManager : OSCManager;
     
     private var fseq : Int;
@@ -57,6 +58,15 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
         }
     }
     
+	public function setValidCodes( arr:Array<Int> )
+	{
+		validCodes = new Map<Int, Bool>();
+		for ( code in arr )
+		{
+			validCodes.set( code, true );
+		}
+	}
+	
     /**
 		 * Callback function for receiving TUIO tracking data in OSCMessages as specified in the IOSCListener interface.
 		 * 
@@ -460,8 +470,9 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 
     function isValidCardId(cardId:UInt):Bool
     {
-        return cardId >= minCardId && cardId <= maxCardId;
+        return cardId >= minCardId && cardId <= maxCardId && ( (validCodes != null && validCodes.exists(cardId) ) || validCodes == null );
     }
+    
     /**
 		 * @return The last received fseq value by the tracker.
 		 */
