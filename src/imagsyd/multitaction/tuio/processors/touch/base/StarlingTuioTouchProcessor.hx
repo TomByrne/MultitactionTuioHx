@@ -32,4 +32,20 @@ class StarlingTuioTouchProcessor extends TouchProcessor
 	{
 		super.enqueue( touchID, phase, Std.int(globalX * Starling.current.stage.stageWidth), Std.int(globalY * Starling.current.stage.stageHeight), pressure, width, height);
 	}
+
+	public function removeTouch(touchID:Int):Void
+	{
+		var i:Int = 0;
+		for (touch in this.__currentTouches)
+		{
+			if(touch.id == touchID)
+			{
+				this.__currentTouches.removeAt(i);
+				i--;
+				this.log("remove touch from starling " + touchID);
+			}
+			i++;
+		}
+	}
+
 }

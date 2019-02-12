@@ -20,6 +20,9 @@ class TouchObjectsModel implements ITouchObjectsModel
 	
 	public var touchesArray:Array<TuioCursor> = new Array<TuioCursor>();
 
+	//to check if specific touch ID has been accepted in the past
+	//public var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
+
 	public function new() 
 	{
 		
@@ -29,23 +32,40 @@ class TouchObjectsModel implements ITouchObjectsModel
 	{
 		touchesArray = [];
 	}
-	
+
+/*	
+	public function removeTouch(touchID:Int)
+	{
+		for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+			starlingTuioTouchProcessor.removeTouch( touchID );		
+	}
+*/
+
 	public function processed()
 	{
 		for (tc in cursorsAdded) 
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+			{
 				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x, tc.y);
+			}
 		}
+
 		for (tc in cursorsUpdated) 
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+			{
 				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x, tc.y);
+			}
 		}
+
 		for (tc in cursorsRemoved) 
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
+			{
 				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
+			}
+
 		}
 		cursorsAdded = new Map<UInt, TuioCursor>();
 		cursorsUpdated = new Map<UInt, TuioCursor>();

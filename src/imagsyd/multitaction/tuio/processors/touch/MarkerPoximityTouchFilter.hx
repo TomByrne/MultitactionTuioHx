@@ -15,7 +15,7 @@ class MarkerPoximityTouchFilter implements ITuioStackableProcessor
 {
 	public var displayName:String = "Marker proximity fiter";
 	public var active:Notifier<Bool> = new Notifier<Bool> (false);
-
+	
 	var markerObjectsModel:IMarkerObjectsModel;
 	var touchObjectsModel:TouchObjectsModel;
 	
@@ -35,20 +35,34 @@ class MarkerPoximityTouchFilter implements ITuioStackableProcessor
 			if ( isCursorCloseToMarker(tc) == true )
 			{
 				touchObjectsModel.cursorsAdded.remove( tc.sessionID );
+//				touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+//				touchObjectsModel.removeTouch(tc.sessionID);
 			}
+//			else
+//				touchObjectsModel.touchesThatBeganMap.set(tc.sessionID, true);
 		}
 		
 		for (  tc in touchObjectsModel.cursorsUpdated) 
 		{
 			if ( isCursorCloseToMarker(tc) == true )
+			{
 				touchObjectsModel.cursorsUpdated.remove( tc.sessionID );
+				//touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+				//touchObjectsModel.removeTouch(tc.sessionID);
+			}
 		}
 		
+		/*
 		for (  tc in touchObjectsModel.cursorsRemoved) 
 		{
 			if ( isCursorCloseToMarker(tc) == true )
+			{
 				touchObjectsModel.cursorsRemoved.remove( tc.sessionID );
+				//touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+				//touchObjectsModel.removeTouch(tc.sessionID);
+			}
 		}
+		*/
 	}
 	
 	function isCursorCloseToMarker(tuioCursor:TuioCursor):Bool
