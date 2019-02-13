@@ -1,4 +1,5 @@
 package imagsyd.multitaction.tuio.processors.maker;
+import imagsyd.signals.Signal.Signal1;
 import imagsyd.notifier.Notifier;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
@@ -141,8 +142,9 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 			//checking if the change needs to actually happen
 			if(maxCardId != moe.cardId)
 			{
+				moe.previousCardId = moe.cardId;
 				moe.cardId = to.classID;
-				moe.newCardId.value = to.classID;
+				moe.cardIdChanged.dispatch(moe.uid);
 				this.log("   changing card to " + to.classID);
 			}
 			else 
@@ -189,8 +191,9 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 			rotation:to.a + markerObjectsModel.angleOffset, 
 			uid:MarkerObjectsModel.getNextUID(), 
 			cardId:to.classID, 
+			previousCardId:null,
 			tuioCardId:to.classID, 
-			newCardId:new Notifier<Null<UInt>>(null), 
+			cardIdChanged:new Signal1<String>(),
 			readCardIds:new Map<UInt,UInt>(), 
 			lastCardChangeFrame:to.frameID,
 			frameId:to.frameID,

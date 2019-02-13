@@ -1,4 +1,5 @@
 package imagsyd.multitaction.tuio.processors.maker;
+import imagsyd.signals.Signal.Signal1;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
 import imagsyd.multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
@@ -77,8 +78,9 @@ class SimpleMarkerFromTuioProcessor implements ITuioStackableProcessor
 			rotation:to.a, 
 			uid:MarkerObjectsModel.getNextUID(), 
 			cardId:to.classID, 
+			previousCardId:null,
 			tuioCardId:to.classID, 
-			newCardId:new Notifier<Null<UInt>>(null),
+			cardIdChanged:new Signal1<String>(),
 			readCardIds:new Map<UInt,UInt>(), 
 			lastCardChangeFrame:to.frameID,
 			frameId:to.frameID,
