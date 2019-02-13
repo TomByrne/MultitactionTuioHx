@@ -21,7 +21,7 @@ class TouchObjectsModel implements ITouchObjectsModel
 	public var touchesArray:Array<TuioCursor> = new Array<TuioCursor>();
 
 	//to check if specific touch ID has been accepted in the past
-	//public var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
+	public var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
 
 	public function new() 
 	{
@@ -47,6 +47,7 @@ class TouchObjectsModel implements ITouchObjectsModel
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
 			{
+//				this.log(" BEGAN touch " + tc.sessionID);
 				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x, tc.y);
 			}
 		}
@@ -55,7 +56,10 @@ class TouchObjectsModel implements ITouchObjectsModel
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
 			{
-				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x, tc.y);
+				if(touchesThatBeganMap.exists(tc.sessionID))
+				{
+					starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.MOVED, tc.x, tc.y);
+				}
 			}
 		}
 
@@ -63,7 +67,13 @@ class TouchObjectsModel implements ITouchObjectsModel
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
 			{
-				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
+				if(touchesThatBeganMap.exists(tc.sessionID))
+				{
+//					this.log(" ENDED touch " + tc.sessionID);
+					starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
+				}
+
+				touchesThatBeganMap.remove(tc.sessionID);
 			}
 
 		}

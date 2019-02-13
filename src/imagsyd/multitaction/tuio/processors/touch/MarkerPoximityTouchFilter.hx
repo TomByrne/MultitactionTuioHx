@@ -35,11 +35,11 @@ class MarkerPoximityTouchFilter implements ITuioStackableProcessor
 			if ( isCursorCloseToMarker(tc) == true )
 			{
 				touchObjectsModel.cursorsAdded.remove( tc.sessionID );
-//				touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+				touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
 //				touchObjectsModel.removeTouch(tc.sessionID);
 			}
-//			else
-//				touchObjectsModel.touchesThatBeganMap.set(tc.sessionID, true);
+			else
+				touchObjectsModel.touchesThatBeganMap.set(tc.sessionID, true);
 		}
 		
 		for (  tc in touchObjectsModel.cursorsUpdated) 
