@@ -1,5 +1,6 @@
 package imagsyd.multitaction.tuio;
 
+import imagsyd.network.util.NetworkHardware;
 import imagsyd.base.ISettings;
 import imagsyd.debug.model.DebuggerModel;
 import imagsyd.multitaction.logic.TuioDebugViewsLogic;
@@ -26,7 +27,7 @@ import starling.core.Starling;
 class TuioService
 {
 	@inject public var settings:ISettings;	
-	@inject public var mastercardCardListener:MultitactionCardListener;
+	@inject public var multitactionCardListener:MultitactionCardListener;
 	@inject public var tuioDebugViewsLogic:TuioDebugViewsLogic;
 	@inject public var tuioMarkersStackableProcessesModel:TuioMarkersStackableProcessesModel;
 	@inject public var tuioTouchesStackableProcessesModel:TuioTouchesStackableProcessesModel;
@@ -34,10 +35,12 @@ class TuioService
 	@inject public var tuioTouchesSettingsModel:TuioTouchesSettingsModel;
 	@inject public var touchObjectsModel:TouchObjectsModel;
 	
-	private var tc:TuioClient;
 	var _validCodes:Array<Int> = null;
 	public var validCodes(null, set):Array<Int>;
-	//var connector:IOSCConnector;
+	
+	var tuioClient:TuioClient;
+	var connector:UDPConnector;
+	var _listeners:Array<ITuioListener> = [];
 
 	
 	public function new() 
@@ -47,31 +50,64 @@ class TuioService
 		
 	public function setup():Void
 	{
-		settings.watch(['tuioServer', 'tuioPort'], onSettingsChanged);
+		settings.watch(['tuioEnabled', 'tuioServer', 'tuioPort', 'minTuioCardNumber', 'maxTuioCardNumber'], onSettingsChanged);
 		onSettingsChanged();
+
+		NetworkHardware.onIpChange(onIpChange);
+	}
+
+	function onIpChange()
+	{
+		var tuioServer:String = settings.string('tuioServer', null);
+		if (tuioServer == null) onSettingsChanged();
 	}
 	
 	function onSettingsChanged() 
 	{
+
 		var tuioEnabled:Bool = settings.bool('tuioEnabled', true);
-		var tuioServer:String = settings.string('tuioServer', '127.0.0.1');
+		var tuioServer:String = settings.string('tuioServer', null);
 		var tuioPort:Null<Int> = settings.int('tuioPort', 3333);
 		var minTuioCardNumber:Int = settings.int('minTuioCardNumber', 1);
 		var maxTuioCardNumber:Int = settings.int('maxTuioCardNumber', 32);
+
+		if(tuioServer == null) tuioServer = NetworkHardware.ipAddress;
 		
+
 		if (!tuioEnabled || tuioServer == null || tuioPort == null) return;
-		
-		if (tc != null) return; // TODO: Make it able to reconnect when settings change
-		
-		//this.log("tuio start at " + tuioServer + ":" + tuioPort);
-		var connector:IOSCConnector;
+
+
+
+		if(tuioClient != null)
+		{
+			this.info('TUIO Reconnecting on port ${tuioServer}');
+			for(listener in _listeners)
+			{
+				tuioClient.removeListener(listener);
+			}
+
+			connector.close();
+			
+			connector = new UDPConnector(tuioServer, tuioPort, true);			
+			tuioClient = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
+			
+			if(_validCodes != null) tuioClient.setValidCodes( _validCodes );
+
+			for(listener in _listeners)
+			{
+				tuioClient.addListener(listener);
+			}
+
+			return;
+		}
+		this.info('TUIO Connecting on port ${tuioServer}');
 		
 		try 
 		{
 			connector = new UDPConnector(tuioServer, tuioPort, true);			
-			tc = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
+			tuioClient = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
 			if(_validCodes != null)
-				tc.setValidCodes(_validCodes);
+				tuioClient.setValidCodes(_validCodes);
 		}
 		catch (err:Error)
 		{
@@ -98,8 +134,8 @@ class TuioService
 		#end
 		
 		//add tuio object listener
-		addListener( mastercardCardListener );		
-		mastercardCardListener.initialize();		
+		addListener( multitactionCardListener );		
+		multitactionCardListener.initialize();		
 		
 		//add openfl debug panels
 		debuggerModel.addPanelType(DebugTuioFiltersView);
@@ -112,24 +148,28 @@ class TuioService
 	
 	public function addListener(  listener:ITuioListener ):Void
 	{
-		if (tc != null)
+		_listeners.push(listener);
+
+		if (tuioClient != null)
 		{
-			tc.addListener(listener);
+			tuioClient.addListener(listener);
 		}
 	}
 	
 	public function removeListener(  listener:ITuioListener ):Void
 	{
-		if (tc != null)
+		_listeners.remove(listener);
+		
+		if (tuioClient != null)
 		{
-			tc.removeListener(listener);
+			tuioClient.removeListener(listener);
 		}
 	}
 	
 	function set_validCodes(value:Array<Int>):Array<Int> 
 	{
-		if(tc!= null)
-			tc.setValidCodes( value );
+		if(tuioClient!= null)
+			tuioClient.setValidCodes( value );
 		
 		_validCodes = value;
 		return value;

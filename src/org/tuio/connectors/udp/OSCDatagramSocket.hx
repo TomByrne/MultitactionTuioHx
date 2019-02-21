@@ -44,6 +44,11 @@ class OSCDatagramSocket
         }
 		socket.initialized();
     }
+
+    public function close()
+    {
+        socket.close();
+    }
     
     private function configureListeners() : Void
     {

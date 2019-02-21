@@ -155,11 +155,6 @@ class UDPConnector implements IOSCConnector
 		 */
     public function close() : Void
     {
-		/*
-        if (this.connection.connected)
-        {
-            this.connection.close();
-        }
-		*/
+        this.connection.close();
     }
 }

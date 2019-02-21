@@ -109,6 +109,11 @@ class DatagramSocket
 	{
 		
 	}
+
+	public function close():Void
+	{
+		nodeDgramSocket.close();
+	}
 	
 }
 
