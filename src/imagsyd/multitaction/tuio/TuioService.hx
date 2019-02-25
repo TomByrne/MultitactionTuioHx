@@ -41,7 +41,7 @@ class TuioService
 	var tuioClient:TuioClient;
 	var connector:UDPConnector;
 	var _listeners:Array<ITuioListener> = [];
-
+	var flippedOrientation:Bool;
 	
 	public function new() 
 	{
@@ -70,12 +70,15 @@ class TuioService
 		var tuioPort:Null<Int> = settings.int('tuioPort', 3333);
 		var minTuioCardNumber:Int = settings.int('minTuioCardNumber', 1);
 		var maxTuioCardNumber:Int = settings.int('maxTuioCardNumber', 32);
+		flippedOrientation = settings.bool('tuioFlippedOrientation', false);
 
 		if(tuioServer == null) tuioServer = NetworkHardware.ipAddress;
 		
 
 		if (!tuioEnabled || tuioServer == null || tuioPort == null) return;
-
+	
+		if(multitactionCardListener != null)
+			multitactionCardListener.flippedOrientation = flippedOrientation;
 
 
 		if(tuioClient != null)
@@ -135,7 +138,7 @@ class TuioService
 		
 		//add tuio object listener
 		addListener( multitactionCardListener );		
-		multitactionCardListener.initialize();		
+		multitactionCardListener.initialize(flippedOrientation);		
 		
 		//add openfl debug panels
 		debuggerModel.addPanelType(DebugTuioFiltersView);

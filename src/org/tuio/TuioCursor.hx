@@ -49,5 +49,6 @@ class TuioCursor extends TuioContainer
         
         return out;
     }
+
 }
 

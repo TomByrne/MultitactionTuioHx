@@ -24,6 +24,7 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 	@inject public var touchObjectsModelSingleton:TouchObjectsModel;
 	@inject public var tuioTouchSettingsModel:TuioTouchesSettingsModel;
 	
+	public var flippedOrientation:Bool;
 	static public var MAX:Int = 1000;
 	static public var counter:Int = 0;
 	
@@ -32,12 +33,13 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 		super();
 	}
 
-	public function initialize()
+	public function initialize(flippedOrientation:Bool)
 	{
 		markerObjectsModel = markerObjectsModelSingleton;
 		touchObjectsModel = touchObjectsModelSingleton;
 		markerProcesses = markersStackableProcessesModel.tuioMarkerProcessors;
 		touchProcesses = touchStackableProcessesModel.tuioTouchProcessors;
+		this.flippedOrientation = flippedOrientation;
 	}
 	
 	override public function newFrame(id:Int):Void 
@@ -48,6 +50,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 //tuio objects (markers)	
 	override public function addTuioObject(tuioObject:TuioObject):Void 
 	{
+		if(flippedOrientation)
+			tuioObject.flip();
+
 		super.addTuioObject(tuioObject);
 		
 		counter++;
@@ -63,6 +68,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 	
 	override public function updateTuioObject(tuioObject:TuioObject):Void 
 	{
+		if(flippedOrientation)
+			tuioObject.flip();
+
 		super.updateTuioObject(tuioObject);
 		
 		if (tuioObjects.exists( tuioObject.sessionID) == false)
@@ -77,6 +85,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 
 	override public function removeTuioObject(tuioObject:TuioObject):Void 
 	{
+		if(flippedOrientation)
+			tuioObject.flip();
+
 		super.removeTuioObject(tuioObject);
 		
 		counter--;
@@ -94,6 +105,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 //tuio touches	
 	override public function addTuioCursor(tuioCursor:TuioCursor):Void 
 	{
+		if(flippedOrientation)
+			tuioCursor.flip();
+
 		super.addTuioCursor(tuioCursor);
 		
 		if (tuioTouchSettingsModel.useTuioTouches.value)
@@ -118,6 +132,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 	
 	override public function updateTuioCursor(tuioCursor:TuioCursor):Void 
 	{
+		if(flippedOrientation)
+			tuioCursor.flip();
+
 		super.updateTuioCursor(tuioCursor);
 		
 		if (tuioTouchSettingsModel.useTuioTouches.value)
@@ -133,6 +150,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 	
 	override public function removeTuioCursor(tuioCursor:TuioCursor):Void 
 	{
+		if(flippedOrientation)
+			tuioCursor.flip();
+
 		super.removeTuioCursor(tuioCursor);
 		
 		if (tuioTouchSettingsModel.useTuioTouches.value)

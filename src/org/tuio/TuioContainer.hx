@@ -127,5 +127,11 @@ class TuioContainer
     {
         return this._source;
     }
+
+    public function flip():Void
+    {
+        _x = 1-_x;
+        _y = 1-_y;
+    }
 }
 

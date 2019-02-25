@@ -148,5 +148,11 @@ class TuioObject extends TuioContainer
     {
         return new TuioObject(_type, _sessionID, _id, _x, _y, _z, _a, _b, _c, _X, _Y, _Z, _A, _B, _C, _m, _r, _frameID, _source);
     }
+
+    override public function flip():Void
+    {
+        super.flip();
+        _a = Math.PI + _a;
+    }
 }
 
