@@ -1,29 +1,12 @@
-# README #
+# Multitaction / TUIO for Haxe #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This library provides support for TUIO communication with Multitaction
+screen hardware.
 
-### What is this repository for? ###
+# TUIO #
+The `org.tuio` package contains a Haxe port of the [tuio-as3](https://github.com/lagerkoller/tuio-as3) library.
+This is based on the DatagramSocket class, which there is a node.js polyfill for, meaning that this library only currently supports the `js` and `swf` targets.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+# Multitaction #
+The Multitaction layer sits on top of the tuio layer and processes the incoming data.
+This includes a middleware stack for applying filters and transforms to the incoming data.
