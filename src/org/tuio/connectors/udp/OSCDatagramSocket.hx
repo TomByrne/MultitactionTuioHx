@@ -12,7 +12,7 @@ import flash.utils.Endian;
 import js.html.WebSocket;
 #end
 */
-import imagsyd.net.DatagramSocket;
+import net.DatagramSocket;
 import openfl.utils.ByteArray;
 import org.tuio.osc.OSCEvent;
 
