@@ -49,7 +49,7 @@ class TuioService
 		
 	public function setup():Void
 	{
-		settings.watch(['tuioEnabled', 'tuioServer', 'tuioPort', 'minTuioCardNumber', 'maxTuioCardNumber'], onSettingsChanged);
+		settings.watch(['tuioEnabled', 'tuioServer', 'tuioPort', 'minTuioCardNumber', 'maxTuioCardNumber', 'tuioFlippedOrientation'], onSettingsChanged);
 		onSettingsChanged();
 
 		NetworkHardware.onIpChange(onIpChange);

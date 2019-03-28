@@ -8,6 +8,7 @@ import multitaction.model.marker.TuioMarkersStackableProcessesModel;
 import multitaction.model.touch.TuioTouchesSettingsModel;
 import org.tuio.TuioCursor;
 import org.tuio.TuioObject;
+import imagsyd.base.ISettings;
 
 /**
  * @author Michal Moczynski
@@ -16,6 +17,7 @@ import org.tuio.TuioObject;
 @:keepSub
 class MultitactionCardListener extends BasicProcessableTuioListener
 {
+	@inject public var settings:ISettings;	
 	@inject public var markersStackableProcessesModel:TuioMarkersStackableProcessesModel;
 	@inject public var touchStackableProcessesModel:TuioTouchesStackableProcessesModel;
 	@inject public var markerObjectsModelSingleton:MarkerObjectsModel;
@@ -38,6 +40,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 		markerProcesses = markersStackableProcessesModel.tuioMarkerProcessors;
 		touchProcesses = touchStackableProcessesModel.tuioTouchProcessors;
 		this.flippedOrientation = flippedOrientation;
+
+		settings.watch(['tuioRotationOffset'], onSettingsChanged);
+		onSettingsChanged();
 	}
 	
 	override public function newFrame(id:Int):Void 
@@ -45,6 +50,11 @@ class MultitactionCardListener extends BasicProcessableTuioListener
 		super.newFrame(id);
 	}
 	
+	function onSettingsChanged()
+	{
+		markerObjectsModel.angleOffset = settings.float('tuioRotationOffset', -1.57);
+	}
+
 //tuio objects (markers)	
 	override public function addTuioObject(tuioObject:TuioObject):Void 
 	{
