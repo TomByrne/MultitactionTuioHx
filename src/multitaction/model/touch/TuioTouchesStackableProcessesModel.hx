@@ -1,7 +1,7 @@
 package multitaction.model.touch;
 import multitaction.model.marker.MarkerObjectsModel;
 import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
-import multitaction.tuio.processors.touch.MarkerPoximityTouchFilter;
+import multitaction.tuio.processors.touch.MarkerProximityTouchFilter;
 
 /**
  * ...
@@ -25,7 +25,7 @@ class TuioTouchesStackableProcessesModel
 	
 	public function start()
 	{		
-		tuioTouchProcessors.push( new MarkerPoximityTouchFilter(true, markerObjectsModel, touchObjectsModel ));
+		tuioTouchProcessors.push( new MarkerProximityTouchFilter(true, markerObjectsModel, touchObjectsModel ));
 	}
 	
 }

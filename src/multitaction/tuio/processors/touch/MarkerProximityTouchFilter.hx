@@ -11,7 +11,7 @@ import imagsyd.notifier.Notifier;
  * ...
  * @author Michal Moczynski
  */
-class MarkerPoximityTouchFilter implements ITuioStackableProcessor
+class MarkerProximityTouchFilter implements ITuioStackableProcessor
 {
 	public var displayName:String = "Marker proximity fiter";
 	public var active:Notifier<Bool> = new Notifier<Bool> (false);
