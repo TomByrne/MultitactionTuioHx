@@ -1,6 +1,6 @@
 package multitaction.model.touch;
 import multitaction.model.marker.MarkerObjectsModel;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 import multitaction.tuio.processors.touch.MarkerProximityTouchFilter;
 
 /**

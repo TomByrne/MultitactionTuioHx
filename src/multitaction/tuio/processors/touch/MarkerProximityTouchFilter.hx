@@ -2,7 +2,7 @@ package multitaction.tuio.processors.touch;
 import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.model.touch.TouchObjectsModel;
 import multitaction.tuio.listener.BasicProcessableTuioListener;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 import openfl.geom.Point;
 import org.tuio.TuioCursor;
 import imagsyd.notifier.Notifier;

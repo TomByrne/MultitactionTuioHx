@@ -1,7 +1,7 @@
 package multitaction.tuio.listener;
 import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.model.touch.ITouchObjectsModel;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 import org.tuio.TuioCursor;
 import org.tuio.TuioObject;
 

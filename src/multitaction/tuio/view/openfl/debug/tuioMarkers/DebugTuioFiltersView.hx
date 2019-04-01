@@ -3,7 +3,7 @@ import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.debug.view.base.BaseDebugPanel;
 import imagsyd.time.EnterFrame;
 import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 import multitaction.tuio.view.openfl.debug.tuioMarkers.element.TuioProcessesPanelElementView;
 import openfl.display.Quad;
 import openfl.text.TextField;

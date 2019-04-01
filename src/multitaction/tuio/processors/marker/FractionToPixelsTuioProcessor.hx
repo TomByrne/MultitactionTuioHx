@@ -1,9 +1,9 @@
-package multitaction.tuio.processors.maker;
+package multitaction.tuio.processors.marker;
 import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
 import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import multitaction.tuio.listener.BasicProcessableTuioListener;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 import starling.core.Starling;
 import multitaction.model.marker.IMarkerObjectsModel;
 import openfl.geom.Point;

@@ -1,6 +1,6 @@
 package multitaction.tuio.view.openfl.debug.tuioMarkers.element;
-import multitaction.tuio.processors.maker.base.ITuioProcessor;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.base.ITuioProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 import openfl.display.Quad;
 import openfl.display.Sprite;
 import openfl.text.TextField;

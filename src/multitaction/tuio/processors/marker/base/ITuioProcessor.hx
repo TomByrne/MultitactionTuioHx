@@ -1,4 +1,4 @@
-package multitaction.tuio.processors.maker.base;
+package multitaction.tuio.processors.marker.base;
 import org.tuio.ITuioListener;
 import multitaction.tuio.listener.BasicProcessableTuioListener;
 

@@ -1,12 +1,12 @@
 package multitaction.model.marker;
 import multitaction.model.marker.MarkerObjectsModel;
 import multitaction.model.settings.TuioSettingsModel;
-import multitaction.tuio.processors.maker.SimpleMarkerFromTuioProcessor;
-import multitaction.tuio.processors.maker.FractionToPixelsTuioProcessor;
-import multitaction.tuio.processors.maker.FlickeringFilterMarkerFromTuioProcessor;
-import multitaction.tuio.processors.maker.SmoothProcessor;
-import multitaction.tuio.processors.maker.SnapAnglesTuioProcessor;
-import multitaction.tuio.processors.maker.base.ITuioStackableProcessor;
+import multitaction.tuio.processors.marker.SimpleMarkerFromTuioProcessor;
+import multitaction.tuio.processors.marker.FractionToPixelsTuioProcessor;
+import multitaction.tuio.processors.marker.FlickeringFilterMarkerFromTuioProcessor;
+import multitaction.tuio.processors.marker.SmoothProcessor;
+import multitaction.tuio.processors.marker.SnapAnglesTuioProcessor;
+import multitaction.tuio.processors.marker.base.ITuioStackableProcessor;
 
 /**
  * ...

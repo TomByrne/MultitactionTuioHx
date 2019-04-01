@@ -1,4 +1,4 @@
-package multitaction.tuio.processors.maker.base;
+package multitaction.tuio.processors.marker.base;
 import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
 import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
