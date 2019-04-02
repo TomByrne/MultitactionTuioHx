@@ -5,18 +5,15 @@ import imagsyd.base.ISettings;
 import imagsyd.debug.model.DebuggerModel;
 import multitaction.logic.TuioDebugViewsLogic;
 import multitaction.model.marker.TuioMarkersStackableProcessesModel;
-import multitaction.model.touch.TouchObjectsModel;
 import multitaction.model.touch.TuioTouchesSettingsModel;
 import multitaction.model.touch.TuioTouchesStackableProcessesModel;
 import multitaction.tuio.listener.MultitactionCardListener;
-import multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
 import multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
 import multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
 import openfl.errors.Error;
 import org.tuio.ITuioListener;
 import org.tuio.connectors.UDPConnector;
 import org.tuio.TuioClient;
-import starling.core.Starling;
 
 /**
  * @author Michal Moczynski
@@ -32,7 +29,6 @@ class TuioService
 	@inject public var tuioTouchesStackableProcessesModel:TuioTouchesStackableProcessesModel;
 	@inject public var debuggerModel:DebuggerModel;
 	@inject public var tuioTouchesSettingsModel:TuioTouchesSettingsModel;
-	@inject public var touchObjectsModel:TouchObjectsModel;
 	
 	var _validCodes:Array<Int> = null;
 	public var validCodes(null, set):Array<Int>;
@@ -115,25 +111,6 @@ class TuioService
 		{
 			this.error(err.message);
 		}
-
-		//set starling touch processor
-		#if starling
-		if (Starling.all.length >  0 )
-		{
-			touchObjectsModel.starlingTuioTouchProcessors = [];
-			
-			for ( starling in Starling.all)
-			{
-				var tarlingTuioTouchProcessor:StarlingTuioTouchProcessor = new StarlingTuioTouchProcessor(starling.stage, tuioTouchesSettingsModel);
-				starling.touchProcessor = tarlingTuioTouchProcessor;
-				touchObjectsModel.starlingTuioTouchProcessors.push(tarlingTuioTouchProcessor);
-			}
-		}
-		else
-		this.error("Trying to set starling touch processor before Starling initialization. Tuio touches may not work properly.");
-		#else
-		this.error("Tuio touch functionality currently implemented only for Starling.");
-		#end
 		
 		//add tuio object listener
 		addListener( multitactionCardListener );		

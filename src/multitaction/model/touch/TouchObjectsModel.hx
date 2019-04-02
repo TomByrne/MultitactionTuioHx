@@ -1,9 +1,7 @@
 package multitaction.model.touch;
-import multitaction.model.settings.TuioSettingsModel;
-import multitaction.tuio.processors.touch.base.StarlingTuioTouchProcessor;
+
 import org.tuio.TuioCursor;
-import starling.core.Starling;
-import starling.events.TouchPhase;
+import imagsyd.signals.Signal;
 
 /**
  * ...
@@ -12,16 +10,18 @@ import starling.events.TouchPhase;
 @:rtti
 class TouchObjectsModel implements ITouchObjectsModel
 {
-	public var starlingTuioTouchProcessors:Array<StarlingTuioTouchProcessor> = [];
+	//public var starlingTuioTouchProcessors:Array<StarlingTuioTouchProcessor> = [];
 	
 	public var cursorsAdded:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
 	public var cursorsUpdated:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
 	public var cursorsRemoved:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
+    
+	public var onProcessed:Signal0 = new Signal0();
 	
 	public var touchesArray:Array<TuioCursor> = new Array<TuioCursor>();
 
 	//to check if specific touch ID has been accepted in the past
-	public var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
+	//public var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
 
 	public function new() 
 	{
@@ -33,21 +33,20 @@ class TouchObjectsModel implements ITouchObjectsModel
 		touchesArray = [];
 	}
 
-/*	
-	public function removeTouch(touchID:Int)
+    public function processed()
 	{
-		for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
-			starlingTuioTouchProcessor.removeTouch( touchID );		
-	}
-*/
+        onProcessed.dispatch();
+		cursorsAdded = new Map<UInt, TuioCursor>();
+		cursorsUpdated = new Map<UInt, TuioCursor>();
+		cursorsRemoved = new Map<UInt, TuioCursor>();
+    }
 
-	public function processed()
+	/*public function processed()
 	{
 		for (tc in cursorsAdded) 
 		{
 			for(starlingTuioTouchProcessor in starlingTuioTouchProcessors)
 			{
-//				this.log(" BEGAN touch " + tc.sessionID);
 				starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.BEGAN, tc.x, tc.y);
 			}
 		}
@@ -69,7 +68,6 @@ class TouchObjectsModel implements ITouchObjectsModel
 			{
 				if(touchesThatBeganMap.exists(tc.sessionID))
 				{
-//					this.log(" ENDED touch " + tc.sessionID);
 					starlingTuioTouchProcessor.injectTouch( tc.sessionID, TouchPhase.ENDED, tc.x, tc.y);
 				}
 
@@ -80,6 +78,6 @@ class TouchObjectsModel implements ITouchObjectsModel
 		cursorsAdded = new Map<UInt, TuioCursor>();
 		cursorsUpdated = new Map<UInt, TuioCursor>();
 		cursorsRemoved = new Map<UInt, TuioCursor>();
-	}
+	}*/
 	
 }

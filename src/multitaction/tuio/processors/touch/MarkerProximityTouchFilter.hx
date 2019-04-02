@@ -13,11 +13,12 @@ import imagsyd.notifier.Notifier;
  */
 class MarkerProximityTouchFilter implements ITuioStackableProcessor
 {
-	public var displayName:String = "Marker proximity fiter";
+	public var displayName:String = "Marker proximity filter";
 	public var active:Notifier<Bool> = new Notifier<Bool> (false);
 	
 	var markerObjectsModel:IMarkerObjectsModel;
 	var touchObjectsModel:TouchObjectsModel;
+    var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
 	
 	public var distanceThreshold:Float = 0.05; //0.053 in fraction (tuio)
 
@@ -35,11 +36,11 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 			if ( isCursorCloseToMarker(tc) == true )
 			{
 				touchObjectsModel.cursorsAdded.remove( tc.sessionID );
-				touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+				touchesThatBeganMap.remove(tc.sessionID);
 //				touchObjectsModel.removeTouch(tc.sessionID);
 			}
 			else
-				touchObjectsModel.touchesThatBeganMap.set(tc.sessionID, true);
+				touchesThatBeganMap.set(tc.sessionID, true);
 		}
 		
 		for (  tc in touchObjectsModel.cursorsUpdated) 
@@ -47,7 +48,7 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 			if ( isCursorCloseToMarker(tc) == true )
 			{
 				touchObjectsModel.cursorsUpdated.remove( tc.sessionID );
-				//touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+				//touchesThatBeganMap.remove(tc.sessionID);
 				//touchObjectsModel.removeTouch(tc.sessionID);
 			}
 		}
@@ -58,7 +59,7 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 			if ( isCursorCloseToMarker(tc) == true )
 			{
 				touchObjectsModel.cursorsRemoved.remove( tc.sessionID );
-				//touchObjectsModel.touchesThatBeganMap.remove(tc.sessionID);
+				//touchesThatBeganMap.remove(tc.sessionID);
 				//touchObjectsModel.removeTouch(tc.sessionID);
 			}
 		}
