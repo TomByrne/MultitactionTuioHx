@@ -17,6 +17,8 @@ class DomTouchAdapterLogic implements DescribedType
 
     var mouseTouchId:Null<Int>;
 
+    public var mimicMouse:Bool = false; // Careful: Lime doesn't like this
+
     public function setup()
     {
         touchObjectsModel.onProcessed.add(onTouchesProcessed);
@@ -28,53 +30,59 @@ class DomTouchAdapterLogic implements DescribedType
         var mouseTouchType:String = null;
         var targets:Array<EventTarget> = [];
         var touches:Array<Touch> = [];
-        var beginTouches:Array<Touch> = [];
+        var beginTouches:Array<Touch> = null;
         for (tc in touchObjectsModel.cursorsAdded) 
 		{
             var touch = convertTouch(tc);
-            touches.push(touch);
-            beginTouches.push(touch);
-            if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
 
-            if(mouseTouchId == null) mouseTouchId = tc.sessionID;
+            if(mimicMouse && mouseTouchId == null) mouseTouchId = tc.sessionID;
             if(tc.sessionID == mouseTouchId){
                 mouseTouchType = 'mousedown';
                 mouseTouch = touch;
+            }else{
+                touches.push(touch);
+                if(beginTouches == null) beginTouches = [touch];
+                else beginTouches.push(touch);
+                if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
             }
         }
 
-        var moveTouches:Array<Touch> = [];
+        var moveTouches:Array<Touch> = null;
 		for (tc in touchObjectsModel.cursorsUpdated) 
 		{
             var touch = convertTouch(tc);
-            touches.push(touch);
-            moveTouches.push(touch);
-            if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
 
             if(tc.sessionID == mouseTouchId){
                 mouseTouchType = 'mousemove';
                 mouseTouch = touch;
+            }else{
+                touches.push(touch);
+                if(moveTouches == null) moveTouches = [touch];
+                else moveTouches.push(touch);
+                if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
             }
         }
 
-        var endTouches:Array<Touch> = [];
+        var endTouches:Array<Touch> = null;
 		for (tc in touchObjectsModel.cursorsRemoved) 
 		{
             var touch = convertTouch(tc);
-            touches.push(touch);
-            endTouches.push(touch);
-            if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
 
             if(tc.sessionID == mouseTouchId){
                 mouseTouchType = 'mouseup';
                 mouseTouch = touch;
+            }else{
+                touches.push(touch);
+                if(endTouches == null) endTouches = [touch];
+                else endTouches.push(touch);
+                if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
             }
         }
 
         for(target in targets){
-            if(beginTouches.length > 0) sendTouches('touchstart', beginTouches, touches, target);
-            if(moveTouches.length > 0) sendTouches('touchmove', moveTouches, touches, target);
-            if(endTouches.length > 0) sendTouches('touchend', endTouches, touches, target);
+            if(beginTouches != null) sendTouches('touchstart', beginTouches, touches, target);
+            if(moveTouches != null) sendTouches('touchmove', moveTouches, touches, target);
+            if(endTouches != null) sendTouches('touchend', endTouches, touches, target);
         }
 
         if(mouseTouch != null)
