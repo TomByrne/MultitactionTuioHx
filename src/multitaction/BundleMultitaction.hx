@@ -1,53 +1,52 @@
 package multitaction;
 
 import imagsyd.base.BaseBundle;
-import multitaction.command.TuioDebugKeyboardCommand;
-import multitaction.logic.TuioDebugViewsLogic;
-import multitaction.model.marker.*;
-import multitaction.model.settings.TuioSettingsModel;
-import multitaction.model.touch.*;
-import multitaction.tuio.*;
-import multitaction.tuio.listener.*;
-import multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelView;
-import multitaction.tuio.view.openfl.debug.touchPanel.DebugTuioTouchPanelViewMediator;
-import multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersView;
-import multitaction.tuio.view.openfl.debug.tuioMarkers.DebugTuioFiltersViewMediator;
-import multitaction.tuio.view.starling.display.touches.TouchDebugView;
-import multitaction.tuio.view.starling.display.touches.TouchDebugViewMediator;
 import imagsyd.startup.signals.StartupCompleteSignal;
-import multitaction.logic.adapters.*;
 import robotlegs.bender.framework.api.IContext;
+import multitaction.model.marker.*;
+import multitaction.model.settings.MultitactionSettingsModel;
+import multitaction.model.touch.*;
+import multitaction.logic.tuio.*;
+import multitaction.logic.listener.*;
+import multitaction.logic.processors.*;
+import multitaction.logic.settings.*;
+import multitaction.view.openfl.debug.*;
+import multitaction.logic.adapters.*;
+import multitaction.view.starling.*;
+import multitaction.view.starling.touch.*;
+import multitaction.view.starling.marker.*;
 
 /**
  * ...
  * @author Michal Moczynski
  */
-
-@:rtti
-@:keepSub
 class BundleMultitaction extends BaseBundle 
 {
 	override public function extend(context:IContext):Void
 	{
 		BaseBundle.compilerDefine(["bundle_multitaction"]);
 		
-		add(context, [TuioTouchesSettingsModel, TuioSettingsModel,
-                        TuioMarkersStackableProcessesModel, TuioTouchesStackableProcessesModel], { shared:true });
+		add(context, [MultitactionSettingsModel, MarkerProcessorsModel, TouchProcessorsModel], { shared:true });
 		
 		add(context, [MarkerObjectsModel], { shared:true, aliases:[IMarkerObjectsModel] });
 		add(context, [TouchObjectsModel], { shared:true, aliases:[ITouchObjectsModel] });
 		
 		#if !omitTuioComms
-		add(context, [TuioService, MultitactionCardListener], { shared:true });
+		add(context, [TuioConfigLogic, MultitactionCardListener, MarkerProcessorsLogic, TouchProcessorsLogic, MultitactionSettingsLogic], { setup:true });
 		#end
         
-		add(context, [TuioDebugViewsLogic], { shared:true });
 		
-		mapMediator(context, TouchDebugView, TouchDebugViewMediator);
-		mapMediator(context, DebugTuioFiltersView, DebugTuioFiltersViewMediator);
-		mapMediator(context, DebugTuioTouchPanelView, DebugTuioTouchPanelViewMediator);		
+        #if starling
+		mapMediator(context, DebugTouchesView, DebugTouchesViewMediator);
+		mapMediator(context, DebugMarkersView, DebugMarkersViewMediator);
+		add(context, [MultitactionDebugViews], { setup:true });
+        
+		addDebugPanel(context, MultitactionDebugPanel, MultitactionDebugPanelMediator);
+        #end	
 		
-		mapCommand(context, StartupCompleteSignal, TuioDebugKeyboardCommand);	
+        #if (!omit_mt_keybinding)
+		    mapCommand(context, StartupCompleteSignal, multitaction.command.TuioDebugKeyboardCommand);	
+        #end
 
         #if (!omit_mt_touch_adapter)
             #if (html5)
@@ -55,6 +54,8 @@ class BundleMultitaction extends BaseBundle
             #elseif (openfl)
                 add(context, [OpenflTouchAdapterLogic], { setup:true });
             #end
-        #end	
+        #end
+
+        
 	}
 }

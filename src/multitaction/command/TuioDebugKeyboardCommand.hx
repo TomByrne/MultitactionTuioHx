@@ -1,6 +1,6 @@
 package multitaction.command;
 
-import multitaction.model.touch.TuioTouchesSettingsModel;
+import multitaction.model.settings.MultitactionSettingsModel;
 import robotlegs.bender.bundles.mvcs.Command;
 import keyboard.Keyboard;
 import keyboard.Key;
@@ -11,29 +11,23 @@ import keyboard.Key;
  */
 class TuioDebugKeyboardCommand extends Command
 {
-	@inject public var tuioTouchSettingsModel:TuioTouchesSettingsModel;
+	@inject public var multitactionSettingsModel:MultitactionSettingsModel;	
 	
 	public function new() { }
 	
 	override public function execute():Void
 	{
-        Keyboard.onPress(Key.T, handleTuioNotifierChange).shift(true).ctrl(true);
-        Keyboard.onPress(Key.W, handleWindowsNotifierChange).shift(true).ctrl(true);
-        Keyboard.onPress(Key.D, handleTouchDebugNotifierChange).shift(true).ctrl(true).alt(true);
+        Keyboard.onPress(Key.T, toggleDebugTouchShown).shift(true).ctrl(true).alt(true);
+        Keyboard.onPress(Key.M, toggleDebugMarkerShown).shift(true).ctrl(true).alt(true);
 	}
 	
-	function handleTouchDebugNotifierChange():Void 
+	function toggleDebugTouchShown():Void 
 	{
-		tuioTouchSettingsModel.showTouches.value = !tuioTouchSettingsModel.showTouches.value;
-	}
-
-	function handleTuioNotifierChange():Void 
-	{
-		tuioTouchSettingsModel.useTuioTouches.value = true;// !tuioTouchSettingsModel.useTuioTouches.value;
+		multitactionSettingsModel.debugTouchShown.value = !multitactionSettingsModel.debugTouchShown.value;
 	}
 	
-	function handleWindowsNotifierChange():Void 
+	function toggleDebugMarkerShown():Void 
 	{
-		tuioTouchSettingsModel.useWindoesTouches.value = true;//!tuioTouchSettingsModel.useWindoesTouches.value;
-	}	
+		multitactionSettingsModel.debugMarkerShown.value = !multitactionSettingsModel.debugMarkerShown.value;
+	}
 }

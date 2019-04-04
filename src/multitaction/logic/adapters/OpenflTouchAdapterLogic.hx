@@ -31,7 +31,7 @@ class OpenflTouchAdapterLogic implements DescribedType
 		{
             if(touchArray.length == 0){
                 mouseTouch = tc.sessionID;
-                stage.onMouseDown(stage.window, tc.x * stage.stageWidth, tc.y * stage.stageHeight, 0);
+                stage.onMouseDown(stage.window, tc.x, tc.y, 0);
             }
             Touch.onStart.dispatch(updateTouch(tc, touch));
             touchArray.push(tc.sessionID);
@@ -41,7 +41,7 @@ class OpenflTouchAdapterLogic implements DescribedType
 		for (tc in touchObjectsModel.cursorsUpdated) 
 		{
             if(mouseTouch == tc.sessionID){
-                stage.onMouseMove(stage.window, tc.x * stage.stageWidth, tc.y * stage.stageHeight);
+                stage.onMouseMove(stage.window, tc.x, tc.y);
             }
             Touch.onMove.dispatch(updateTouch(tc, touch));
 		}
@@ -49,7 +49,7 @@ class OpenflTouchAdapterLogic implements DescribedType
 		for (tc in touchObjectsModel.cursorsRemoved) 
 		{
             if(mouseTouch == tc.sessionID){
-                stage.onMouseUp(stage.window, tc.x * stage.stageWidth, tc.y * stage.stageHeight, 0);
+                stage.onMouseUp(stage.window, tc.x, tc.y, 0);
                 mouseTouch = null;
             }
             Touch.onEnd.dispatch(updateTouch(tc, touch));

@@ -2,6 +2,7 @@ package multitaction.logic.adapters;
 
 import js.Browser;
 import js.html.Touch;
+import js.html.TouchInit;
 import js.html.TouchEvent;
 import js.html.MouseEvent;
 import js.html.EventTarget;
@@ -119,13 +120,13 @@ class DomTouchAdapterLogic implements DescribedType
 
     function convertTouch(cursor:TuioCursor) : Touch
     {
-        var window = Browser.window;
-        var x = Math.round(cursor.x * window.innerWidth);
-        var y = Math.round(cursor.y * window.innerHeight);
+        var x = Math.round(cursor.x);
+        var y = Math.round(cursor.y);
         var element = Browser.document.elementFromPoint(x, y);
-        return new Touch({
+        if(element == null) element = Browser.document.body;
+
+        var touchInit:TouchInit = {
             identifier: cursor.sessionID,
-            target: element,
             clientX: x,
             clientY: y,
             screenX: x,
@@ -134,8 +135,11 @@ class DomTouchAdapterLogic implements DescribedType
             pageY: y,
             radiusX: 2.5,
             radiusY: 2.5,
+            target: element,
             rotationAngle: 10,
             force: 0.5,
-        });
+        };
+
+        return new Touch(touchInit);
     }
 }
