@@ -30,7 +30,6 @@ class MultitactionDebugPanel  extends BaseDebugPanel
 		super();
         id = 'multitaction';
 		label.value = "MULTITACTION";
-        priority.value = 5;
 	}
 	
 	public function initialize(showTouches:Notifier<Bool>, showMarkers:Notifier<Bool>, processors:Array<ITuioStackableProcessor>, markersMap:Map<String, MarkerObjectElement>) 
