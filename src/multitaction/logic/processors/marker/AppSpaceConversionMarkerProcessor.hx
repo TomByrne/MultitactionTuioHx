@@ -28,8 +28,8 @@ class AppSpaceConversionMarkerProcessor implements ITuioStackableProcessor imple
 	{
 		for ( moe in markerObjectsModel.markerObjectsMap)
 		{
-			moe.posScreen.x = moe.posApp.x * scale + offsetX;
-			moe.posScreen.y = moe.posApp.y * scale + offsetY;
+			moe.posApp.x = moe.posScreen.x * scale + offsetX;
+			moe.posApp.y = moe.posScreen.y * scale + offsetY;
 		}
     }
 }
