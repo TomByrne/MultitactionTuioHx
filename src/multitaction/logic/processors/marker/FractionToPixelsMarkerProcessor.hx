@@ -1,11 +1,11 @@
 package multitaction.logic.processors.marker;
 import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
+import multitaction.model.marker.IMarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
 import multitaction.model.marker.IMarkerObjectsModel;
-import openfl.geom.Point;
+import multitaction.utils.MarkerPoint;
 
 /**
  * ...
@@ -14,12 +14,12 @@ import openfl.geom.Point;
 class FractionToPixelsMarkerProcessor implements ITuioStackableProcessor
 {
 	var markerObjectsModel:IMarkerObjectsModel;
-	var nativeScreenSize:Notifier<Point>;
+	var nativeScreenSize:Notifier<MarkerPoint>;
 
 	public var displayName:String = "Fraction to pixels";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
 	
-	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, nativeScreenSize:Notifier<Point>) 
+	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, nativeScreenSize:Notifier<MarkerPoint>) 
 	{
 		this.active.value = active;
 		this.markerObjectsModel = markerObjectsModel;

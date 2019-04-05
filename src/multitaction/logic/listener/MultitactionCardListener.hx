@@ -4,7 +4,7 @@ import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.touch.TouchObjectsModel;
 import multitaction.model.touch.TouchProcessorsModel;
 import multitaction.logic.listener.BasicProcessableTuioListener;
-import multitaction.model.marker.MarkerObjectsModel;
+import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.model.marker.MarkerProcessorsModel;
 import multitaction.logic.tuio.TuioConfigLogic;
 import org.tuio.TuioCursor;
@@ -19,7 +19,7 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 	@inject public var settings:ISettings;	
 	@inject public var markerProcessorsModel:MarkerProcessorsModel;
 	@inject public var touchProcessorsModel:TouchProcessorsModel;
-	@inject public var markerObjectsModel:MarkerObjectsModel;
+	@inject public var markerObjectsModel:IMarkerObjectsModel;
 	@inject public var touchObjectsModel:TouchObjectsModel;
 	@inject public var tuioConfigLogic:TuioConfigLogic;
 	

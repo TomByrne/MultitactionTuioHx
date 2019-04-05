@@ -1,12 +1,9 @@
-package multitaction.view.starling.marker;
-import multitaction.model.marker.MarkerObjectsModel;
-import multitaction.view.starling.marker.DebugMarkerView;
+package multitaction.debug.overlay.marker;
 
+import multitaction.debug.overlay.marker.DebugMarkerView;
 import imagsyd.time.EnterFrame;
 import multitaction.model.marker.IMarkerObjectsModel;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
-import starling.display.Quad;
-import starling.display.Sprite;
+import openfl.display.Sprite;
 
 /**
  * ...
@@ -64,7 +61,7 @@ class DebugMarkersView extends Sprite
 			
 		var markerView:DebugMarkerView = markerById.get(uid);
 		markerById.remove(uid);
-		markerView.removeFromParent(true);
+        markerView.parent.removeChild(markerView);
 	}
 	
 	public function addMarker(cardId:UInt, uid:String) 
@@ -84,10 +81,7 @@ class DebugMarkersView extends Sprite
 			return;
 			
 		var markerView:DebugMarkerView = markerById.get(sessionID);
-		markerView.x = markerObjectsElement.posScreen.x;
-		markerView.y = markerObjectsElement.posScreen.y;
-		markerView.scale =  markerObjectsElement.safetyRadius / 0.1;
-		markerView.rotation = markerObjectsElement.rotation;		
+        markerView.update(markerObjectsElement);		
 	}
 	
 }

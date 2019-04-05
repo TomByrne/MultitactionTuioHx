@@ -3,7 +3,6 @@ package multitaction.logic.tuio;
 import imagsyd.network.util.NetworkHardware;
 import imagsyd.base.ISettings;
 import org.swiftsuspenders.utils.DescribedType;
-import openfl.errors.Error;
 import org.tuio.ITuioListener;
 import org.tuio.connectors.UDPConnector;
 import org.tuio.TuioClient;
@@ -87,9 +86,9 @@ class TuioConfigLogic implements DescribedType
 			if(_validCodes != null)
 				tuioClient.setValidCodes(_validCodes);
 		}
-		catch (err:Error)
+		catch (err:Dynamic)
 		{
-			this.error(err.message);
+			this.error(err);
 		}
 	}
 	

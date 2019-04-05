@@ -1,13 +1,14 @@
 package multitaction.logic.processors.marker;
 import imagsyd.signals.Signal.Signal1;
-import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import openfl.geom.Point;
 import org.tuio.TuioObject;
 import multitaction.model.marker.IMarkerObjectsModel;
+import multitaction.utils.GeomTools;
+import multitaction.utils.MarkerUID;
+import multitaction.utils.MarkerPoint;
+
 
 /**
  * ...
@@ -17,8 +18,8 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 {
 	var doubleUpThreshold:Float = 200/1920;//distance in screen fraction (that's what tuio uses)
 	var itemFound:Bool;
-	var doubledToe:MarkerObjectElement;
 	var markerObjectsModel:IMarkerObjectsModel;
+
 	public var displayName:String = "Idle";
 	public var angleThreshold:Float = 30;
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
@@ -65,7 +66,7 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 		moe.rotation = to.a;
 		moe.alive = true;
 		moe.frameId = to.frameID;
-		moe.fractPos.unshift( new Point( to.x, to.y));
+		moe.fractPos.unshift( { x:to.x, y:to.y } );
 		if (moe.fractPos.length > 10)
 			moe.fractPos.pop();					
 	}
@@ -73,11 +74,11 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 	function addNewMarker( to:TuioObject ) 
 	{
 		var moe:MarkerObjectElement = {
-			fractPos:new Array<Point>(), 
-			posApp:new Point(), 
-			posScreen:new Point(), 
+			fractPos:new Array<MarkerPoint>(), 
+			posApp:{x:0.0, y:0.0}, 
+			posScreen:{x:0.0, y:0.0}, 
 			rotation:to.a, 
-			uid:MarkerObjectsModel.getNextUID(), 
+			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 
 			previousCardId:null,
 			tuioCardId:to.classID, 
@@ -90,7 +91,7 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 			safetyRadius:0.1};
 
 		this.log( "    added moe with new uid " + moe.uid);
-		moe.fractPos.unshift( new Point( to.x, to.y));
+		moe.fractPos.unshift( { x:to.x, y:to.y } );
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);
 		markerObjectsModel.markerObjectsMap.set( moe.uid, moe);
@@ -99,11 +100,9 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 	
 	function findAllDoubleUp(tuioObjects:Map<UInt, TuioObject>, object:TuioObject):TuioObject
 	{
-//		var result:Array<TuioObject> = [];
 		for (  to in tuioObjects ) 
 		{
-			var distance:Float = Point.distance( new Point(to.x, to.y), new Point(object.x, object.y));
-			//Logger.log(this, "is double up? " + to.x + "," + to.y + " and " + object.x + " " + object.y + "distance " + distance );
+			var distance:Float = GeomTools.dist( to.x, to.y, object.x, object.y);
 			if (distance < doubleUpThreshold )
 			{
 				if (to == object)
@@ -113,11 +112,9 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 				else
 				{
 					return to;
-					//TODO: check if returning the first rest is enough (should be)
 				}
 			}
 		}
 		return null;		
 	}
-	
 }

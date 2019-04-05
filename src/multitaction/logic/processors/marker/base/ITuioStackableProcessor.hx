@@ -1,7 +1,7 @@
 package multitaction.logic.processors.marker.base;
 import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
+import multitaction.model.marker.IMarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.model.marker.IMarkerObjectsModel;
 

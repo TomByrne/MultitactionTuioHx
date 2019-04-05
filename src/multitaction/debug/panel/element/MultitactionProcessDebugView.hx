@@ -1,4 +1,4 @@
-package multitaction.view.openfl.debug.element;
+package multitaction.debug.panel.element;
 import multitaction.logic.processors.marker.base.ITuioProcessor;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
 import openfl.display.Quad;

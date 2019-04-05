@@ -1,12 +1,12 @@
-package multitaction.view.openfl.debug;
+package multitaction.debug.panel;
 
 import imagsyd.debug.view.base.BaseDebugPanel;
 import imagsyd.time.EnterFrame;
 import imagsyd.notifier.Notifier;
 import multitaction.model.marker.MarkerObjectsModel;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
+import multitaction.model.marker.IMarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import multitaction.view.openfl.debug.element.MultitactionProcessDebugView;
+import multitaction.debug.panel.element.MultitactionProcessDebugView;
 import openfl.display.Quad;
 import openfl.text.TextField;
 import openfl.text.TextFormat;

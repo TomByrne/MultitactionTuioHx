@@ -1,4 +1,4 @@
-package multitaction.view.openfl.debug.element;
+package multitaction.debug.panel.element;
 
 import openfl.events.MouseEvent;
 import robotlegs.bender.bundles.mvcs.Mediator;

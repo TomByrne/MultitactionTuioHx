@@ -11,7 +11,6 @@ import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.touch.ITouchObjectsModel;
 import org.tuio.TuioCursor;
 
-@:access(openfl.display.Stage)
 class DomTouchAdapterLogic implements DescribedType
 {
     @inject public var touchObjectsModel:ITouchObjectsModel;

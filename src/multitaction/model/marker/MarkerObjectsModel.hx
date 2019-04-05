@@ -1,8 +1,8 @@
 package multitaction.model.marker;
 
 import multitaction.model.marker.IMarkerObjectsModel;
+import multitaction.utils.MarkerPoint;
 import imagsyd.signals.Signal.Signal1;
-import openfl.geom.Point;
 import imagsyd.notifier.Notifier;
 
 /**
@@ -12,7 +12,6 @@ import imagsyd.notifier.Notifier;
 @:rtti
 class MarkerObjectsModel implements IMarkerObjectsModel
 {
-	static private var lastUID:UInt = 0;
 //	public var tuioObjects:Array<MarkerObjectElement> = [];
 	public var tuioToMarkerMap:Map<String, String> = new Map<String, String>();
 	public var markerObjectsMap:Map<String, MarkerObjectElement> = new Map<String, MarkerObjectElement>();//tuioObjects array id by tuio objectelement id
@@ -46,29 +45,4 @@ class MarkerObjectsModel implements IMarkerObjectsModel
 			removeMarkersSignal.dispatch( frameRemovedMarkers );
 	}
 	
-	static public function getNextUID():String
-	{
-		return "t" + lastUID++;
-	}
-	
-}
-
-typedef MarkerObjectElement =
-{
-	posApp:Point,//in pixels (app space)
-	posScreen:Point,//in pixels (screen space)
-
-	fractPos:Array<Point>,
-	rotation:Float,
-	uid:String,//sessionId
-	cardId:UInt,//the card id that our logic decided it is - it may be different from current tuio card id
-	previousCardId:UInt,//previously recognised card id (before it changed)
-	tuioCardId:UInt,//card id coming from tuio (no filtering on this one)
-	cardIdChanged:Signal1<String>,//signal with this moe's uid dispatches when the card id changes
-	readCardIds:Map<UInt,UInt>,//store the number of all card ids that were recognised for this marker and the number of those recognitions (key - cardId, value - number of recognitions)
-	lastCardChangeFrame:UInt,//needed to calculate strenghts of different card ids if it changes over time (or flickers)
-	frameId:UInt,
-	fromTuio:Bool,
-	alive:Bool,
-	safetyRadius:Float
 }

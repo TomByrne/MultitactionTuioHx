@@ -1,13 +1,14 @@
 package multitaction.logic.processors.marker;
+
 import imagsyd.signals.Signal.Signal1;
 import imagsyd.notifier.Notifier;
-import multitaction.model.marker.MarkerObjectsModel;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import openfl.geom.Point;
 import org.tuio.TuioObject;
 import multitaction.model.marker.IMarkerObjectsModel;
+import multitaction.utils.MarkerUID;
+import multitaction.utils.GeomTools;
+import multitaction.utils.MarkerPoint;
 
 /**
  * ...
@@ -78,20 +79,9 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
-			/*
-			var speedMiutiplier:Float = 1;
-			if (moe.fractPos.length > 5)
-			{
-				speedMiutiplier = Point.distance(moe.fractPos[0], moe.fractPos[5]) / nominalSpeed;
-				if ( speedMiutiplier < 1 )
-					speedMiutiplier = 1;				
-				else if ( speedMiutiplier > maxSpeedMiutiplier )
-					speedMiutiplier = maxSpeedMiutiplier;
-			}
-			*/
 
-			moe.safetyRadius = distanceThreshold /** speedMiutiplier*/;
-			if (Point.distance( new Point(to.x, to.y), moe.fractPos[0] ) < distanceThreshold/* * speedMiutiplier*/ && to.classID == moe.cardId)
+			moe.safetyRadius = distanceThreshold;
+			if (GeomTools.dist( to.x, to.y, moe.fractPos[0].x, moe.fractPos[0].y ) < distanceThreshold && to.classID == moe.cardId)
 			{
 				markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
 				foundDouble = true;				
@@ -117,7 +107,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		
 		moeUpdatedByAge.set( moe.uid, toAge.get("t" + to.sessionID));		
 		
-		var vel:Float = new Point( to.X , to.Y).length;
+		var vel:Float = Math.abs(to.X * to.Y);
 		moe.rotation = to.a + markerObjectsModel.angleOffset;
 		moe.alive = true;
 		moe.frameId = to.frameID;
@@ -154,11 +144,9 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		}
 		//
 
-		var newpPos:Point = new Point( to.x, to.y);
-		
-		if (vel > velocityThreshold || Point.distance(newpPos, moe.fractPos[0]) > movementThreshold)
+		if (vel > velocityThreshold || GeomTools.dist(to.x, to.y, moe.fractPos[0].x, moe.fractPos[0].y) > movementThreshold)
 		{
-			moe.fractPos.unshift( newpPos );
+			moe.fractPos.unshift( { x:to.x, y:to.y } );
 		}
 			
 		if (moe.fractPos.length > 10)
@@ -186,11 +174,11 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	function addNewMarker( to:TuioObject ):MarkerObjectElement
 	{
 		var moe:MarkerObjectElement = {
-			fractPos:new Array<Point>(), 
-			posApp:new Point(), 
-			posScreen:new Point(), 
+			fractPos: new Array<MarkerPoint>(), 
+			posApp: {x:0.0, y:0.0}, 
+			posScreen: {x:0.0, y:0.0}, 
 			rotation:to.a + markerObjectsModel.angleOffset, 
-			uid:MarkerObjectsModel.getNextUID(), 
+			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 
 			previousCardId:null,
 			tuioCardId:to.classID, 
@@ -202,8 +190,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			alive:true, 
 			safetyRadius:distanceThreshold};
 
-//		traceAllDistances(to);
-		moe.fractPos.unshift( new Point( to.x, to.y));
+		moe.fractPos.unshift( { x:to.x, y:to.y } );
 		this.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadius + " moe.fractPos " + moe.fractPos[0]);
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);
@@ -212,12 +199,14 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		return moe;
 	}
 	
-	function traceAllDistances(to:TuioObject) 
+	/*function traceAllDistances(to:TuioObject) 
 	{
 		for ( moe in markerObjectsModel.markerObjectsMap)		
 		{
-			this.log( "            d: " + Point.distance( new Point(to.x, to.y), moe.fractPos[0]) + " speed " + Point.distance(moe.fractPos[0], moe.fractPos[1]) );
+            var pos = moe.fractPos[0];
+            var pos1 = moe.fractPos[1];
+			this.log( "            d: " + GeomTools.dist( to.x, to.y, pos.x, pos.y) + " speed " + GeomTools.dist( pos.x, pos.y, pos1.x, pos1.y) );
 		}
-	}
+	}*/
 	
 }

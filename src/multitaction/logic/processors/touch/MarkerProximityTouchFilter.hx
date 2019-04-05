@@ -3,9 +3,9 @@ import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.model.touch.ITouchObjectsModel;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import openfl.geom.Point;
 import org.tuio.TuioCursor;
 import imagsyd.notifier.Notifier;
+import multitaction.utils.GeomTools;
 
 /**
  * ...
@@ -37,7 +37,6 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 			{
 				touchObjectsModel.cursorsAdded.remove( tc.sessionID );
 				touchesThatBeganMap.remove(tc.sessionID);
-//				touchObjectsModel.removeTouch(tc.sessionID);
 			}
 			else
 				touchesThatBeganMap.set(tc.sessionID, true);
@@ -48,31 +47,16 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 			if ( isCursorCloseToMarker(tc) == true )
 			{
 				touchObjectsModel.cursorsUpdated.remove( tc.sessionID );
-				//touchesThatBeganMap.remove(tc.sessionID);
-				//touchObjectsModel.removeTouch(tc.sessionID);
 			}
 		}
-		
-		/*
-		for (  tc in touchObjectsModel.cursorsRemoved) 
-		{
-			if ( isCursorCloseToMarker(tc) == true )
-			{
-				touchObjectsModel.cursorsRemoved.remove( tc.sessionID );
-				//touchesThatBeganMap.remove(tc.sessionID);
-				//touchObjectsModel.removeTouch(tc.sessionID);
-			}
-		}
-		*/
 	}
 	
 	function isCursorCloseToMarker(tuioCursor:TuioCursor):Bool
 	{
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
-			if ( Point.distance( moe.fractPos[0], new Point(tuioCursor.x, tuioCursor.y)) < distanceThreshold)
+			if ( GeomTools.dist( moe.fractPos[0].x, moe.fractPos[0].y, tuioCursor.x, tuioCursor.y) < distanceThreshold)
 			{
-//				this.log("TOUCH TOO CLOSE TO THE MARKER " + Point.distance( moe.fractPos[0], new Point(tuioCursor.x, tuioCursor.y)));
 				return true;
 			}
 		}

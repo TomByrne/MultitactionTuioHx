@@ -1,5 +1,5 @@
 package multitaction.model.touch;
-import multitaction.model.marker.MarkerObjectsModel;
+import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
 import multitaction.logic.processors.touch.MarkerProximityTouchFilter;
 
@@ -13,7 +13,7 @@ class TouchProcessorsModel
 	/*
 	@inject markerObjectsModel:TuioObjectsModel;
 	*/
-	@inject public var markerObjectsModel:MarkerObjectsModel;
+	@inject public var markerObjectsModel:IMarkerObjectsModel;
 	@inject public var touchObjectsModel:TouchObjectsModel;
 	
 	public var tuioTouchProcessors:Array<ITuioStackableProcessor> = [];

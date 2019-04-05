@@ -11,11 +11,11 @@ import multitaction.logic.listener.*;
 import multitaction.logic.processors.*;
 import multitaction.logic.processors.marker.*;
 import multitaction.logic.settings.*;
-import multitaction.view.openfl.debug.*;
+import multitaction.debug.panel.*;
 import multitaction.logic.adapters.*;
-import multitaction.view.starling.*;
-import multitaction.view.starling.touch.*;
-import multitaction.view.starling.marker.*;
+import multitaction.debug.overlay.*;
+import multitaction.debug.overlay.touch.*;
+import multitaction.debug.overlay.marker.*;
 
 /**
  * ...
@@ -38,10 +38,10 @@ class BundleMultitaction extends BaseBundle
 		#end
         
 		
-        #if starling
+        #if openfl
 		mapMediator(context, DebugTouchesView, DebugTouchesViewMediator);
 		mapMediator(context, DebugMarkersView, DebugMarkersViewMediator);
-		add(context, [MultitactionDebugViews], { setup:true });
+		add(context, [MultitactionDebugOverlays], { setup:true });
         
 		addDebugPanel(context, MultitactionDebugPanel, MultitactionDebugPanelMediator);
         #end	

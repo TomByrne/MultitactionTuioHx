@@ -1,8 +1,7 @@
-package multitaction.view.starling.touch;
+package multitaction.debug.overlay.touch;
 
 import multitaction.model.touch.ITouchObjectsModel;
-import multitaction.view.starling.touch.DebugTouchView;
-import starling.display.Sprite;
+import openfl.display.Sprite;
 import org.tuio.TuioCursor;
 
 /**

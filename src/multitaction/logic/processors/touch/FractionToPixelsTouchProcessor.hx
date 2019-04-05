@@ -4,7 +4,7 @@ import imagsyd.notifier.Notifier;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
 import multitaction.model.touch.ITouchObjectsModel;
-import openfl.geom.Point;
+import multitaction.utils.MarkerPoint;
 
 /**
  * ...
@@ -14,12 +14,12 @@ import openfl.geom.Point;
 class FractionToPixelsTouchProcessor implements ITuioStackableProcessor
 {
 	var touchObjectsModel:ITouchObjectsModel;
-	var nativeScreenSize:Notifier<Point>;
+	var nativeScreenSize:Notifier<MarkerPoint>;
 
 	public var displayName:String = "Fraction to pixels";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
 	
-	public function new(active:Bool, touchObjectsModel:ITouchObjectsModel, nativeScreenSize:Notifier<Point>) 
+	public function new(active:Bool, touchObjectsModel:ITouchObjectsModel, nativeScreenSize:Notifier<MarkerPoint>) 
 	{
 		this.active.value = active;
 		this.touchObjectsModel = touchObjectsModel;

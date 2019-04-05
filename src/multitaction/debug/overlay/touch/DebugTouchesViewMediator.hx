@@ -1,4 +1,4 @@
-package multitaction.view.starling.touch;
+package multitaction.debug.overlay.touch;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 import multitaction.model.settings.MultitactionSettingsModel;
@@ -34,7 +34,7 @@ class DebugTouchesViewMediator extends Mediator
 	
 	override public function destroy():Void
 	{
-		view.dispose();
+		//view.dispose();
 	}
 	
 	override public function postDestroy():Void

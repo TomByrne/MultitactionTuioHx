@@ -1,4 +1,4 @@
-package multitaction.view.starling.marker;
+package multitaction.debug.overlay.marker;
 
 import multitaction.model.marker.IMarkerObjectsModel;
 import robotlegs.bender.bundles.mvcs.Mediator;
@@ -34,7 +34,7 @@ class DebugMarkersViewMediator extends Mediator
 	
 	override public function destroy():Void
 	{
-		view.dispose();
+		//view.dispose();
 	}
 	
 	override public function postDestroy():Void

@@ -1,6 +1,6 @@
 package multitaction.model.settings;
 
-import imagsyd.geom.Point;
+import multitaction.utils.MarkerPoint;
 import imagsyd.notifier.Notifier;
 
 /**
@@ -10,7 +10,7 @@ import imagsyd.notifier.Notifier;
 class MultitactionSettingsModel 
 {
 	
-	public var nativeScreenSize = new Notifier<Point>( new Point(3840, 2160) );
+	public var nativeScreenSize = new Notifier<MarkerPoint>( {x:1920, y:1080} );
     
 	public var debugTouchShown = new Notifier<Bool>( false );
     

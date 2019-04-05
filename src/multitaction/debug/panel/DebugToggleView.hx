@@ -1,4 +1,4 @@
-package multitaction.view.openfl.debug;
+package multitaction.debug.panel;
 
 import imagsyd.notifier.Notifier;
 import openfl.display.Quad;

@@ -1,14 +1,10 @@
 package multitaction.logic.processors.marker;
 
-import multitaction.model.marker.MarkerObjectsModel;
 import imagsyd.notifier.Notifier;
-import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import openfl.geom.Point;
-import org.tuio.TuioObject;
+import multitaction.utils.MarkerPoint;
 import multitaction.model.marker.IMarkerObjectsModel;
-import starling.core.Starling;
 
 /**
  * ...
@@ -20,9 +16,9 @@ class SmoothMarkerProcessor implements ITuioStackableProcessor
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
     
 	var markerObjectsModel:IMarkerObjectsModel;
-	var nativeScreenSize:Notifier<Point>;
+	var nativeScreenSize:Notifier<MarkerPoint>;
 
-	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, nativeScreenSize:Notifier<Point>) 
+	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, nativeScreenSize:Notifier<MarkerPoint>) 
 	{
 		this.active.value = active;
 		this.markerObjectsModel = markerObjectsModel;
