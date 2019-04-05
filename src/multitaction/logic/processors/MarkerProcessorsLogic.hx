@@ -11,13 +11,15 @@ class MarkerProcessorsLogic implements DescribedType
 	@inject public var markerObjectsModel:IMarkerObjectsModel;
 	@inject public var markerProcessorsModel:MarkerProcessorsModel;
 	@inject public var multitactionSettingsModel:MultitactionSettingsModel;
+	@inject public var appSpaceConversionMarkerProcessor:AppSpaceConversionMarkerProcessor;
 
     public function setup()
     {
-		markerProcessorsModel.tuioMarkerProcessors.push( new SimpleMarkerFromTuioProcessor(false, markerObjectsModel) );
-		markerProcessorsModel.tuioMarkerProcessors.push( new FlickeringFilterMarkerFromTuioProcessor(true, markerObjectsModel));
-		markerProcessorsModel.tuioMarkerProcessors.push( new SnapAnglesTuioProcessor(false, markerObjectsModel));
-		markerProcessorsModel.tuioMarkerProcessors.push( new FractionToPixelsTuioProcessor(true, markerObjectsModel, multitactionSettingsModel.nativeScreenSize ) );
-		markerProcessorsModel.tuioMarkerProcessors.push( new SmoothProcessor(false, markerObjectsModel, multitactionSettingsModel.nativeScreenSize) );
+		markerProcessorsModel.tuioMarkerProcessors.push( new SimpleMarkerFromMarkerProcessor(false, markerObjectsModel) );
+		markerProcessorsModel.tuioMarkerProcessors.push( new FlickeringFilterMarkerProcessor(true, markerObjectsModel));
+		markerProcessorsModel.tuioMarkerProcessors.push( new SnapAnglesMarkerProcessor(false, markerObjectsModel));
+		markerProcessorsModel.tuioMarkerProcessors.push( new FractionToPixelsMarkerProcessor(true, markerObjectsModel, multitactionSettingsModel.nativeScreenSize ) );
+		markerProcessorsModel.tuioMarkerProcessors.push( new SmoothMarkerProcessor(false, markerObjectsModel, multitactionSettingsModel.nativeScreenSize) );
+		markerProcessorsModel.tuioMarkerProcessors.push( appSpaceConversionMarkerProcessor );
     }
 }

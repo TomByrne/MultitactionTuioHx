@@ -88,7 +88,7 @@ class MultitactionDebugPanel  extends BaseDebugPanel
 		markersList.text = "";
 		for (marker in markersMap) 
 		{
-			markersList.text += "marker - code: " + marker.cardId + " uid: " + marker.uid + " pos: " + fixedFloat(marker.pos.x) + ", " + fixedFloat(marker.pos.y) + " rot: " + marker.rotation +"\n";
+			markersList.text += "marker - code: " + marker.cardId + " uid: " + marker.uid + " pos: " + fixedFloat(marker.posApp.x) + ", " + fixedFloat(marker.posApp.y) + " rot: " + marker.rotation +"\n";
 		}
 		if (Lambda.count( markersMap ) == 0)
 		{

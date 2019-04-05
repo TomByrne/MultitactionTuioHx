@@ -55,7 +55,9 @@ class MarkerObjectsModel implements IMarkerObjectsModel
 
 typedef MarkerObjectElement =
 {
-	pos:Point,//in pixels
+	posApp:Point,//in pixels (app space)
+	posScreen:Point,//in pixels (screen space)
+
 	fractPos:Array<Point>,
 	rotation:Float,
 	uid:String,//sessionId

@@ -84,10 +84,10 @@ class DebugMarkersView extends Sprite
 			return;
 			
 		var markerView:DebugMarkerView = markerById.get(sessionID);
-		markerView.x = markerObjectsElement.pos.x;
-		markerView.y = markerObjectsElement.pos.y;
+		markerView.x = markerObjectsElement.posScreen.x;
+		markerView.y = markerObjectsElement.posScreen.y;
 		markerView.scale =  markerObjectsElement.safetyRadius / 0.1;
-//		markerView.rotation = markerObjectsElement.rotation;		
+		markerView.rotation = markerObjectsElement.rotation;		
 	}
 	
 }

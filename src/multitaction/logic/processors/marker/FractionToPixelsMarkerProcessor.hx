@@ -11,7 +11,7 @@ import openfl.geom.Point;
  * ...
  * @author Michal Moczynski
  */
-class FractionToPixelsTuioProcessor implements ITuioStackableProcessor
+class FractionToPixelsMarkerProcessor implements ITuioStackableProcessor
 {
 	var markerObjectsModel:IMarkerObjectsModel;
 	var nativeScreenSize:Notifier<Point>;
@@ -37,8 +37,8 @@ class FractionToPixelsTuioProcessor implements ITuioStackableProcessor
 				var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID) );
 				if (moe != null && moe.fromTuio == true)
 				{
-					moe.pos.x = Math.round( moe.fractPos[0].x * screenW );
-					moe.pos.y = Math.round( moe.fractPos[0].y * screenH );
+					moe.posScreen.x = Math.round( moe.fractPos[0].x * screenW );
+					moe.posScreen.y = Math.round( moe.fractPos[0].y * screenH );
 				}
 			}
 		}

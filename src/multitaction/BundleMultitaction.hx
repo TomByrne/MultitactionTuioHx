@@ -9,6 +9,7 @@ import multitaction.model.touch.*;
 import multitaction.logic.tuio.*;
 import multitaction.logic.listener.*;
 import multitaction.logic.processors.*;
+import multitaction.logic.processors.marker.*;
 import multitaction.logic.settings.*;
 import multitaction.view.openfl.debug.*;
 import multitaction.logic.adapters.*;
@@ -33,6 +34,7 @@ class BundleMultitaction extends BaseBundle
 		
 		#if !omitTuioComms
 		add(context, [TuioConfigLogic, MultitactionCardListener, MarkerProcessorsLogic, TouchProcessorsLogic, MultitactionSettingsLogic], { setup:true });
+		add(context, [AppSpaceConversionMarkerProcessor], { shared:true });
 		#end
         
 		

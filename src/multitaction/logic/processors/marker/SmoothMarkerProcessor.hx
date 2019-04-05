@@ -14,7 +14,7 @@ import starling.core.Starling;
  * ...
  * @author Michal Moczynski
  */
-class SmoothProcessor implements ITuioStackableProcessor
+class SmoothMarkerProcessor implements ITuioStackableProcessor
 {
 	public var displayName:String = "Smooth movement";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
@@ -37,8 +37,8 @@ class SmoothProcessor implements ITuioStackableProcessor
 		{
 			if (moe.fractPos.length > 3)
 			{
-				moe.pos.x = Math.round( screenW * (moe.fractPos[0].x + moe.fractPos[1].x + moe.fractPos[2].x + moe.fractPos[3].x) / 4 );
-				moe.pos.y = Math.round( screenH * (moe.fractPos[0].y + moe.fractPos[1].y + moe.fractPos[2].y + moe.fractPos[3].y) / 4 );
+				moe.posScreen.x = Math.round( screenW * (moe.fractPos[0].x + moe.fractPos[1].x + moe.fractPos[2].x + moe.fractPos[3].x) / 4 );
+				moe.posScreen.y = Math.round( screenH * (moe.fractPos[0].y + moe.fractPos[1].y + moe.fractPos[2].y + moe.fractPos[3].y) / 4 );
 			}
 		}
 	}

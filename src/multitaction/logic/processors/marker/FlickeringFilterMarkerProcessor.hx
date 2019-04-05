@@ -13,7 +13,7 @@ import multitaction.model.marker.IMarkerObjectsModel;
  * ...
  * @author Michal Moczynski
  */
-class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
+class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 {
 	var markerObjectsModel:IMarkerObjectsModel;
 	var frameId:Int;
@@ -187,7 +187,8 @@ class FlickeringFilterMarkerFromTuioProcessor implements ITuioStackableProcessor
 	{
 		var moe:MarkerObjectElement = {
 			fractPos:new Array<Point>(), 
-			pos:new Point(), 
+			posApp:new Point(), 
+			posScreen:new Point(), 
 			rotation:to.a + markerObjectsModel.angleOffset, 
 			uid:MarkerObjectsModel.getNextUID(), 
 			cardId:to.classID, 

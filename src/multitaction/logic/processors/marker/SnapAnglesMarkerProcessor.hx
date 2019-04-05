@@ -1,18 +1,16 @@
 package multitaction.logic.processors.marker;
-import multitaction.model.marker.MarkerObjectsModel;
+
 import imagsyd.notifier.Notifier;
 import multitaction.model.marker.MarkerObjectsModel.MarkerObjectElement;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import openfl.geom.Point;
-import org.tuio.TuioObject;
 import multitaction.model.marker.IMarkerObjectsModel;
 
 /**
  * ...
  * @author Michal Moczynski
  */
-class SnapAnglesTuioProcessor implements ITuioStackableProcessor
+class SnapAnglesMarkerProcessor implements ITuioStackableProcessor
 {
 	public var displayName:String = "Snap Angles";
 	public var angleThreshold:Float = Math.PI/6;
