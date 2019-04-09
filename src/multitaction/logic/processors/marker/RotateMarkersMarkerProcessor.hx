@@ -34,8 +34,6 @@ class RotateMarkersMarkerProcessor implements ITuioStackableProcessor
 
             lastFrameIds.set(moe.uid, moe.frameId);
             moe.rotation += rotation;
-
-            trace('rot: ' + moe.rotation +" "+(moe.lastCardChangeFrame == moe.frameId));
         }
 	}
 	
