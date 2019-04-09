@@ -9,12 +9,33 @@ import imagsyd.signals.Signal;
  */
 interface ITouchObjectsModel 
 {
-	public var cursorsAdded:Map<UInt, TuioCursor>;
-	public var cursorsUpdated:Map<UInt, TuioCursor>;
-	public var cursorsRemoved:Map<UInt, TuioCursor>;
+    public var touchList:Array<TouchObject>;
+	public var touches:Map<UInt, TouchObject>;
     
 	public var onProcessed:Signal0;
 	
 	public function tick():Void;
 	public function processed():Void;
+
+    public function abortTouch(id:UInt):Void;
+}
+
+typedef TouchObject =
+{
+    id:UInt,
+    state:TouchState,
+
+    x:Float,
+    y:Float,
+    rangeX:Float,
+    rangeY:Float,
+
+    cursor:TuioCursor,
+}
+
+@:enum abstract TouchState(String)
+{
+    var START = 'start';
+    var MOVE = 'move';
+    var END = 'end';
 }

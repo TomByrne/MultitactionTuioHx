@@ -10,7 +10,6 @@ import multitaction.utils.MarkerPoint;
  * ...
  * @author Michal Moczynski
  */
- @:access(org.tuio.TuioCursor)
 class FractionToPixelsTouchProcessor implements ITuioStackableProcessor
 {
 	var touchObjectsModel:ITouchObjectsModel;
@@ -31,22 +30,13 @@ class FractionToPixelsTouchProcessor implements ITuioStackableProcessor
         var screenW:Float = nativeScreenSize.value.x;
         var screenH:Float = nativeScreenSize.value.y;
 
-		for (  tc in touchObjectsModel.cursorsAdded ) 
+		for (  touch in touchObjectsModel.touches ) 
 		{
-			tc._x *= screenW;
-			tc._y *= screenH;
+			touch.x *= screenW / touch.rangeX;
+			touch.y *= screenH / touch.rangeY;
+            touch.rangeX = screenW;
+            touch.rangeY = screenH;
 		}
-		for (  tc in touchObjectsModel.cursorsUpdated) 
-		{
-			tc._x *= screenW;
-			tc._y *= screenH;
-		}
-        // Already multiplied
-		/*for (  tc in touchObjectsModel.cursorsRemoved) 
-		{
-			tc._x *= screenW;
-			tc._y *= screenH;
-		}*/
 	}
 	
 }

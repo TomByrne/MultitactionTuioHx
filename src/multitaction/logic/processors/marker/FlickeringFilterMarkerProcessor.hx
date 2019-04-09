@@ -108,7 +108,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		moeUpdatedByAge.set( moe.uid, toAge.get("t" + to.sessionID));		
 		
 		var vel:Float = Math.abs(to.X * to.Y);
-		moe.rotation = to.a + markerObjectsModel.angleOffset;
+		moe.rotation = to.a;
 		moe.alive = true;
 		moe.frameId = to.frameID;
 
@@ -177,7 +177,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			fractPos: new Array<MarkerPoint>(), 
 			posApp: {x:0.0, y:0.0}, 
 			posScreen: {x:0.0, y:0.0}, 
-			rotation:to.a + markerObjectsModel.angleOffset, 
+			rotation:to.a, 
 			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 
 			previousCardId:null,

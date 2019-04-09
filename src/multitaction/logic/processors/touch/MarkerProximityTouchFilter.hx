@@ -3,7 +3,6 @@ import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.model.touch.ITouchObjectsModel;
 import multitaction.logic.listener.BasicProcessableTuioListener;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
-import org.tuio.TuioCursor;
 import imagsyd.notifier.Notifier;
 import multitaction.utils.GeomTools;
 
@@ -18,7 +17,6 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 	
 	var markerObjectsModel:IMarkerObjectsModel;
 	var touchObjectsModel:ITouchObjectsModel;
-    var touchesThatBeganMap:Map<Int, Bool> = new Map<Int, Bool>();
 	
 	public var distanceThreshold:Float = 0.05; //0.053 in fraction (tuio)
 
@@ -31,31 +29,22 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 	
 	public function process(listener:BasicProcessableTuioListener):Void
 	{
-		for (  tc in touchObjectsModel.cursorsAdded ) 
-		{
-			if ( isCursorCloseToMarker(tc) == true )
+        for( touch in touchObjectsModel.touchList)
+        {
+            if ( isCursorCloseToMarker(touch) == true )
 			{
-				touchObjectsModel.cursorsAdded.remove( tc.sessionID );
-				touchesThatBeganMap.remove(tc.sessionID);
+				touchObjectsModel.abortTouch( touch.id );
 			}
-			else
-				touchesThatBeganMap.set(tc.sessionID, true);
-		}
-		
-		for (  tc in touchObjectsModel.cursorsUpdated) 
-		{
-			if ( isCursorCloseToMarker(tc) == true )
-			{
-				touchObjectsModel.cursorsUpdated.remove( tc.sessionID );
-			}
-		}
+        }
 	}
 	
-	function isCursorCloseToMarker(tuioCursor:TuioCursor):Bool
+	function isCursorCloseToMarker(touchObj:TouchObject):Bool
 	{
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
-			if ( GeomTools.dist( moe.fractPos[0].x, moe.fractPos[0].y, tuioCursor.x, tuioCursor.y) < distanceThreshold)
+            var touchX:Float = touchObj.x / touchObj.rangeX;
+            var touchY:Float = touchObj.y / touchObj.rangeY;
+			if ( GeomTools.dist( moe.fractPos[0].x, moe.fractPos[0].y, touchX, touchY) < distanceThreshold)
 			{
 				return true;
 			}

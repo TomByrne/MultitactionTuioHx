@@ -20,8 +20,6 @@ interface IMarkerObjectsModel
 	public var frameRemovedMarkers:Array<String>;
 	public var frameUpdatedMarkers:Array<String>;
 	
-	public var angleOffset:Float;
-	
 	function tick():Void;
 	function processed():Void;	
 }

@@ -9,7 +9,6 @@ import js.html.EventTarget;
 import js.html.Element;
 import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.touch.ITouchObjectsModel;
-import org.tuio.TuioCursor;
 
 class DomTouchAdapterLogic implements DescribedType
 {
@@ -29,60 +28,51 @@ class DomTouchAdapterLogic implements DescribedType
         var mouseTouch:Touch = null;
         var mouseTouchType:String = null;
         var targets:Array<EventTarget> = [];
-        var touches:Array<Touch> = [];
+        var allTouches:Array<Touch> = [];
+
         var beginTouches:Array<Touch> = null;
-        for (tc in touchObjectsModel.cursorsAdded) 
-		{
-            var touch = convertTouch(tc);
-
-            if(mimicMouse && mouseTouchId == null) mouseTouchId = tc.sessionID;
-            if(tc.sessionID == mouseTouchId){
-                mouseTouchType = 'mousedown';
-                mouseTouch = touch;
-            }else{
-                touches.push(touch);
-                if(beginTouches == null) beginTouches = [touch];
-                else beginTouches.push(touch);
-                if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
-            }
-        }
-
         var moveTouches:Array<Touch> = null;
-		for (tc in touchObjectsModel.cursorsUpdated) 
-		{
-            var touch = convertTouch(tc);
-
-            if(tc.sessionID == mouseTouchId){
-                mouseTouchType = 'mousemove';
-                mouseTouch = touch;
-            }else{
-                touches.push(touch);
-                if(moveTouches == null) moveTouches = [touch];
-                else moveTouches.push(touch);
-                if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
-            }
-        }
-
         var endTouches:Array<Touch> = null;
-		for (tc in touchObjectsModel.cursorsRemoved) 
+		for (touchObj in touchObjectsModel.touchList) 
 		{
-            var touch = convertTouch(tc);
+            var touch = convertTouch(touchObj);
 
-            if(tc.sessionID == mouseTouchId){
-                mouseTouchType = 'mouseup';
+            var touches:Array<Touch> = null;
+            var mouseType:String;
+            switch(touchObj.state)
+            {
+                case START:
+                    if(beginTouches == null) beginTouches = [];
+                    touches = beginTouches;
+                    mouseType = 'mousedown';
+
+                    if(mimicMouse && mouseTouchId == null) mouseTouchId = touchObj.id;
+                    
+                case MOVE:
+                    if(moveTouches == null) moveTouches = [];
+                    touches = moveTouches;
+                    mouseType = 'mousemove';
+                    
+                case END:
+                    if(endTouches == null) endTouches = [];
+                    touches = endTouches;
+                    mouseType = 'mouseup';
+            }
+
+            if(touchObj.id == mouseTouchId){
+                mouseTouchType = mouseType;
                 mouseTouch = touch;
             }else{
+                allTouches.push(touch);
                 touches.push(touch);
-                if(endTouches == null) endTouches = [touch];
-                else endTouches.push(touch);
                 if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
             }
         }
 
         for(target in targets){
-            if(beginTouches != null) sendTouches('touchstart', beginTouches, touches, target);
-            if(moveTouches != null) sendTouches('touchmove', moveTouches, touches, target);
-            if(endTouches != null) sendTouches('touchend', endTouches, touches, target);
+            if(beginTouches != null) sendTouches('touchstart', beginTouches, allTouches, target);
+            if(moveTouches != null) sendTouches('touchmove', moveTouches, allTouches, target);
+            if(endTouches != null) sendTouches('touchend', endTouches, allTouches, target);
         }
 
         if(mouseTouch != null)
@@ -117,7 +107,7 @@ class DomTouchAdapterLogic implements DescribedType
         target.dispatchEvent(touchEvent);
     }
 
-    function convertTouch(cursor:TuioCursor) : Touch
+    function convertTouch(cursor:TouchObject) : Touch
     {
         var x = Math.round(cursor.x);
         var y = Math.round(cursor.y);
@@ -125,7 +115,7 @@ class DomTouchAdapterLogic implements DescribedType
         if(element == null) element = Browser.document.body;
 
         var touchInit:TouchInit = {
-            identifier: cursor.sessionID,
+            identifier: cursor.id,
             clientX: x,
             clientY: y,
             screenX: x,

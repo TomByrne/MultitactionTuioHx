@@ -1,5 +1,6 @@
 package multitaction.logic.listener;
 
+import multitaction.model.touch.ITouchObjectsModel;
 import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.touch.TouchObjectsModel;
 import multitaction.model.touch.TouchProcessorsModel;
@@ -23,7 +24,6 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 	@inject public var touchObjectsModel:TouchObjectsModel;
 	@inject public var tuioConfigLogic:TuioConfigLogic;
 	
-	public var flippedOrientation:Bool;
 	static public var MAX:Int = 1000;
 	static public var counter:Int = 0;
 	
@@ -40,9 +40,6 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 		markerProcesses = markerProcessorsModel.tuioMarkerProcessors;
 		touchProcesses = touchProcessorsModel.tuioTouchProcessors;
 
-		settings.watch(['tuioRotationOffset', 'tuioFlippedOrientation'], onSettingsChanged);
-		onSettingsChanged();
-
         tuioConfigLogic.addListener(this);
 	}
 	
@@ -50,19 +47,10 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 	{
 		super.newFrame(id);
 	}
-	
-	function onSettingsChanged()
-	{
-		flippedOrientation = settings.bool('tuioFlippedOrientation', false);
-		markerObjectsModel.angleOffset = settings.float('tuioRotationOffset', -1.57);
-	}
 
 //tuio objects (markers)	
 	override public function addTuioObject(tuioObject:TuioObject):Void 
 	{
-		if(flippedOrientation)
-			tuioObject.flip();
-
 		super.addTuioObject(tuioObject);
 		
 		counter++;
@@ -76,12 +64,9 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 	
 	override public function updateTuioObject(tuioObject:TuioObject):Void 
 	{
-		if(flippedOrientation)
-			tuioObject.flip();
-
 		super.updateTuioObject(tuioObject);
 		
-		if (tuioObjects.exists( tuioObject.sessionID) == false)
+		if (!tuioObjects.exists( tuioObject.sessionID))
 			addTuioObject( tuioObject )
 		else
 		{
@@ -92,13 +77,10 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 
 	override public function removeTuioObject(tuioObject:TuioObject):Void 
 	{
-		if(flippedOrientation)
-			tuioObject.flip();
-
 		super.removeTuioObject(tuioObject);
 		
 		counter--;
-		if (tuioObjects.exists( tuioObject.sessionID) == false)
+		if (!tuioObjects.exists( tuioObject.sessionID))
 			return;
 		else
 		{
@@ -110,49 +92,63 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 //tuio touches	
 	override public function addTuioCursor(tuioCursor:TuioCursor):Void 
 	{
-		if(flippedOrientation)
-			tuioCursor.flip();
-
 		super.addTuioCursor(tuioCursor);
 		
-        if (tuioCursors.exists( tuioCursor.sessionID))
+        if (touchObjectsModel.touches.exists( tuioCursor.sessionID))
             updateTuioCursor( tuioCursor )
         else
         {
-            touchObjectsModel.cursorsAdded.set( tuioCursor.sessionID, tuioCursor );
-            tuioCursors.set( tuioCursor.sessionID, tuioCursor);
+            var touch:TouchObject = updateTouch(tuioCursor, TouchState.START);
+            touchObjectsModel.touches.set(touch.id, touch);
+            touchObjectsModel.touchList.push(touch);
         }
 	}
 	
 	override public function updateTuioCursor(tuioCursor:TuioCursor):Void 
 	{
-		if(flippedOrientation)
-			tuioCursor.flip();
-
 		super.updateTuioCursor(tuioCursor);
 		
-        if (tuioCursors.exists( tuioCursor.sessionID ))
+        if (touchObjectsModel.touches.exists( tuioCursor.sessionID ))
         {
-            var tc:TuioCursor = tuioCursors.get( tuioCursor.sessionID );
-            tc = tuioCursor;
-            touchObjectsModel.cursorsUpdated.set( tc.sessionID, tc );
+            var touch:TouchObject = touchObjectsModel.touches.get( tuioCursor.sessionID );
+            updateTouch(tuioCursor, TouchState.MOVE, touch);
         }
 	}
 	
 	override public function removeTuioCursor(tuioCursor:TuioCursor):Void 
 	{
-		if(flippedOrientation)
-			tuioCursor.flip();
-
 		super.removeTuioCursor(tuioCursor);
 		
-        if (tuioCursors.exists( tuioCursor.sessionID) == false)
-            return;
-        else
-        {
-            tuioCursors.remove(tuioCursor.sessionID);
-            touchObjectsModel.cursorsRemoved.set( tuioCursor.sessionID, tuioCursor );
+        if (touchObjectsModel.touches.exists( tuioCursor.sessionID)){
+            var touch:TouchObject = touchObjectsModel.touches.get( tuioCursor.sessionID );
+            updateTouch(tuioCursor, TouchState.END, touch);
         }
 	}
 
+
+    function updateTouch(cursor:TuioCursor, state:TouchState, ?update:TouchObject) : TouchObject
+    {
+        if(update != null){
+
+            update.id = cursor.sessionID;
+            update.state = state;
+            update.x = cursor.x;
+            update.y = cursor.y;
+            update.rangeX = 1;
+            update.rangeY = 1;
+            update.cursor = cursor;
+            return update;
+
+        }else{
+            return {
+                id: cursor.sessionID,
+                state: state,
+                x: cursor.x,
+                y: cursor.y,
+                rangeX: 1,
+                rangeY: 1,
+                cursor: cursor,
+            }
+        }
+    }
 }

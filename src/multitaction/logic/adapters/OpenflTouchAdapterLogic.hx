@@ -1,12 +1,10 @@
 package multitaction.logic.adapters;
 
 import lime.ui.Touch;
-import openfl.events.TouchEvent;
 import openfl.Lib;
 import openfl.display.Stage;
 import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.touch.ITouchObjectsModel;
-import org.tuio.TuioCursor;
 
 @:access(openfl.display.Stage)
 class OpenflTouchAdapterLogic implements DescribedType
@@ -27,42 +25,42 @@ class OpenflTouchAdapterLogic implements DescribedType
     function onTouchesProcessed()
     {
         var stage:Stage = Lib.current.stage;
-		for (tc in touchObjectsModel.cursorsAdded) 
+        for (touchObj in touchObjectsModel.touchList) 
 		{
-            if(touchArray.length == 0){
-                mouseTouch = tc.sessionID;
-                stage.onMouseDown(stage.window, tc.x, tc.y, 0);
+            switch(touchObj.state)
+            {
+                case TouchState.START:
+                    if(touchArray.length == 0){
+                        mouseTouch = touchObj.id;
+                        stage.onMouseDown(stage.window, touchObj.x, touchObj.y, 0);
+                    }
+                    Touch.onStart.dispatch(updateTouch(touchObj, touch));
+                    touchArray.push(touchObj.id);
+
+                case TouchState.MOVE:
+                    if(mouseTouch == touchObj.id){
+                        stage.onMouseMove(stage.window, touchObj.x, touchObj.y);
+                    }
+                    Touch.onMove.dispatch(updateTouch(touchObj, touch));
+
+                case TouchState.END:
+                    if(mouseTouch == touchObj.id){
+                        stage.onMouseUp(stage.window, touchObj.x, touchObj.y, 0);
+                        mouseTouch = null;
+                    }
+                    Touch.onEnd.dispatch(updateTouch(touchObj, touch));
+                    touchArray.remove(touchObj.id);
             }
-            Touch.onStart.dispatch(updateTouch(tc, touch));
-            touchArray.push(tc.sessionID);
             
-		}
-
-		for (tc in touchObjectsModel.cursorsUpdated) 
-		{
-            if(mouseTouch == tc.sessionID){
-                stage.onMouseMove(stage.window, tc.x, tc.y);
-            }
-            Touch.onMove.dispatch(updateTouch(tc, touch));
-		}
-
-		for (tc in touchObjectsModel.cursorsRemoved) 
-		{
-            if(mouseTouch == tc.sessionID){
-                stage.onMouseUp(stage.window, tc.x, tc.y, 0);
-                mouseTouch = null;
-            }
-            Touch.onEnd.dispatch(updateTouch(tc, touch));
-            touchArray.remove(tc.sessionID);
 		}
     }
 
-    function updateTouch(cursor:TuioCursor, touch:Touch) : Touch
+    function updateTouch(touchObj:TouchObject, touch:Touch) : Touch
     {
         var stage:Stage = Lib.current.stage;
-        touch.x = cursor.x;
-        touch.y = cursor.y;
-        touch.id = cursor.sessionID;
+        touch.x = touchObj.x;
+        touch.y = touchObj.y;
+        touch.id = touchObj.id;
 
         return touch;
     }

@@ -2,7 +2,6 @@ package multitaction.debug.overlay.touch;
 
 import multitaction.model.touch.ITouchObjectsModel;
 import openfl.display.Sprite;
-import org.tuio.TuioCursor;
 
 /**
  * ...
@@ -29,27 +28,24 @@ class DebugTouchesView extends Sprite
     {
         if(!visible) return;
 
-        for(id in touchObjectsModel.cursorsAdded.keys())
+        for(touch in touchObjectsModel.touchList)
         {
-            addOrUpdateTouch(id, touchObjectsModel.cursorsAdded.get(id));
-        }
-        for(id in touchObjectsModel.cursorsUpdated.keys())
-        {
-            addOrUpdateTouch(id, touchObjectsModel.cursorsUpdated.get(id));
-        }
-        for(id in touchObjectsModel.cursorsRemoved.keys())
-        {
-            var t:DebugTouchView = touchIndicators.get(id);
-            if (t != null)
-            {
-                removeChild(t);
-                t = null;
-                touchIndicators.remove(id);
+            var id:UInt = touch.id;
+            if(touch.state == TouchState.END){
+                var t:DebugTouchView = touchIndicators.get(id);
+                if (t != null)
+                {
+                    removeChild(t);
+                    t = null;
+                    touchIndicators.remove(id);
+                }
+            }else{
+                addOrUpdateTouch(id, touch);
             }
         }
     }
 	
-	function addOrUpdateTouch(id:Int, cursor:TuioCursor):Void 
+	function addOrUpdateTouch(id:Int, cursor:TouchObject):Void 
 	{
         var t:DebugTouchView = touchIndicators.get(id);
 		if (t != null)

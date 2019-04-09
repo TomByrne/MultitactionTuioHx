@@ -11,8 +11,10 @@ import org.tuio.TuioObject;
 class BasicProcessableTuioListener extends BasicTuioListener
 {
 	var numberOfStoredRemovedTuio:Int = 10;
+
 	public var tuioObjects:Map<UInt, TuioObject> = new Map<UInt, TuioObject>(); // by sessionID that is unique every time you puta marker	
-	public var tuioCursors:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>(); // by sessionID that is unique every time you puta marker	
+	//public var touchObjects:Map<UInt, TouchObject> = new Map<UInt, TouchObject>(); // by sessionID that is unique every time you puta marker	
+
 	public var removedTuioObjects:Array<TuioObject> = new Array<TuioObject>();
 	public var markerProcesses:Array<ITuioStackableProcessor> = new Array<ITuioStackableProcessor>();
 	public var touchProcesses:Array<ITuioStackableProcessor> = new Array<ITuioStackableProcessor>();

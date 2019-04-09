@@ -23,8 +23,6 @@ class MarkerObjectsModel implements IMarkerObjectsModel
 	public var frameRemovedMarkers:Array<String> = new Array<String>();
 	public var frameUpdatedMarkers:Array<String> = new Array<String>();
 	
-	public var angleOffset:Float = -Math.PI / 2;
-	
 	public function new() 
 	{
 		

@@ -2,6 +2,7 @@ package multitaction.model.touch;
 
 import org.tuio.TuioCursor;
 import imagsyd.signals.Signal;
+import multitaction.model.touch.ITouchObjectsModel;
 
 /**
  * ...
@@ -10,13 +11,10 @@ import imagsyd.signals.Signal;
 @:rtti
 class TouchObjectsModel implements ITouchObjectsModel
 {
-	public var cursorsAdded:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
-	public var cursorsUpdated:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
-	public var cursorsRemoved:Map<UInt, TuioCursor> = new Map<UInt, TuioCursor>();
+    public var touchList:Array<TouchObject> = [];
+    public var touches:Map<UInt, TouchObject> = new Map<UInt, TouchObject>();  
     
 	public var onProcessed:Signal0 = new Signal0();
-	
-	public var touchesArray:Array<TuioCursor> = new Array<TuioCursor>();
 
 	public function new() 
 	{
@@ -25,15 +23,30 @@ class TouchObjectsModel implements ITouchObjectsModel
 
 	public function tick()
 	{
-		touchesArray = [];
 	}
 
     public function processed()
 	{
         onProcessed.dispatch();
-		cursorsAdded = new Map<UInt, TuioCursor>();
-		cursorsUpdated = new Map<UInt, TuioCursor>();
-		cursorsRemoved = new Map<UInt, TuioCursor>();
+
+        var i = 0;
+        while(i < touchList.length){
+            var touch = touchList[i];
+            if(touch.state == TouchState.END){
+                touchList.splice(i, 1);
+                touches.remove(touch.id);
+            }else{
+                i++;
+            }
+        }
+    }
+
+    public function abortTouch(id:UInt):Void
+    {
+        var touch = touches.get(id);
+        if(touch == null) return;
+        touches.remove(id);
+        touchList.remove(touch);
     }
 	
 }

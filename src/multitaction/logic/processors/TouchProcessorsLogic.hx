@@ -1,5 +1,6 @@
 package multitaction.logic.processors;
 
+import imagsyd.base.ISettings;
 import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.touch.TouchProcessorsModel;
 import multitaction.model.marker.IMarkerObjectsModel;
@@ -13,9 +14,11 @@ class TouchProcessorsLogic implements DescribedType
 	@inject public var touchObjectsModel:ITouchObjectsModel;
 	@inject public var touchProcessorsModel:TouchProcessorsModel;
 	@inject public var multitactionSettingsModel:MultitactionSettingsModel;
+	@inject public var settings:ISettings;
 
     public function setup()
     {
+		touchProcessorsModel.tuioTouchProcessors.push( new FlipOrientationTouchProcessor(settings.bool('tuioFlippedOrientation', false), touchObjectsModel ));
 		touchProcessorsModel.tuioTouchProcessors.push( new MarkerProximityTouchFilter(true, markerObjectsModel, touchObjectsModel ));
 		touchProcessorsModel.tuioTouchProcessors.push( new FractionToPixelsTouchProcessor(true, touchObjectsModel, multitactionSettingsModel.nativeScreenSize ));
     }
