@@ -16,7 +16,7 @@ class DomTouchAdapterLogic implements DescribedType
 
     var mouseTouchId:Null<Int>;
 
-    public var mimicMouse:Bool = false; // Careful: Lime doesn't like this
+    public var mimicMouse:Bool = true; // Careful: Lime doesn't like this
 
     public function setup()
     {
@@ -62,11 +62,11 @@ class DomTouchAdapterLogic implements DescribedType
             if(touchObj.id == mouseTouchId){
                 mouseTouchType = mouseType;
                 mouseTouch = touch;
-            }else{
+            }//else{
                 allTouches.push(touch);
                 touches.push(touch);
                 if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
-            }
+           // }
         }
 
         for(target in targets){
