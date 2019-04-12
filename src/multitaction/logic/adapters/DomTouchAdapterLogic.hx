@@ -15,6 +15,7 @@ class DomTouchAdapterLogic implements DescribedType
     @inject public var touchObjectsModel:ITouchObjectsModel;
 
     var mouseTouchId:Null<Int>;
+    var previousTouches:Map<Int, Touch> = new Map();
 
     public var mimicMouse:Bool = true; // Careful: Lime doesn't like this
 
@@ -33,9 +34,27 @@ class DomTouchAdapterLogic implements DescribedType
         var beginTouches:Array<Touch> = null;
         var moveTouches:Array<Touch> = null;
         var endTouches:Array<Touch> = null;
+        
+		for (id in previousTouches.keys()) 
+		{
+            if(!touchObjectsModel.touches.exists(id)){
+                var touch:Touch = previousTouches.get(id);
+                previousTouches.remove(id);
+
+                if(id == mouseTouchId){
+                    sendMouse('mouseup', touch.screenX, touch.screenY, touch.target);
+                    mouseTouchId = null;
+                }
+                //else{
+                    if(endTouches == null) endTouches = [];
+                    endTouches.push(touch);
+                //}
+            }
+        }
 		for (touchObj in touchObjectsModel.touchList) 
 		{
             var touch = convertTouch(touchObj);
+            previousTouches.set(touch.identifier, touch);
 
             var touches:Array<Touch> = null;
             var mouseType:String;
@@ -66,7 +85,7 @@ class DomTouchAdapterLogic implements DescribedType
                 allTouches.push(touch);
                 touches.push(touch);
                 if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
-           // }
+            //}
         }
 
         for(target in targets){
