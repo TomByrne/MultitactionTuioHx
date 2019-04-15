@@ -8,7 +8,6 @@ import multitaction.model.touch.ITouchObjectsModel;
  * ...
  * @author Michal Moczynski
  */
-@:rtti
 class TouchObjectsModel implements ITouchObjectsModel
 {
     public var touchList:Array<TouchObject> = [];

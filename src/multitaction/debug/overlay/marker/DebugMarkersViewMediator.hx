@@ -8,8 +8,6 @@ import multitaction.model.settings.MultitactionSettingsModel;
  * ...
  * @author Michal Moczynski
  */
-
-@:rtti
 class DebugMarkersViewMediator extends Mediator 
 {
 	@inject public var view:DebugMarkersView;

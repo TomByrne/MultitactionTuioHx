@@ -9,7 +9,6 @@ import imagsyd.notifier.Notifier;
  * ...
  * @author Michal Moczynski
  */
-@:rtti
 class MarkerObjectsModel implements IMarkerObjectsModel
 {
 //	public var tuioObjects:Array<MarkerObjectElement> = [];

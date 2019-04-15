@@ -13,8 +13,6 @@ import multitaction.model.settings.MultitactionSettingsModel;
  * ...
  * @author Michal Moczynski
  */
-
-@:rtti
 class MultitactionDebugPanelMediator extends Mediator 
 {
 	@inject public var view:MultitactionDebugPanel;

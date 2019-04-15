@@ -1,4 +1,5 @@
 package multitaction.model.touch;
+import org.swiftsuspenders.utils.DescribedType;
 import multitaction.model.marker.IMarkerObjectsModel;
 import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
 
@@ -6,8 +7,7 @@ import multitaction.logic.processors.marker.base.ITuioStackableProcessor;
  * ...
  * @author Michal Moczynski
  */
-@:rtti
-class TouchProcessorsModel
+class TouchProcessorsModel implements DescribedType
 {
 	/*
 	@inject markerObjectsModel:TuioObjectsModel;
