@@ -19,7 +19,7 @@ class DomTouchAdapterLogic implements DescribedType
 
     public var mimicMouse:Bool = true; // Careful: Lime doesn't like this
 
-    public function setup()
+    @:keep public function setup()
     {
         touchObjectsModel.onProcessed.add(onTouchesProcessed);
     }

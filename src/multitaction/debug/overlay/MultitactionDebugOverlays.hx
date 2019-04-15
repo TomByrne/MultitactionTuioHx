@@ -21,7 +21,7 @@ class MultitactionDebugOverlays implements DescribedType
 	var debugMarkersView:DebugMarkersView;
 
 	
-	public function setup() 
+	@:keep public function setup() 
 	{
 		multitactionSettingsModel.debugTouchShown.add( onDebugTouchShownChanged );
 		multitactionSettingsModel.debugMarkerShown.add( onDebugMarkerShownChanged );

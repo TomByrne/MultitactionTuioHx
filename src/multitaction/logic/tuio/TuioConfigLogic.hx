@@ -26,7 +26,7 @@ class TuioConfigLogic implements DescribedType
 	}
 	
 		
-	public function setup():Void
+	@:keep public function setup():Void
 	{
 		settings.watch(['tuioEnabled', 'tuioServer', 'tuioPort', 'minTuioCardNumber', 'maxTuioCardNumber', 'tuioFlippedOrientation'], onSettingsChanged);
 		onSettingsChanged();

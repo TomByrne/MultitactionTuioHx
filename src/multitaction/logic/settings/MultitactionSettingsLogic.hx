@@ -7,7 +7,7 @@ class MultitactionSettingsLogic implements DescribedType
 {
 	@inject public var multitactionSettingsModel:MultitactionSettingsModel;
 
-    public function setup()
+    @:keep public function setup()
     {
         #if openfl
 

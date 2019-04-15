@@ -15,7 +15,7 @@ class MarkerProcessorsLogic implements DescribedType
 	@inject public var multitactionSettingsModel:MultitactionSettingsModel;
 	@inject public var appSpaceConversionMarkerProcessor:AppSpaceConversionMarkerProcessor;
 
-    public function setup()
+    @:keep public function setup()
     {
 		markerProcessorsModel.tuioMarkerProcessors.push( new FlipOrientationMarkerProcessor(settings.bool('tuioFlippedOrientation', false), markerObjectsModel ));
 		markerProcessorsModel.tuioMarkerProcessors.push( new SimpleMarkerFromMarkerProcessor(false, markerObjectsModel) );

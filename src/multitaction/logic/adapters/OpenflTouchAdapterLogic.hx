@@ -15,7 +15,7 @@ class OpenflTouchAdapterLogic implements DescribedType
     var touchArray:Array<Int> = [];
     var mouseTouch:Null<Int> = null;
 
-    public function setup()
+    @:keep public function setup()
     {
         touch = new Touch(0, 0, 0, 0, 0, 0.5, 10);
 

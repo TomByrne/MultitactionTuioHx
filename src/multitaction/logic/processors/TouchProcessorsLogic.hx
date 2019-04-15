@@ -16,7 +16,7 @@ class TouchProcessorsLogic implements DescribedType
 	@inject public var multitactionSettingsModel:MultitactionSettingsModel;
 	@inject public var settings:ISettings;
 
-    public function setup()
+    @:keep public function setup()
     {
 		touchProcessorsModel.tuioTouchProcessors.push( new FlipOrientationTouchProcessor(settings.bool('tuioFlippedOrientation', false), touchObjectsModel ));
 		touchProcessorsModel.tuioTouchProcessors.push( new MarkerProximityTouchFilter(true, markerObjectsModel, touchObjectsModel ));

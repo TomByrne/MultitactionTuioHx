@@ -32,7 +32,7 @@ class MultitactionCardListener extends BasicProcessableTuioListener implements D
 		super();
 	}
 
-	public function setup()
+	@:keep public function setup()
 	{
 		markerModel = markerObjectsModel;
 		touchModel = touchObjectsModel;
