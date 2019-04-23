@@ -64,7 +64,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		
 		for ( moe in markerObjectsModel.markerObjectsMap)
 		{
-			if ( listener.frame - moe.frameId > keepAliveWhenLost)
+			if ( moe.frameId != null && listener.frame - moe.frameId > keepAliveWhenLost)
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );

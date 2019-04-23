@@ -38,7 +38,7 @@ typedef MarkerObjectElement =
 	cardIdChanged:Signal1<String>,//signal with this moe's uid dispatches when the card id changes
 	readCardIds:Map<UInt,UInt>,//store the number of all card ids that were recognised for this marker and the number of those recognitions (key - cardId, value - number of recognitions)
 	lastCardChangeFrame:UInt,//needed to calculate strenghts of different card ids if it changes over time (or flickers)
-	frameId:UInt,
+	?frameId:UInt, // Leave null for dummy lenses
 	fromTuio:Bool,
 	alive:Bool,
 	safetyRadius:Float
