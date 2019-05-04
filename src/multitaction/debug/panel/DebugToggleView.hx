@@ -7,6 +7,7 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 import openfl.events.MouseEvent;
+import imagsyd.debug.view.controls.Toggle;
 
 /**
  * ...
@@ -15,15 +16,16 @@ import openfl.events.MouseEvent;
  @:noCompletion
 class DebugToggleView extends Sprite 
 {
-	static var onColor:UInt = 0x8ac765;
-	static var offColor:UInt = 0xc76565;
+	//static var onColor:UInt = 0x8ac765;
+	//static var offColor:UInt = 0xc76565;
 
 	public var notifier:Notifier<Bool>;
     
-	var background:Quad;
+	//var background:Quad;
 	var nameText:TextField;
 	var nameString:String;
-	var indicator:Quad;
+	var toggle:Toggle;
+	//var indicator:Quad;
 
 	public function new( nameString:String, ?notifier:Notifier<Bool> ) 
 	{
@@ -33,13 +35,22 @@ class DebugToggleView extends Sprite
 
         if(notifier != null) notifier.add(onNotifierChanged);
 
-		background = new Quad(50, 20, 0x666666);
+		/*background = new Quad(50, 20, 0x666666);
 		background.alpha = 0.3;
 		addChild(background);
 		
 		indicator = new Quad( 20, 20, offColor);
 		indicator.x = 5;
-		addChild(indicator);
+		addChild(indicator);*/
+
+        toggle = new Toggle();
+        toggle.autoToggle = false;
+        toggle.setLabels('', '');
+        toggle.width = 50;
+        toggle.height = 20;
+        addChild(toggle);
+
+        toggle.clicked.add(onToggleClicked);
 		
 		nameText = new TextField();
 		nameText.defaultTextFormat = new TextFormat("_typewriter", 17, 0x555555, null, null, null, null, null, TextFormatAlign.LEFT);
@@ -50,12 +61,21 @@ class DebugToggleView extends Sprite
 //		nameText.y = 5;
 		addChild(nameText);
 		
-        addEventListener(MouseEvent.CLICK, onClick);
+        //addEventListener(MouseEvent.CLICK, onClick);
 	}
 
-    function onNotifierChanged() updateIndicator(notifier.value);
+    function onToggleClicked()
+    {
+        notifier.value = !notifier.value;
+    }
 
-    function onClick(e:MouseEvent)
+    //function onNotifierChanged() updateIndicator(notifier.value);
+    function onNotifierChanged()
+    {
+        toggle.selected.value = notifier.value;
+    }
+
+    /*function onClick(e:MouseEvent)
     {
         if(notifier != null) notifier.value = !notifier.value;
     }
@@ -72,6 +92,6 @@ class DebugToggleView extends Sprite
 			indicator.x = 5;
 			indicator.color = offColor;
 		}
-	}
+	}*/
 	
 }
