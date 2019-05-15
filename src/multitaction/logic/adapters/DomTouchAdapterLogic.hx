@@ -54,13 +54,14 @@ class DomTouchAdapterLogic implements DescribedType
 		for (touchObj in touchObjectsModel.touchList) 
 		{
             var touch = convertTouch(touchObj);
-            previousTouches.set(touch.identifier, touch);
 
             var touches:Array<Touch> = null;
             var mouseType:String;
             switch(touchObj.state)
             {
                 case START:
+                    previousTouches.set(touch.identifier, touch);
+
                     if(beginTouches == null) beginTouches = [];
                     touches = beginTouches;
                     mouseType = 'mousedown';
@@ -68,11 +69,15 @@ class DomTouchAdapterLogic implements DescribedType
                     if(mimicMouse && mouseTouchId == null) mouseTouchId = touchObj.id;
                     
                 case MOVE:
+                    previousTouches.set(touch.identifier, touch);
+
                     if(moveTouches == null) moveTouches = [];
                     touches = moveTouches;
                     mouseType = 'mousemove';
                     
                 case END:
+                    previousTouches.remove(touch.identifier);
+
                     if(endTouches == null) endTouches = [];
                     touches = endTouches;
                     mouseType = 'mouseup';
