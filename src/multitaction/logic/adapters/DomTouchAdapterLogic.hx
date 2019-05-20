@@ -49,6 +49,7 @@ class DomTouchAdapterLogic implements DescribedType
                     if(endTouches == null) endTouches = [];
                     endTouches.push(touch);
                 //}
+                if(targets.indexOf(touch.target) == -1) targets.push(touch.target);
             }
         }
 		for (touchObj in touchObjectsModel.touchList) 
