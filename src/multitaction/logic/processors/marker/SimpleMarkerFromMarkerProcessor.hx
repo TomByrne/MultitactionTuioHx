@@ -77,6 +77,7 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 			fractPos:new Array<MarkerPoint>(), 
 			posApp:{x:0.0, y:0.0}, 
 			posScreen:{x:0.0, y:0.0}, 
+			prevRotation:to.a, 
 			rotation:to.a, 
 			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 

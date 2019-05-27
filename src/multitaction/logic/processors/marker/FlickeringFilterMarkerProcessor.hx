@@ -20,7 +20,8 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	var frameId:Int;
 	
 	public var velocityThreshold:Float = 0.08;
-	public var movementThreshold:Float = 0.0008;	
+	public var movementThreshold:Float = 0.0008;//0.0008;
+	public var rotationThreshold:Float = 0.017;
 	public var nominalSpeed:Float = 0.02;
 	public var distanceThreshold:Float = 0.11;
 	public var maxSpeedMiutiplier:Float = 2.5;	
@@ -108,7 +109,14 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		moeUpdatedByAge.set( moe.uid, toAge.get("t" + to.sessionID));		
 		
 		var vel:Float = Math.abs(to.X * to.Y);
-		moe.rotation = to.a;
+		if( Math.abs( moe.prevRotation - to.a) > rotationThreshold)
+		{
+			moe.rotation = to.a;
+			moe.prevRotation = to.a;
+		}
+		else
+			moe.rotation = moe.prevRotation;
+
 		moe.alive = true;
 		moe.frameId = to.frameID;
 
@@ -177,6 +185,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			fractPos: new Array<MarkerPoint>(), 
 			posApp: {x:0.0, y:0.0}, 
 			posScreen: {x:0.0, y:0.0}, 
+			prevRotation:to.a, 
 			rotation:to.a, 
 			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 
