@@ -17,7 +17,7 @@ class MarkerProcessorsLogic implements DescribedType
 
     @:keep public function setup()
     {
-		markerProcessorsModel.tuioMarkerProcessors.push( new FlipOrientationMarkerProcessor(settings.bool('tuioFlippedOrientation', false), markerObjectsModel ));
+//		markerProcessorsModel.tuioMarkerProcessors.push( new FlipOrientationMarkerProcessor(settings.bool('tuioFlippedOrientation', false), markerObjectsModel ));
 		markerProcessorsModel.tuioMarkerProcessors.push( new SimpleMarkerFromMarkerProcessor(false, markerObjectsModel) );
 		markerProcessorsModel.tuioMarkerProcessors.push( new FlickeringFilterMarkerProcessor(true, markerObjectsModel));
 		markerProcessorsModel.tuioMarkerProcessors.push( new RotateMarkersMarkerProcessor(true, markerObjectsModel, settings.get('tuioRotationOffset')));

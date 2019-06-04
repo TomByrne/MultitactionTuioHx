@@ -26,15 +26,17 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
     private var src : String = AbstractTuioAdapter.DEFAULT_SOURCE;
     var minCardId:Int;
     var maxCardId:Int;
+    public var orientationFlipped:Bool;
     
     /**
 		 * Creates an instance of the TuioClient with the given IOSConnector.
 		 * 
 		 * @param	connector An instance that implements IOSConnector, establishes and handles an incoming connection. 
 		 */
-    public function new(connector : IOSCConnector, minCardId:Int, maxCardId:Int)
+    public function new(connector : IOSCConnector, minCardId:Int, maxCardId:Int, orientationFlipped:Bool)
     {
         super(this);
+        this.orientationFlipped = orientationFlipped;
         this.minCardId = minCardId;
         this.maxCardId = maxCardId;
         
@@ -395,6 +397,8 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                 if (isCur)
                 {
                     tuioContainer = new TuioCursor(type, s, x, y, z, X, Y, Z, m, this.fseq, this.src);
+                    if(orientationFlipped)
+                        tuioContainer.flip();
                     this._tuioCursors[this.src].push(tuioContainer);
                     dispatchAddCursor(try cast(tuioContainer, TuioCursor) catch(e:Dynamic) null);
                 }
@@ -403,17 +407,23 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                     if(isValidCardId(i))
                     {
                         tuioContainer = new TuioObject(type, s, i, x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq, this.src);
+                        if(orientationFlipped)
+                            tuioContainer.flip();
                         this._tuioObjects[this.src].push(tuioContainer);
                         dispatchAddObject(try cast(tuioContainer, TuioObject) catch(e:Dynamic) null);
                     }
                     else
                     {
+                        #if debug
                         this.log("card with id " + i + " recognized, ignoring");
+                        #end
                     }
                 }
                 else if (isBlb)
                 {
                     tuioContainer = new TuioBlob(type, s, x, y, z, a, b, c, w, h, d, f, v, X, Y, Z, A, B, C, m, r, this.fseq, this.src);
+                    if(orientationFlipped)
+                        tuioContainer.flip();
                     this._tuioBlobs[this.src].push(tuioContainer);
                     dispatchAddBlob(try cast(tuioContainer, TuioBlob) catch(e:Dynamic) null);
                 }
@@ -425,6 +435,8 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
             else if (isCur)
             {
                 (try cast(tuioContainer, TuioCursor) catch(e:Dynamic) null).update(x, y, z, X, Y, Z, m, this.fseq);
+                if(orientationFlipped)
+                    tuioContainer.flip();
                 dispatchUpdateCursor(try cast(tuioContainer, TuioCursor) catch(e:Dynamic) null);
             }
             else if (isObj)
@@ -434,20 +446,29 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                 {
                     if(isValidCardId(i))
                     {
+                        #if debug
+                        this.log("card id updated to " + i + ", updating");
+                        #end
                         to.update(x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq);
+                        if(orientationFlipped)
+                            to.flip();
                         to.classID = i;
                         dispatchUpdateObject(to);
                     }
                     else
                     {
 //                        dispatchRemoveObject( cast(to, TuioObject) );
-                        this.log("card id updated to invalid " + i + ", ignoring");
+                        #if debug
+                        this.log("card id updated to invalid " + i + ", ignoring");                        
+                        #end
                     }
                 }
             }
             else if (isBlb)
             {
                 (try cast(tuioContainer, TuioBlob) catch(e:Dynamic) null).update(x, y, z, a, b, c, w, h, d, f, v, X, Y, Z, A, B, C, m, r, this.fseq);
+                if(orientationFlipped)
+                    tuioContainer.flip();
                 dispatchUpdateBlob(try cast(tuioContainer, TuioBlob) catch(e:Dynamic) null);
             }
             else

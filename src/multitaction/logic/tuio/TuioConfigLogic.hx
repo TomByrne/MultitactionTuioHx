@@ -6,6 +6,7 @@ import org.swiftsuspenders.utils.DescribedType;
 import org.tuio.ITuioListener;
 import org.tuio.connectors.UDPConnector;
 import org.tuio.TuioClient;
+import notifier.Notifier;
 
 /**
  * @author Michal Moczynski
@@ -20,6 +21,7 @@ class TuioConfigLogic implements DescribedType
 	var tuioClient:TuioClient;
 	var connector:UDPConnector;
 	var _listeners:Array<ITuioListener> = [];
+	var orientationFlipped:Notifier<Bool> = new Notifier<Bool>();
 	
 	public function new() 
 	{
@@ -28,10 +30,18 @@ class TuioConfigLogic implements DescribedType
 		
 	@:keep public function setup():Void
 	{
-		settings.watch(['tuioEnabled', 'tuioServer', 'tuioPort', 'minTuioCardNumber', 'maxTuioCardNumber', 'tuioFlippedOrientation'], onSettingsChanged);
+		settings.watch(['tuioEnabled', 'tuioServer', 'tuioPort', 'minTuioCardNumber', 'maxTuioCardNumber'/*, 'tuioFlippedOrientation'*/], onSettingsChanged);
+		orientationFlipped = settings.get('tuio_flipped_orientation');
+		orientationFlipped.add( handleOrientationFlipped, false, true);
 		onSettingsChanged();
 
 		NetworkHardware.onIpChange(onIpChange);
+	}
+
+	function handleOrientationFlipped()
+	{
+		if(tuioClient != null)
+			tuioClient.orientationFlipped = orientationFlipped.value;
 	}
 
 	function onIpChange()
@@ -66,7 +76,7 @@ class TuioConfigLogic implements DescribedType
 			connector.close();
 			
 			connector = new UDPConnector(tuioServer, tuioPort, true);			
-			tuioClient = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
+			tuioClient = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber, orientationFlipped.value);
 			
 			if(_validCodes != null) tuioClient.setValidCodes( _validCodes );
 
@@ -82,7 +92,7 @@ class TuioConfigLogic implements DescribedType
 		try 
 		{
 			connector = new UDPConnector(tuioServer, tuioPort, true);			
-			tuioClient = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber);
+			tuioClient = new TuioClient(connector, minTuioCardNumber, maxTuioCardNumber, orientationFlipped.value);
 			if(_validCodes != null)
 				tuioClient.setValidCodes(_validCodes);
 		}

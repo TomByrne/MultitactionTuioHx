@@ -18,7 +18,7 @@ class TouchProcessorsLogic implements DescribedType
 
     @:keep public function setup()
     {
-		touchProcessorsModel.tuioTouchProcessors.push( new FlipOrientationTouchProcessor(settings.bool('tuioFlippedOrientation', false), touchObjectsModel ));
+//		touchProcessorsModel.tuioTouchProcessors.push( new FlipOrientationTouchProcessor(settings.bool('tuioFlippedOrientation', false), touchObjectsModel ));
 		touchProcessorsModel.tuioTouchProcessors.push( new MarkerProximityTouchFilter(true, markerObjectsModel, touchObjectsModel ));
 		touchProcessorsModel.tuioTouchProcessors.push( new FractionToPixelsTouchProcessor(true, touchObjectsModel, multitactionSettingsModel.nativeScreenSize ));
     }

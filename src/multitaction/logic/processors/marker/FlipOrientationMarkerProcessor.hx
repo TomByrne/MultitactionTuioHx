@@ -26,6 +26,7 @@ class FlipOrientationMarkerProcessor implements ITuioStackableProcessor
 	{
         for(to in listener.tuioObjects)
         {
+			this.log("to " + to.x + " " + to.y);
             to.flip();
         }
 	}
