@@ -18,7 +18,8 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 	var markerObjectsModel:IMarkerObjectsModel;
 	var touchObjectsModel:ITouchObjectsModel;
 	
-	public var distanceThreshold:Float = 0.05; //0.053 in fraction (tuio)
+	public var distanceThresholdX:Float = 140 / 3840;
+	public var distanceThresholdY:Float = 140 / 2160;
 
 	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, touchObjectsModel:ITouchObjectsModel) 
 	{
@@ -44,7 +45,7 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 		{
             var touchX:Float = touchObj.x / touchObj.rangeX;
             var touchY:Float = touchObj.y / touchObj.rangeY;
-			if ( moe.fractPos.length > 0 && GeomTools.dist( moe.fractPos[0].x, moe.fractPos[0].y, touchX, touchY) < distanceThreshold)
+			if ( moe.fractPos.length > 0 && Math.abs(moe.fractPos[0].x - touchX) < distanceThresholdX && Math.abs(moe.fractPos[0].y - touchY) < distanceThresholdY)
 			{
 				return true;
 			}

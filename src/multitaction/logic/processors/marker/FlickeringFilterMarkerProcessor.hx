@@ -82,9 +82,11 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		{
 
 			moe.safetyRadius = distanceThreshold;
-			if (GeomTools.dist( to.x, to.y, moe.fractPos[0].x, moe.fractPos[0].y ) < distanceThreshold && to.classID == moe.cardId)
+			if (GeomTools.dist( to.x, to.y, moe.fractPos[0].x, moe.fractPos[0].y ) < distanceThreshold)
 			{
-				markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
+				if(to.classID == moe.cardId)
+					markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
+
 				foundDouble = true;				
 			}	
 		}		
