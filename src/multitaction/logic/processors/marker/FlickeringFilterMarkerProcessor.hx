@@ -23,9 +23,9 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	public var movementThreshold:Float = 0.0008;//0.0008;
 	public var rotationThreshold:Float = 0.017;
 	public var nominalSpeed:Float = 0.02;
-	public var distanceThresholdX:Float = 340 / 3840;
-	public var distanceThresholdY:Float = 340 / 2160;
-	public var maxSpeedMiutiplier:Float = 2.5;	
+	public var distanceThresholdX:Float = 300 / 3840;
+	public var distanceThresholdY:Float = 300 / 2160;
+	public var maxSpeedMiutiplier:Float = 1;	
 	public var keepAliveWhenLost:Int = 100; //for how many frames the lost markr is held in the system (on the top of able setting - better t set it to 1 on th table and handle it here)
 	public var displayName:String = "Flicker filter";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
@@ -33,19 +33,38 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	public var toAge:Map<String, Int> = new Map<String, Int>();
 	public var moeUpdatedByAge:Map<String, Int> = new Map<String, Int>();
 
+	var retreiveOnlyTheSameCardId:Bool = false;
+
 	var safeZoneSizeNotifier:Notifier<Float>;
 	var safeZoneMaxMultiNotifier:Notifier<Float>;
+	var keepAliveNotifier:Notifier<Float>;
+	var retreiveMarkersNotifier:Notifier<Bool>;
 	
-	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, safeZoneSizeNotifier:Notifier<Float>, safeZoneMaxMultiNotifier:Notifier<Float>) 
+	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, safeZoneSizeNotifier:Notifier<Float>, safeZoneMaxMultiNotifier:Notifier<Float>, keepAliveNotifier:Notifier<Float>, retreiveMarkersNotifier:Notifier<Bool>) 
 	{
 		this.active.value = active;
 		this.markerObjectsModel = markerObjectsModel;
 		this.safeZoneSizeNotifier = safeZoneSizeNotifier;
 		this.safeZoneMaxMultiNotifier = safeZoneMaxMultiNotifier;
+		this.keepAliveNotifier = keepAliveNotifier;
+		this.retreiveMarkersNotifier = retreiveMarkersNotifier;
 		this.safeZoneSizeNotifier.add( handleSafeZoneSizeChanged, false, true );
 		this.safeZoneMaxMultiNotifier.add( handleSafeZoneMaxMultiChanged, false, true );
+		this.keepAliveNotifier.add( handleKeepAliveNotifierChanged, false, true );
+		this.retreiveMarkersNotifier.add( handleRetreiveMarkersNotifierChanged, false, true );
 	}
 	
+	function handleRetreiveMarkersNotifierChanged(val:Bool)
+	{
+		retreiveOnlyTheSameCardId = val;
+	}
+
+	function handleKeepAliveNotifierChanged(val:Float)
+	{
+		keepAliveWhenLost = Std.int(val);
+		this.log("keepAliveWhenLost changed to " + keepAliveWhenLost);
+	}
+
 	function handleSafeZoneMaxMultiChanged(val:Float)
 	{
 		maxSpeedMiutiplier = val;
@@ -73,7 +92,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 				}
 				else
 				{
-					
+					updateMarker( to );
 				}
 			}
 			else
@@ -102,7 +121,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			calculateafeRadius(moe);
 			if (Math.abs(to.x - moe.fractPos[0].x) < moe.safetyRadiusX && Math.abs(to.y - moe.fractPos[0].y) < moe.safetyRadiusY)
 			{
-				if(to.classID == moe.cardId)
+				if(retreiveOnlyTheSameCardId == false || to.classID == moe.cardId)
 					markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
 
 				foundDouble = true;				
