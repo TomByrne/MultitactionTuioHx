@@ -42,5 +42,6 @@ typedef MarkerObjectElement =
 	?frameId:UInt, // Leave null for dummy lenses
 	fromTuio:Bool,
 	alive:Bool,
-	safetyRadius:Float
+	safetyRadiusX:Float,
+	safetyRadiusY:Float
 }

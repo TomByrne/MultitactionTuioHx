@@ -89,7 +89,9 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 			frameId:to.frameID,
 			fromTuio:true, 
 			alive:true, 
-			safetyRadius:0.1};
+			safetyRadiusX:0.15,
+			safetyRadiusY:0.25
+			};
 
 		this.log( "    added moe with new uid " + moe.uid);
 		moe.fractPos.unshift( { x:to.x, y:to.y } );

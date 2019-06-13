@@ -42,9 +42,9 @@ class DebugMarkerView extends Sprite
         
 		x = markerObjectsElement.posScreen.x;
 		y = markerObjectsElement.posScreen.y;
-        var scale = markerObjectsElement.safetyRadius / 0.1;
-		scaleX = scale;
-		scaleY = scale;
+//        var scale = markerObjectsElement.safetyRadiusX / 0.1;
+//		scaleX = scale;
+//		scaleY = scale;
 		rotation = markerObjectsElement.rotation * 180 / Math.PI;
     }
 	

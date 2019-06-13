@@ -23,7 +23,8 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	public var movementThreshold:Float = 0.0008;//0.0008;
 	public var rotationThreshold:Float = 0.017;
 	public var nominalSpeed:Float = 0.02;
-	public var distanceThreshold:Float = 0.11;
+	public var distanceThresholdX:Float = 340 / 3840;
+	public var distanceThresholdY:Float = 340 / 2160;
 	public var maxSpeedMiutiplier:Float = 2.5;	
 	public var keepAliveWhenLost:Int = 100; //for how many frames the lost markr is held in the system (on the top of able setting - better t set it to 1 on th table and handle it here)
 	public var displayName:String = "Flicker filter";
@@ -31,13 +32,31 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	
 	public var toAge:Map<String, Int> = new Map<String, Int>();
 	public var moeUpdatedByAge:Map<String, Int> = new Map<String, Int>();
+
+	var safeZoneSizeNotifier:Notifier<Float>;
+	var safeZoneMaxMultiNotifier:Notifier<Float>;
 	
-	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel) 
+	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, safeZoneSizeNotifier:Notifier<Float>, safeZoneMaxMultiNotifier:Notifier<Float>) 
 	{
 		this.active.value = active;
 		this.markerObjectsModel = markerObjectsModel;
+		this.safeZoneSizeNotifier = safeZoneSizeNotifier;
+		this.safeZoneMaxMultiNotifier = safeZoneMaxMultiNotifier;
+		this.safeZoneSizeNotifier.add( handleSafeZoneSizeChanged, false, true );
+		this.safeZoneMaxMultiNotifier.add( handleSafeZoneMaxMultiChanged, false, true );
 	}
 	
+	function handleSafeZoneMaxMultiChanged(val:Float)
+	{
+		maxSpeedMiutiplier = val;
+	}
+
+	function handleSafeZoneSizeChanged(val:Float)
+	{
+		distanceThresholdX = val/3840;
+		distanceThresholdY = val/2160;
+	}
+
 	public function process(listener:BasicProcessableTuioListener):Void
 	{
 		frameId = listener.frame;
@@ -80,9 +99,8 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
-
-			moe.safetyRadius = distanceThreshold;
-			if (GeomTools.dist( to.x, to.y, moe.fractPos[0].x, moe.fractPos[0].y ) < distanceThreshold)
+			calculateafeRadius(moe);
+			if (Math.abs(to.x - moe.fractPos[0].x) < moe.safetyRadiusX && Math.abs(to.y - moe.fractPos[0].y) < moe.safetyRadiusY)
 			{
 				if(to.classID == moe.cardId)
 					markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid );
@@ -93,12 +111,29 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		return foundDouble;
 	}
 	
+	function calculateafeRadius(moe:MarkerObjectElement)
+	{
+		var speedMult:Float = 1;
+		if(moe.fractPos.length > 3)
+		{
+			var pos = moe.fractPos[0];
+			var pos1 = moe.fractPos[3];
+			speedMult = 1 + GeomTools.dist( pos.x, pos.y, pos1.x, pos1.y ) / 0.025;
+			if(speedMult > maxSpeedMiutiplier)
+				speedMult = maxSpeedMiutiplier;
+		}
+		moe.safetyRadiusX = distanceThresholdX * speedMult;
+		moe.safetyRadiusY = distanceThresholdY * speedMult;
+	}
+
 	function updateMarker( to:TuioObject ) 
 	{
 		var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get( "t" + to.sessionID ) );
 		if (moe == null)//already updated in this frame (by older marker)
 			return;
 			
+		calculateafeRadius(moe);
+
 		if (moeUpdatedByAge.exists(moe.uid))
 		{
 			var reviousAge:Int = moeUpdatedByAge.get(moe.uid);
@@ -199,10 +234,12 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			frameId:to.frameID,
 			fromTuio:true, 
 			alive:true, 
-			safetyRadius:distanceThreshold};
+			safetyRadiusX:distanceThresholdX,
+			safetyRadiusY:distanceThresholdY,
+			};
 
 		moe.fractPos.unshift( { x:to.x, y:to.y } );
-		this.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadius + " moe.fractPos " + moe.fractPos[0]);
+		this.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadiusX + " moe.fractPos " + moe.fractPos[0]);
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);
 		markerObjectsModel.markerObjectsMap.set( moe.uid, moe);
