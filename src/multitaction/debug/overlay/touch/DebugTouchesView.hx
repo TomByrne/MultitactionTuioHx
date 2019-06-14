@@ -43,8 +43,31 @@ class DebugTouchesView extends Sprite
                 addOrUpdateTouch(id, touch);
             }
         }
+
+		for (id in touchIndicators.keys())
+		{
+            if(Lambda.find( touchObjectsModel.touchList, touch -> touch.id == id) == null)
+            {
+                var t:DebugTouchView = touchIndicators.get(id);
+                if (t != null)
+                {
+                    t.scaleX = t.scaleY = 0.3;
+                    haxe.Timer.delay( removeTouchIndicator.bind(id), 3000);
+                }
+            }
+        }
     }
 	
+	function removeTouchIndicator(id:Int):Void 
+    {
+        var t:DebugTouchView = touchIndicators.get(id);
+        if (t != null)
+        {
+            removeChild(t);
+            t = null;
+            touchIndicators.remove(id);
+        }
+    }
 	function addOrUpdateTouch(id:Int, cursor:TouchObject):Void 
 	{
         var t:DebugTouchView = touchIndicators.get(id);

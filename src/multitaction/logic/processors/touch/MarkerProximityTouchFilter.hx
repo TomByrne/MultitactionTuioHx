@@ -45,7 +45,7 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 		{
             var touchX:Float = touchObj.x / touchObj.rangeX;
             var touchY:Float = touchObj.y / touchObj.rangeY;
-			if ( moe.fractPos.length > 0 && Math.abs(moe.fractPos[0].x - touchX) < distanceThresholdX && Math.abs(moe.fractPos[0].y - touchY) < distanceThresholdY)
+			if ( moe.fractPos.length > 0 && Math.abs(moe.fractPos[0].x - touchX) < moe.safetyRadiusX / 2 && Math.abs(moe.fractPos[0].y - touchY) < moe.safetyRadiusY  / 2)
 			{
 				return true;
 			}
