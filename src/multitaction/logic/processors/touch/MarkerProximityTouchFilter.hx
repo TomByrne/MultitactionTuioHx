@@ -21,6 +21,8 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 	public var distanceThresholdX:Float = 140 / 3840;
 	public var distanceThresholdY:Float = 140 / 2160;
 
+	var ignored:Map<Int, Bool> = new Map();
+
 	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, touchObjectsModel:ITouchObjectsModel) 
 	{
 		this.active.value = active;
@@ -32,10 +34,29 @@ class MarkerProximityTouchFilter implements ITuioStackableProcessor
 	{
         for( touch in touchObjectsModel.touchList)
         {
-            if ( isCursorCloseToMarker(touch) == true )
-			{
-				touchObjectsModel.abortTouch( touch.id );
+			switch(touch.state){
+				case TouchState.START:
+					if ( isCursorCloseToMarker(touch) ){
+						ignored.set( touch.id, true );
+						touchObjectsModel.abortTouch( touch.id );
+					}
+
+				case TouchState.MOVE:
+					if(ignored.get(touch.id)){
+						touchObjectsModel.abortTouch( touch.id );
+
+					}else if( isCursorCloseToMarker(touch) ){
+						ignored.set( touch.id, true );
+						touch.state = TouchState.END;
+					}
+
+				case TouchState.END:
+					if(ignored.get(touch.id)){
+						ignored.remove(touch.id);
+						touchObjectsModel.abortTouch( touch.id );
+					}
 			}
+            
         }
 	}
 	
