@@ -1,7 +1,7 @@
 package multitaction;
 
 import imagsyd.base.BaseBundle;
-import imagsyd.startup.signals.StartupCompleteSignal;
+import imagsyd.boot.signals.StartupCompleteSignal;
 import robotlegs.bender.framework.api.IContext;
 import multitaction.model.marker.*;
 import multitaction.model.settings.MultitactionSettingsModel;
