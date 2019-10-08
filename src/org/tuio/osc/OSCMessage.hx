@@ -161,13 +161,13 @@ class OSCMessage extends OSCPacket
                 this.openArray.push(value);
                 this.bytes.writeInt(value);
             }
-            else if (oscType == "b" && Std.is(value, ByteArray))
+            else if (oscType == "b" && Std.is(value, ByteArrayData))
             {
                 this.pattern += oscType;
                 this.openArray.push(value);
                 this.writeBlob(try cast(value, ByteArray) catch(e:Dynamic) null);
             }
-            else if (oscType == "h" && Std.is(value, ByteArray))
+            else if (oscType == "h" && Std.is(value, ByteArrayData))
             {
                 this.pattern += oscType;
                 this.openArray.push(value);
