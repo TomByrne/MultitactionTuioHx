@@ -63,7 +63,8 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 	function updateMarker(to:TuioObject) 
 	{
 		var moe:MarkerObjectElement = markerObjectsModel.markerObjectsMap.get( markerObjectsModel.tuioToMarkerMap.get("t" + to.sessionID ) );
-		moe.rotation = to.a;
+		moe.inputRotation = to.a;
+		moe.outputRotation = to.a;
 		moe.alive = true;
 		moe.frameId = to.frameID;
 		moe.fractPos.unshift( { x:to.x, y:to.y } );
@@ -78,7 +79,8 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 			posApp:{x:0.0, y:0.0}, 
 			posScreen:{x:0.0, y:0.0}, 
 			prevRotation:to.a, 
-			rotation:to.a, 
+			inputRotation:to.a, 
+			outputRotation:to.a, 
 			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 
 			previousCardId:null,

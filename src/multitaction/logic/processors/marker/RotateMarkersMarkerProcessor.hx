@@ -13,8 +13,6 @@ class RotateMarkersMarkerProcessor implements ITuioStackableProcessor
 
 	public var displayName:String = "Rotate Markers";
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
-
-    var lastFrameIds:Map<String, UInt> = new Map();
 	
 	public function new(active:Bool, markerObjectsModel:IMarkerObjectsModel, rotation:Notifier<Float>) 
 	{
@@ -30,10 +28,7 @@ class RotateMarkersMarkerProcessor implements ITuioStackableProcessor
 
         for(moe in markerObjectsModel.markerObjectsMap)
         {
-            if(lastFrameIds.get(moe.uid) == moe.frameId) continue;
-
-            lastFrameIds.set(moe.uid, moe.frameId);
-            moe.rotation += rotation;
+            moe.outputRotation += rotation;
         }
 	}
 	

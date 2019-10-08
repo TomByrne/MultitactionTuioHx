@@ -415,7 +415,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                     else
                     {
                         #if debug
-                        this.log("card with id " + i + " recognized, ignoring");
+                        this.log("card with invalid id " + i + " recognized, ignoring");
                         #end
                     }
                 }

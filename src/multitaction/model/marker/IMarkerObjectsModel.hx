@@ -28,10 +28,12 @@ typedef MarkerObjectElement =
 {
 	posApp:MarkerPoint,//in pixels (app space)
 	posScreen:MarkerPoint,//in pixels (screen space)
+	
+	prevRotation:Float,
+	inputRotation:Float,
+	outputRotation:Float,
 
 	fractPos:Array<MarkerPoint>,
-	prevRotation:Float,
-	rotation:Float,
 	uid:String,//sessionId
 	cardId:UInt,//the card id that our logic decided it is - it may be different from current tuio card id
 	previousCardId:UInt,//previously recognised card id (before it changed)

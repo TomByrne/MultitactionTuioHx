@@ -167,12 +167,15 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		var vel:Float = Math.abs(to.X * to.Y);
 		if( Math.abs( moe.prevRotation - to.a) > rotationThreshold)
 		{
-			moe.rotation = to.a;
+			moe.inputRotation = to.a;
 			moe.prevRotation = to.a;
 		}
 		else
-			moe.rotation = moe.prevRotation;
+			moe.inputRotation = moe.prevRotation;
 
+		if(to.classID == 12) trace('input: ' + (to.x * 3840)+' '+(to.y * 2160));
+
+		moe.outputRotation = moe.inputRotation;
 		moe.alive = true;
 		moe.frameId = to.frameID;
 
@@ -242,7 +245,8 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			posApp: {x:0.0, y:0.0}, 
 			posScreen: {x:0.0, y:0.0}, 
 			prevRotation:to.a, 
-			rotation:to.a, 
+			inputRotation:to.a, 
+			outputRotation:to.a, 
 			uid: MarkerUID.getNextUID(), 
 			cardId:to.classID, 
 			previousCardId:null,
