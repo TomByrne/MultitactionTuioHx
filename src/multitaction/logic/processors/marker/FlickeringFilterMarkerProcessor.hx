@@ -108,6 +108,8 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );
 				//this.log( "    removed moe with uid " + moe.uid);
+			}else{
+				moe.outputRotation = moe.inputRotation;
 			}
 		}
 	}
@@ -155,9 +157,10 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 
 		if (moeUpdatedByAge.exists(moe.uid))
 		{
-			var reviousAge:Int = moeUpdatedByAge.get(moe.uid);
-			if (toAge.get("t" + to.sessionID) < reviousAge)	//he new to is yonger
+			var previousAge:Int = moeUpdatedByAge.get(moe.uid);
+			if (toAge.get("t" + to.sessionID) < previousAge)	//the new to is younger
 			{
+				moe.outputRotation = moe.inputRotation;
 				return;
 			}
 		}
