@@ -62,6 +62,8 @@ class DebugToggleView extends Sprite
 		addChild(nameText);
 		
         //addEventListener(MouseEvent.CLICK, onClick);
+
+		onNotifierChanged();
 	}
 
     function onToggleClicked()

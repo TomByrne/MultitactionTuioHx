@@ -14,7 +14,7 @@ import js.html.WebSocket;
 */
 import net.DatagramSocket;
 import openfl.utils.ByteArray;
-import org.tuio.osc.OSCEvent;
+import imagsyd.time.EnterFrame;
 
 /**
 	 * A simple class for receiving and sending OSCPackets via UDP.
@@ -23,11 +23,13 @@ import org.tuio.osc.OSCEvent;
 
 class OSCDatagramSocket
 {
+	public var dataReceivedCallback: ByteArray->Void;	
+
     private var Debug : Bool = true;
     private var Buffer : ByteArray = new ByteArray();
     private var PartialRecord : Bool = false;
-	public var dataReceivedCallback: ByteArray->Void;	
 	private var socket:DatagramSocket;
+	private var messagesQueue:Array<ByteArray> = [];
     
     public function new(host : String = "127.0.0.1", port : Int = 3333, bind : Bool = true)
     {
@@ -43,11 +45,19 @@ class OSCDatagramSocket
             socket.connect(host, port);
         }
 		socket.initialized();
+
+        EnterFrame.add(onTick);
     }
+    
+	
+	function onTick() {
+		while (messagesQueue.length > 0) dataReceivedCallback(messagesQueue.shift());
+	}
 
     public function close()
     {
         socket.close();
+        EnterFrame.remove(onTick);
     }
     
     private function configureListeners() : Void
@@ -61,7 +71,7 @@ class OSCDatagramSocket
 	
     private function dataReceived(data:ByteArray):Void
     {
-		dataReceivedCallback(data);
+		messagesQueue.push(data);
     }
     
 	

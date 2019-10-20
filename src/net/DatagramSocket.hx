@@ -56,11 +56,9 @@ class  DatagramSocket extends flash.net.DatagramSocket
 #else
 import js.node.dgram.Socket;
 import js.node.Dgram;
-import imagsyd.time.EnterFrame;
 
 class DatagramSocket 
 {
-	var messagesQueue:Array<Bytes> = [];
 	public var connectCallback:Void->Void;
 	public var closeCallback:Void->Void;
 	public var ioErrorCallback:String->Void;
@@ -79,14 +77,9 @@ class DatagramSocket
 			//ioErrorCallback(err.stack);
 		});
 
-		nodeDgramSocket.on("message", function (msg:UInt8Array, rinfo) {
-//			var bytes:Bytes = cast(msg, Bytes);			
+		nodeDgramSocket.on("message", function (msg:UInt8Array, rinfo) {	
 			var bytes:Bytes = msg.view.buffer;
-//			var bytes:Bytes = Bytes.ofString(msg);
-			
-//			this.log("server got: " + msg + "        " + bytes);			
-//			dataCallback(bytes);
-			messagesQueue.push(bytes);
+			dataCallback(bytes);
 		});
 		
 		nodeDgramSocket.on("listening", function () {
@@ -94,15 +87,6 @@ class DatagramSocket
 			this.log("server listening " + address.address + ":" + address.port);
 			connectCallback();
 		});
-
-		EnterFrame.add(onTick);
-	}	
-	
-	function onTick() {
-		while (messagesQueue.length > 0) {
-			var msg:Bytes = messagesQueue.shift();
-			dataCallback(msg);
-		}
 	}
 
 	public function bind(port:Int, host:String):Void
