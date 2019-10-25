@@ -19,6 +19,7 @@ class MarkerProcessorsLogic implements DescribedType
     {
 //		markerProcessorsModel.tuioMarkerProcessors.push( new FlipOrientationMarkerProcessor(settings.bool('tuioFlippedOrientation', false), markerObjectsModel ));
 		markerProcessorsModel.tuioMarkerProcessors.push( new SimpleMarkerFromMarkerProcessor(true, markerObjectsModel) );
+		markerProcessorsModel.tuioMarkerProcessors.push( new SafetyRadiusProcessor(true, markerObjectsModel, settings.get('tuio_safety_width'), settings.get('tuio_safety_width')) );
 //		markerProcessorsModel.tuioMarkerProcessors.push( new FlickeringFilterMarkerProcessor(false, markerObjectsModel, settings.get('tuio_safety_width'), settings.get('tuio_safety_width'), settings.get('tuio_marker_keep_alive'), settings.get('tuio_marker_retreive_only_same_id') ));
 		markerProcessorsModel.tuioMarkerProcessors.push( new RotateMarkersMarkerProcessor(true, markerObjectsModel, settings.get('tuioRotationOffset')));
 		markerProcessorsModel.tuioMarkerProcessors.push( new FractionToPixelsMarkerProcessor(true, markerObjectsModel, multitactionSettingsModel.nativeScreenSize ) );

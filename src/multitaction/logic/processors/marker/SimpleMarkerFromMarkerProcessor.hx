@@ -20,7 +20,7 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 	var itemFound:Bool;
 	var markerObjectsModel:IMarkerObjectsModel;
 
-	public var displayName:String = "Idle";
+	public var displayName:String = "Create Markers";
 	public var angleThreshold:Float = 30;
 	public var active:Notifier<Bool> = new Notifier<Bool>(true);
 

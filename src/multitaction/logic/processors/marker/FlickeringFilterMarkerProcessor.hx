@@ -120,7 +120,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 
 		for (moe in markerObjectsModel.markerObjectsMap) 
 		{
-			calculateafeRadius(moe);
+			calculateSafeRadius(moe);
 			if (Math.abs(to.x - moe.fractPos[0].x) < moe.safetyRadiusX && Math.abs(to.y - moe.fractPos[0].y) < moe.safetyRadiusY)
 			{
 				if(retreiveOnlyTheSameCardId == false || to.classID == moe.cardId)
@@ -132,7 +132,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		return foundDouble;
 	}
 	
-	function calculateafeRadius(moe:MarkerObjectElement)
+	function calculateSafeRadius(moe:MarkerObjectElement)
 	{
 		var speedMult:Float = 1;
 		if(moe.fractPos.length > 3)
@@ -153,7 +153,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		if (moe == null)//already updated in this frame (by older marker)
 			return;
 			
-		calculateafeRadius(moe);
+		calculateSafeRadius(moe);
 
 		if (moeUpdatedByAge.exists(moe.uid))
 		{
