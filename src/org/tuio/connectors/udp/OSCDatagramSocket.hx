@@ -29,7 +29,6 @@ class OSCDatagramSocket
     private var Buffer : ByteArray = new ByteArray();
     private var PartialRecord : Bool = false;
 	private var socket:DatagramSocket;
-	private var messagesQueue:Array<ByteArray> = [];
     
     public function new(host : String = "127.0.0.1", port : Int = 3333, bind : Bool = true)
     {
@@ -45,19 +44,11 @@ class OSCDatagramSocket
             socket.connect(host, port);
         }
 		socket.initialized();
-
-        EnterFrame.add(onTick);
     }
-    
-	
-	function onTick() {
-		while (messagesQueue.length > 0) dataReceivedCallback(messagesQueue.shift());
-	}
 
     public function close()
     {
         socket.close();
-        EnterFrame.remove(onTick);
     }
     
     private function configureListeners() : Void
@@ -71,7 +62,7 @@ class OSCDatagramSocket
 	
     private function dataReceived(data:ByteArray):Void
     {
-		messagesQueue.push(data);
+        dataReceivedCallback(data);
     }
     
 	

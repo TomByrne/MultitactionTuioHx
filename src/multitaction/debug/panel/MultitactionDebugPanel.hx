@@ -79,8 +79,13 @@ class MultitactionDebugPanel  extends BaseDebugPanel
 		markersList.x = 15;
 		markersList.y = posY + 40;
 		addChild(markersList);
+	}
+
+	override function setShown(value:Bool):Void {
+		super.setShown(value);
 		
-		EnterFrame.add( handleFrame );
+		if(value) EnterFrame.add( handleFrame );
+		else EnterFrame.remove( handleFrame );
 	}
 	
 	function handleFrame():Void 
