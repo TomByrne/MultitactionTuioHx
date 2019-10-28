@@ -51,11 +51,10 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 		
 		for ( moe in markerObjectsModel.markerObjectsMap)
 		{
-			if ( moe.alive == false)
+			if ( !moe.alive && moe.fromTuio)
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
-				markerObjectsModel.markerObjectsMap.remove( moe.uid );				
-				//this.log( "    removed moe with uid " + moe.uid);
+				markerObjectsModel.markerObjectsMap.remove( moe.uid );
 			}
 		}
 	}

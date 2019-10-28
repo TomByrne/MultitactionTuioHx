@@ -28,7 +28,7 @@ class RotateMarkersMarkerProcessor implements ITuioStackableProcessor
 
         for(moe in markerObjectsModel.markerObjectsMap)
         {
-            moe.outputRotation += rotation;
+            if(moe.fromTuio) moe.outputRotation += rotation;
         }
 	}
 	
