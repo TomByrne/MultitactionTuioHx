@@ -31,7 +31,7 @@ class SmoothMarkerProcessor implements ITuioStackableProcessor
         var screenH:Float = nativeScreenSize.value.y;
 		for ( moe in markerObjectsModel.markerObjectsMap ) 
 		{
-			if (moe.fractPos.length > 3)
+			if (moe.fractPos.length > 3 && moe.fromTuio == true)
 			{
 				moe.posScreen.x = Math.round( screenW * (moe.fractPos[0].x + moe.fractPos[1].x + moe.fractPos[2].x + moe.fractPos[3].x) / 4 );
 				moe.posScreen.y = Math.round( screenH * (moe.fractPos[0].y + moe.fractPos[1].y + moe.fractPos[2].y + moe.fractPos[3].y) / 4 );
