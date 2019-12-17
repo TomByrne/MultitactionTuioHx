@@ -32,20 +32,20 @@ class OpenflTouchAdapterLogic implements DescribedType
                 case TouchState.START:
                     if(touchArray.length == 0){
                         mouseTouch = touchObj.id;
-                        stage.onMouseDown(stage.window, touchObj.x, touchObj.y, 0);
+                        stage.__onLimeMouseDown(stage.window, touchObj.x, touchObj.y, 0);
                     }
                     Touch.onStart.dispatch(updateTouch(touchObj, touch));
                     touchArray.push(touchObj.id);
 
                 case TouchState.MOVE:
                     if(mouseTouch == touchObj.id){
-                        stage.onMouseMove(stage.window, touchObj.x, touchObj.y);
+                        stage.__onLimeMouseMove(stage.window, touchObj.x, touchObj.y);
                     }
                     Touch.onMove.dispatch(updateTouch(touchObj, touch));
 
                 case TouchState.END:
                     if(mouseTouch == touchObj.id){
-                        stage.onMouseUp(stage.window, touchObj.x, touchObj.y, 0);
+                        stage.__onLimeMouseUp(stage.window, touchObj.x, touchObj.y, 0);
                         mouseTouch = null;
                     }
                     Touch.onEnd.dispatch(updateTouch(touchObj, touch));
