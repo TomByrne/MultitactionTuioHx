@@ -17,7 +17,7 @@ class DomTouchAdapterLogic implements DescribedType
     var mouseTouchId:Null<Int>;
     var previousTouches:Map<Int, Touch> = new Map();
 
-    public var mimicMouse:Bool = true; // Careful: Lime doesn't like this
+    public var mimicMouse:Bool = false; // Careful: Lime doesn't like this
 
     @:keep public function setup()
     {
