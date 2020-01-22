@@ -67,8 +67,17 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 		moe.alive = true;
 		moe.frameId = to.frameID;
 		moe.fractPos.unshift( { x:to.x, y:to.y } );
+
 		if (moe.fractPos.length > 10)
-			moe.fractPos.pop();					
+			moe.fractPos.pop();
+
+		if (moe.cardId != to.classID)
+		{
+			moe.previousCardId = moe.cardId;
+			moe.cardId = to.classID;
+			moe.cardIdChanged.dispatch(moe.uid);
+			this.log("Card ID change: " + moe.uid, '${moe.previousCardId} > ${moe.cardId}');
+		}
 	}
 	
 	function addNewMarker( to:TuioObject ) 
