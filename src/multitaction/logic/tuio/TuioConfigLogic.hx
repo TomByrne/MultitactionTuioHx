@@ -67,7 +67,7 @@ class TuioConfigLogic implements DescribedType
 
 		if(tuioClient != null)
 		{
-			this.info('TUIO Reconnecting on port ${tuioServer}');
+			Log.info('TUIO Reconnecting on port ${tuioServer}');
 			for(listener in _listeners)
 			{
 				tuioClient.removeListener(listener);
@@ -87,7 +87,7 @@ class TuioConfigLogic implements DescribedType
 
 			return;
 		}
-		this.info('TUIO Connecting on port ${tuioServer}');
+		Log.info('TUIO Connecting on port ${tuioServer}');
 		
 		try 
 		{
@@ -98,7 +98,7 @@ class TuioConfigLogic implements DescribedType
 		}
 		catch (err:Dynamic)
 		{
-			this.error(err);
+			Log.error(err);
 		}
 	}
 	

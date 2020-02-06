@@ -415,7 +415,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                     else
                     {
                         #if debug
-                        this.log("card with invalid id " + i + " recognized, ignoring");
+                        Log.log("card with invalid id " + i + " recognized, ignoring");
                         #end
                     }
                 }
@@ -448,7 +448,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
                     {
                         /*
                         #if debug
-                        this.log("card id updated to " + i + ", updating");
+                        Log.log("card id updated to " + i + ", updating");
                         #end
                         */
                         to.update(x, y, z, a, b, c, X, Y, Z, A, B, C, m, r, this.fseq);
@@ -462,7 +462,7 @@ class TuioClient extends AbstractTuioAdapter implements IOSCListener
 //                        dispatchRemoveObject( cast(to, TuioObject) );
 /*
                         #if debug
-                        this.log("card id updated to invalid " + i + ", ignoring");                        
+                        Log.log("card id updated to invalid " + i + ", ignoring");                        
                         #end
 */                        
                     }

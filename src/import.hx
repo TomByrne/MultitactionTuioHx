@@ -1,1 +1,1 @@
-using imagsyd.log.Log;
+import imagsyd.log.entry.LogMacro as Log;

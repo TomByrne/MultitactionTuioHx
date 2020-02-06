@@ -75,19 +75,19 @@ class BasicProcessableTuioListener extends BasicTuioListener
 			}
 			i++;
 		}
-		this.warn("Tuio stackable process requested to be removed but not found in markerProcesses stack");
+		Log.warn("Tuio stackable process requested to be removed but not found in markerProcesses stack");
 	}
 	
 	public function addMarkerProcessAt( process:ITuioStackableProcessor, position:Int )
 	{
 		if (position < 0)
 		{
-			this.warn("Tuio stackable process requested to be added at position " + position + ". Position has to be greater than 0. Adding at " + markerProcesses.length);
+			Log.warn("Tuio stackable process requested to be added at position " + position + ". Position has to be greater than 0. Adding at " + markerProcesses.length);
 			position = 0;
 		}
 		else if (markerProcesses.length < position)
 		{
-			this.warn("Tuio stackable process requested to be added at position " + position + " but the current length of the stack is " + markerProcesses.length + ". Adding at " + markerProcesses.length);
+			Log.warn("Tuio stackable process requested to be added at position " + position + " but the current length of the stack is " + markerProcesses.length + ". Adding at " + markerProcesses.length);
 			position = markerProcesses.length;
 		}
 		

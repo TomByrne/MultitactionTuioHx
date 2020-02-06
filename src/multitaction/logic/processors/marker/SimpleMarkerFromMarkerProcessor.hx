@@ -76,7 +76,7 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 			moe.previousCardId = moe.cardId;
 			moe.cardId = to.classID;
 			moe.cardIdChanged.dispatch(moe.uid);
-			this.log("Card ID change: " + moe.uid, '${moe.previousCardId} > ${moe.cardId}');
+			Log.log("Card ID change: " + moe.uid, '${moe.previousCardId} > ${moe.cardId}');
 		}
 	}
 	
@@ -103,7 +103,7 @@ class SimpleMarkerFromMarkerProcessor implements ITuioStackableProcessor
 			safetyRadiusY:0.25
 			};
 
-		this.log( "    added moe with new uid " + moe.uid);
+		Log.log( "    added moe with new uid " + moe.uid);
 		moe.fractPos.unshift( { x:to.x, y:to.y } );
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);

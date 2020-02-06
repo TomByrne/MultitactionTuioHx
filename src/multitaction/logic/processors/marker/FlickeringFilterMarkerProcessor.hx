@@ -62,7 +62,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 	function handleKeepAliveNotifierChanged(val:Float)
 	{
 		keepAliveWhenLost = Std.int(val);
-		this.log("keepAliveWhenLost changed to " + keepAliveWhenLost);
+		Log.log("keepAliveWhenLost changed to " + keepAliveWhenLost);
 	}
 
 	function handleSafeZoneMaxMultiChanged(val:Float)
@@ -107,7 +107,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			{
 				markerObjectsModel.frameRemovedMarkers.push( moe.uid );
 				markerObjectsModel.markerObjectsMap.remove( moe.uid );
-				//this.log( "    removed moe with uid " + moe.uid);
+				//Log.log( "    removed moe with uid " + moe.uid);
 			}else{
 				moe.outputRotation = moe.inputRotation;
 			}
@@ -185,7 +185,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		//updating card id
 		if (moe.cardId != to.classID)
 		{
-//			this.log("moe.cardId != to.classID " + moe.cardId + " " +  to.classID);
+//			Log.log("moe.cardId != to.classID " + moe.cardId + " " +  to.classID);
 
 			//TODO: introduce accuracy (low if it flickers constantly)
 
@@ -205,11 +205,11 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 				moe.previousCardId = moe.cardId;
 				moe.cardId = to.classID;
 				moe.cardIdChanged.dispatch(moe.uid);
-				this.log("   changing card to " + to.classID);
+				Log.log("   changing card to " + to.classID);
 			}
 			else 
 			{
-//				this.log("   not changing " + maxCardId + " is the strongest");
+//				Log.log("   not changing " + maxCardId + " is the strongest");
 			}
 		}
 		//
@@ -265,7 +265,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 			};
 
 		moe.fractPos.unshift( { x:to.x, y:to.y } );
-		this.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadiusX + " moe.fractPos " + moe.fractPos[0]);
+		Log.log( "    added moe with new uid " + moe.uid + " moe.safetyRadius " + moe.safetyRadiusX + " moe.fractPos " + moe.fractPos[0]);
 		
 		markerObjectsModel.tuioToMarkerMap.set( "t" + to.sessionID, moe.uid);
 		markerObjectsModel.markerObjectsMap.set( moe.uid, moe);
@@ -279,7 +279,7 @@ class FlickeringFilterMarkerProcessor implements ITuioStackableProcessor
 		{
             var pos = moe.fractPos[0];
             var pos1 = moe.fractPos[1];
-			this.log( "            d: " + GeomTools.dist( to.x, to.y, pos.x, pos.y) + " speed " + GeomTools.dist( pos.x, pos.y, pos1.x, pos1.y) );
+			Log.log( "            d: " + GeomTools.dist( to.x, to.y, pos.x, pos.y) + " speed " + GeomTools.dist( pos.x, pos.y, pos1.x, pos1.y) );
 		}
 	}*/
 	

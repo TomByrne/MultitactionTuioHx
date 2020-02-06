@@ -31,18 +31,18 @@ class OSCPacket
 	
 	public function getBytes() : ByteArray
     {
-//		this.log("  - getBytes " + bytes);
+//		Log.log("  - getBytes " + bytes);
         return this.bytes;
     }
 	
 	private function skipNullString() : Void
     {
-//		this.log("  - skipNullString ");
+//		Log.log("  - skipNullString ");
         var char : String = "";
 		while (this.bytes.bytesAvailable > 0)
         {
             char = this.bytes.readUTFBytes(1);
-//			this.log("  - skipNullString char " + char + " " + char != "");
+//			Log.log("  - skipNullString char " + char + " " + char != "");
 			if (char != "")
             {
                 this.bytes.position -= 1;
@@ -58,7 +58,7 @@ class OSCPacket
 		while (this.bytes.bytesAvailable > 0)
         {
             char = this.bytes.readUTFBytes(4);
-//			this.log("  - readString CHAR " + char);
+//			Log.log("  - readString CHAR " + char);
 			out += char;
 			
 			if (char.length < 4)
@@ -73,7 +73,7 @@ class OSCPacket
     {
         var seconds : UInt = this.bytes.readUnsignedInt();
 		var picoseconds : UInt = this.bytes.readUnsignedInt();
-//		this.log("  - readTimetag " + seconds + " " + picoseconds);
+//		Log.log("  - readTimetag " + seconds + " " + picoseconds);
 		return new OSCTimetag(seconds, picoseconds);
     }
 	
