@@ -2,8 +2,7 @@ package multitaction.command;
 
 import multitaction.model.settings.MultitactionSettingsModel;
 import robotlegs.bender.bundles.mvcs.Command;
-import keyboard.Keyboard;
-import keyboard.Key;
+import imagsyd.hooks.model.HooksModel;
 
 /**
  * ...
@@ -11,14 +10,15 @@ import keyboard.Key;
  */
 class TuioDebugKeyboardCommand extends Command
 {
-	@inject public var multitactionSettingsModel:MultitactionSettingsModel;	
+	@inject public var multitactionSettingsModel:MultitactionSettingsModel;
+	@inject public var hooksModel:HooksModel;
 	
 	public function new() { }
 	
 	override public function execute():Void
 	{
-        Keyboard.onPress(Key.T, toggleDebugTouchShown).shift(true).ctrl(true).alt(true);
-        Keyboard.onPress(Key.M, toggleDebugMarkerShown).shift(true).ctrl(true).alt(true);
+		hooksModel.add('multitaction.debug-touch.toggle', toggleDebugTouchShown, {description:"Toggle MT touch debug view"}, {key:T, ctrl:true, alt:true, shift:true});
+		hooksModel.add('multitaction.debug-marker.toggle', toggleDebugMarkerShown, {description:"Toggle MT marker debug view"}, {key:M, ctrl:true, alt:true, shift:true});
 	}
 	
 	function toggleDebugTouchShown():Void 
